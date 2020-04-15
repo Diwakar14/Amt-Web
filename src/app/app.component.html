@@ -1,13 +1,2 @@
 
-<div class="content" role="main">
-  <div class="container">
-    <input [(ngModel)]="message" type="text" class="form-control" />
-    <button class="btn btn-primary" type="button" (click)="push()">Push</button>
-    <br>
-    <ul>
-      <li *ngFor="let item of messageList">
-        {{ item }}
-      </li>
-    </ul>
-</div>
 <router-outlet></router-outlet>

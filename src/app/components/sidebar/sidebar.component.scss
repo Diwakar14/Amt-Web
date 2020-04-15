@@ -1,0 +1,49 @@
+.sidebar{
+    background: rgb(28, 28, 85);
+    height: 100vh;
+    color: white;
+}
+
+.sidebar .header{
+    text-align: center;
+    padding: 1rem 2rem;
+}
+
+.sidebar .list{
+    padding: 0;
+    margin: 2rem 0;
+}
+.sidebar .list .list-item{
+    list-style: none;
+    padding: .6rem 2rem;
+    margin: .5rem 1.5rem .5rem 0rem;
+    border-radius: 0rem 99rem 99rem 0rem;
+    background: rgba(255, 255, 255, 0.219);
+    
+}
+
+hr{
+    height: 1px;
+    background: white;
+    margin: 0 .5rem;
+}
+
+.sidebar .chat{
+    padding: .8rem;
+    
+}
+.sidebar .chatList{
+    padding: 0;
+    margin: 1.5rem 0;
+    
+
+}
+.sidebar .chatList-item{
+    list-style: none;
+    margin: .5rem 0;
+    font-size: 1rem;
+}
+.sidebar .chatList-item img{
+    height: 45px;
+    width: 45px;
+}

@@ -31,7 +31,9 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/pusher-js/dist/web/pusher.min.js"
+              "node_modules/pusher-js/dist/web/pusher.min.js",
+              "src/assets/js/jquery-3.4.1.js",
+              "src/assets/js/bootstrap.bundle.js"
             ]
           },
           "configurations": {
