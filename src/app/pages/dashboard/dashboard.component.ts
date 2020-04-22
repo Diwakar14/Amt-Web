@@ -9,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
+
+
   constructor(public authSerive: AuthService, public router: Router) {
     // this.authSerive.getStatus().subscribe(m => {
     //   if(!m['success']){
@@ -19,6 +21,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
 
   logout(){
     this.authSerive.logout();

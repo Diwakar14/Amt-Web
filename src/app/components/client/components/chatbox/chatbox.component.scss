@@ -1,0 +1,32 @@
+@import '../../../../../variables';
+
+.chatbox{
+    position: relative;
+    padding: 0.7rem;
+    height: 100%;
+    .chatInput{
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        border-top: 2px solid #ccc;
+        border-bottom: 2px solid #ccc;
+        border-radius: 1.5rem;
+        .attBtn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 3rem;
+            width: 3rem;
+            border-radius: 999px;
+            border: 0rem solid;
+            background: $dark-blue;
+            padding: 0.8rem;
+        }
+        .chatText{
+            font-size: 0.7rem;
+            border: 0 solid;
+            outline: none;
+            padding: 0 1rem;
+        }
+    }
+}

@@ -10,7 +10,7 @@ import Pusher from 'pusher-js';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'amtweb';
+  title = 'Ace My Tax';
   message;
   messageList;
   pusher;

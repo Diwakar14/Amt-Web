@@ -1,0 +1,42 @@
+@import '../../../variables';
+
+.banner{
+    border-radius: 0.9rem;
+    background: url('../../../assets/img/icons/graphic.png') center no-repeat;
+    color: white;
+    background-size: cover;;
+    margin-bottom: $margin-bottom;
+    height: 11rem;
+}
+.title{
+    font-family: $headingFont;
+    font-size: 1.3rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    .name{
+        font-family: $headingFont;
+        letter-spacing: 1px;
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+}
+.banner .content{
+    position: relative;
+    margin-left: 35%;
+    padding: 2rem;
+}
+.banner .content p{
+    font-size: .75rem;
+}
+
+.butterBtn{
+    margin-top: 2rem;
+    font-weight: 500;
+    color: $dark-blue;
+    transition: all ease .2s;
+
+}
+.butterBtn:hover{
+    transition: all ease .2s;
+    box-shadow: .1rem .2rem .5rem rgba(0, 0, 0, 0.164);
+}

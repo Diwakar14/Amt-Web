@@ -1,0 +1,39 @@
+$padding: 1.3rem 1.5rem;
+
+.toolbar{
+    display: flex;
+}
+.title{
+    font-size: 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+}
+.leftSide{
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+.leftSide li{
+    padding: $padding;
+    margin: 0;
+    list-style: none;
+}
+.leftSide li .collapebtn{
+    border: 0 solid;
+    height: 30px;
+    width: 30px;
+}
+.rightSide{
+    display: flex;
+    margin-left: auto;
+    padding: 0;
+}
+.rightSide .date{
+    line-height: 2.5rem;
+    color: #aaa;
+    font-weight: lighter;
+}
+.rightSide li{
+    list-style: none;
+    padding: $padding;
+}

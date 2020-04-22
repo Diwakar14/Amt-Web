@@ -1,0 +1,32 @@
+@import '../../../../../variables';
+
+.totalTickets{
+    border-radius: $border-radius;
+    background: white;
+}
+
+.ticketCard-wrapper{
+    display: flex;
+    justify-content: space-evenly;
+}
+.header{
+    padding: 1rem 1rem 0 1rem;
+    font-weight: 700;
+}
+.ticketCard{
+    padding: 1.5rem 1.2rem;
+}
+
+.subtitle{
+    font-family: 'Open sans';
+    font-size: 0.6rem;
+    text-align: center;
+    color: #aaa;
+}
+.title{
+    font-family: 'Open sans';
+    font-size: 0.7rem;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: .2px;
+}

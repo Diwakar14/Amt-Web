@@ -1,0 +1,20 @@
+.profile{
+    padding: 0.5rem;
+}
+.avatar{
+    height: 80px;
+    width: 80px;
+    border-radius: 999px;
+    overflow: hidden;
+    display: block;
+    margin: 1rem auto;
+}
+.name{
+    text-align: center;
+    margin: 0.5rem auto;
+}
+
+span{
+    font-size: 0.7rem;
+    font-family: 'Open Sans', sans-serif;
+}
