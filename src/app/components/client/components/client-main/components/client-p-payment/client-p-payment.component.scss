@@ -1,3 +1,5 @@
+@import '../../../../../../../variables';
+
 .pendingPayment{
     margin: .5rem 1rem;
     .heading{
@@ -11,7 +13,7 @@
         display: flex;
         justify-content: space-between;
         .paymentCard{
-            width: 16rem;
+            width: 47%;
             padding: .5rem;
             border-radius: 0.7rem;
             box-shadow: 0.1rem 0.2rem 0.4rem #ccc;
@@ -28,7 +30,7 @@
                 font-size: .9rem;
                 font-weight: 600;
                 text-align: right;
-                letter-spacing: 0.125rem;
+                letter-spacing: 0.1rem;
             }
             .subtitle{
                 font-size: .5rem;
@@ -39,7 +41,7 @@
                 padding: .3rem .4rem !important;
                 margin-top: .4rem;
                 font-size: .6rem !important;
-                border: 1px solid lightblue;
+                border: 1px solid $dark-blue;
                 color: black;
                 background: white !important;
                 border-radius: .3rem !important;

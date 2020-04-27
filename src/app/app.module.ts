@@ -2,7 +2,7 @@ import { JwtInterceptor } from './services/jwt.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgCircleProgressModule } from 'ng-circle-progress';
-
+import { DndModule } from 'ngx-drag-drop';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +28,8 @@ import { DocumentComponent } from './components/client/components/client-sidebar
 import { ClientTicketCardComponent } from './components/client/components/client-main/components/client-ticket-card/client-ticket-card.component';
 import { ClientOngticketsComponent } from './components/client/components/client-main/components/client-ongtickets/client-ongtickets.component';
 import { ClientPPaymentComponent } from './components/client/components/client-main/components/client-p-payment/client-p-payment.component';
+import { AddClientComponent } from './pages/add-client/add-client.component';
+import { AddOperatorComponent } from './pages/add-operator/add-operator.component';
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { ClientPPaymentComponent } from './components/client/components/client-m
     DocumentComponent,
     ClientTicketCardComponent,
     ClientOngticketsComponent,
-    ClientPPaymentComponent
+    ClientPPaymentComponent,
+    AddClientComponent,
+    AddOperatorComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +71,8 @@ import { ClientPPaymentComponent } from './components/client/components/client-m
         innerStrokeColor: "#C7E596",
         animationDuration: 300,
       }
-    )
+    ),
+    DndModule
   ],
   providers: [
     CookieService,

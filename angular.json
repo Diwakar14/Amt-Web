@@ -33,7 +33,8 @@
             "scripts": [
               "node_modules/pusher-js/dist/web/pusher.min.js",
               "src/assets/js/jquery-3.4.1.js",
-              "src/assets/js/bootstrap.bundle.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+              "src/assets/js/notiflix-2.1.3.min.js"
             ]
           },
           "configurations": {

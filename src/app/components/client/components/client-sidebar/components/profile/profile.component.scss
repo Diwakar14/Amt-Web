@@ -1,3 +1,13 @@
+.row{
+    padding: 0;
+    margin: 0;
+}
+.col-sm-2{
+    padding: 0.6rem;
+}
+.col-sm-2 img{
+    float: right;
+}
 .profile{
     padding: 0.5rem;
 }
@@ -12,9 +22,11 @@
 .name{
     text-align: center;
     margin: 0.5rem auto;
+    font-family: 'Montserrat', sans-serif;
 }
 
 span{
-    font-size: 0.7rem;
-    font-family: 'Open Sans', sans-serif;
+font-size: 0.7rem;
+    font-family: 'Lato', sans-serif;
+    line-height: 2.2rem;
 }

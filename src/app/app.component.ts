@@ -18,28 +18,20 @@ export class AppComponent {
     let postObj = {
       "message":"Message from Diwakar"
     }
-    // const header = new HttpHeaders().set("Access-Control-Allow-Origin","*");
-     this.http.post('http://54.186.217.203:5009/message',
-     postObj,
-    //  {
-    //    headers:{
-    //      "Access-Control-Allow-Origin":"*",
-    //      "Access-Control-Request-Method":"GET,PUT,POST,DELETE,PATCH,OPTIONS",
-    //      "Access-Control-Allow-Headers":"Origin, X-Requested-With, Content-Type, Accept, Authorization",
-    //      "Access-Control-Allow-Credentials": "true"
-    //    }
-    //  }
-    ).subscribe(m => {
-       console.log(m);
-    });
+    // this.http.post('http://54.186.217.203:5009/message',
+    //  postObj,
+    // ).subscribe(m => {
+    //    console.log(m);
+    // });
 
-    this.pusherService.channel.bind("message-exchange", data =>{
-      console.log(data);
-      this.messageList = data;
-    })
-  }
+  //   this.pusherService.channel.bind("message-exchange", data =>{
+  //     console.log(data);
+  //     this.messageList = data;
+  //   })
+  // }
 
-  push(){
-    console.log(this.message)
+  // push(){
+  //   console.log(this.message)
+  // }
   }
 }

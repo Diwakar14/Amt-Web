@@ -1,3 +1,5 @@
+@import '../../../../../../../variables';
+
 .ongoingticket{
     padding: 0.5rem 0;
     font-family: 'Open Sans', sans-serif;
@@ -11,6 +13,7 @@
         .myBtn{
             float: right;
             font-size: 0.6rem !important;
+            padding: 0.5rem 1rem !important;
         }
         
     }
@@ -24,12 +27,14 @@
             padding:0.7rem 1.5rem !important;
             margin-bottom: 1rem;
             border-radius: 1rem;
+            border: unset !important;
+            background: #8c9af213;
         }
     }
     #gbtn{
         padding: 0.5rem 0.7rem !important;
         font-size: 0.7rem !important;
-        background: rgb(28, 117, 235);
+        background: $ongoingTicketDark;
         float: right;
         margin-top: 0.2rem;
     }
@@ -46,10 +51,12 @@
     .title{
         font-size: 0.9rem;
         font-weight: bold;
+        color: $dark-blue;
     }
     .subtitle{
         font-size: 0.7rem;
-        color: #aaa;
-        line-height: 2rem;
+        color: $ongoingTicketFontColor;
+        font-weight: 500;
+        line-height: 1.5rem;
     }
 }

@@ -3,10 +3,15 @@
     height: 100%;
     color: white;
 }
+p{
+    font-family: 'Lato', sans-serif;
+}
 
 .header{
     text-align: center;
     padding: 1rem 2rem;
+    font-size: 1.3rem;
+    font-family: 'Montserrate', sans-serif;
 }
 
 .list{
@@ -15,13 +20,20 @@
 }
 .list .list-item{
     list-style: none;
-    padding: .6rem 1.5rem;
-    margin: .5rem 1.8rem .5rem 0rem;
+    padding: .6rem 0.8rem .6rem 1.5rem;
+    margin: .5rem 1rem .5rem 0rem;
     border-radius: 0rem 99rem 99rem 0rem;    
     transition: all ease .2s;
     font-size: .9rem;
-    display: flex;
 }
+.rightA{
+    display: block;
+    margin-left: auto;
+}
+.rightA img{
+    width: 0.8rem;
+}
+
 .list .list-item:hover{
     transition: all ease .2s;
     background: rgba(255, 255, 255, 0.219);
@@ -36,6 +48,7 @@
     font-size: 0.95rem;
     margin: 1rem 0;
     display: flex;
+    // font-family: 'Montserrat', sans-serif;
 }
 .chatList{
     padding: 0;
@@ -50,6 +63,9 @@
 .icon{
     height: 17px;
     width: 17px;
+}
+.icon img{
+    width: 1rem;
 }
 
 .chatList-item:hover{

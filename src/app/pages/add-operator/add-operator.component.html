@@ -1,0 +1,62 @@
+<form action="" #f="ngForm" (ngSubmit)="createOperator(f)">
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <div class="form">
+                <div class="heading mb-5">
+                    Personal Information
+                </div>
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input class="form-control" type="text" name="fullname" [(ngModel)]="operator.name" placeholder="e.g. John Doe" autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <label for="dob">Password</label>
+                    <input class="form-control" type="password" name="password" [(ngModel)]="operator.password" autocomplete="off" placeholder="Enter your Password" required>
+                </div>
+                <!-- <div class="form-group">
+                    <label for="dob">Gender</label>
+                    <div class="gender">
+                        <div class="form-group">
+                            <input class="mr-3" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                            <label class="" for="gridRadios1">
+                                Female
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <input class="mr-3" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                            <label class="" for="gridRadios1">
+                                Male
+                            </label>
+                        </div>
+                       
+                    </div>    
+                </div> -->
+                
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6"> 
+            <div class="form">
+                <div class="heading  mb-5">
+                    Contact Information
+                </div>
+                <div class="form-group">
+                    <label for="email">Email ID</label>
+                    <input class="form-control" type="text" name="email" [(ngModel)]="operator.email" autocomplete="off" placeholder="e.g. abc@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input class="form-control" type="number"  name="phone" [(ngModel)]="operator.phone" autocomplete="off" placeholder="" required>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-sd-12 col-lg-12">
+            <div class="content mt-5">
+                <button type="submit" [disabled]="!f.valid" class="btn "> Add Operator</button>
+            </div>
+        </div>
+    </div>
+</form>
+

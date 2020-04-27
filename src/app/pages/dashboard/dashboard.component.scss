@@ -2,7 +2,11 @@ section{
     display: flex;
     width: 100%;
 }
-
+.main{
+    background: #f0f5ff86;
+    position: relative;
+    width: 86%;
+}
 .expanded-sidebar{
     width: 18%;
     transition: all cubic-bezier(0.54, 0.01, 0, 0.99) .3s;
@@ -15,9 +19,5 @@ section{
 
 app-sidebar{
     width: 16%;
-    transition: all cubic-bezier(0.54, 0.01, 0, 0.99) .3s;
-}
-app-main{
-    width: 84%;
     transition: all cubic-bezier(0.54, 0.01, 0, 0.99) .3s;
 }

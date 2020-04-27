@@ -1,9 +1,28 @@
-<form class="form-signin text-center" #f="ngForm" (ngSubmit)="login(f)">
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail" class="sr-only">Username</label>
-    <input type="text" name="email" [(ngModel)]="users.email" id="inputEmail" class="form-control" placeholder="email" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" name="password" [(ngModel)]="users.password"  id="inputPassword" class="form-control" placeholder="Password" required>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
-</form>
+
+<div class="login">
+    <div class="leftSide">
+        <div class="title">
+            Ace my <strong>Tax</strong>
+        </div>
+        <div class="content">
+            <div class="text">
+                You can now Easily and Securely manage your Tax!
+            </div>
+        </div>
+    </div>
+    <div class="rightSide">
+        <p class="text-left">Sign In to experience the most efficient way of communication!</p>
+        <form action="" #f="ngForm" (ngSubmit)="login(f)">
+            <div class="myinput-group">
+                <img src="../../../assets/img/icons/email.png" width="20px" alt="email">
+                <input type="email" class="textBox" name="email" [(ngModel)]="users.email" placeholder="ENTER YOUR EMAIL">
+            </div>
+            <div class="myinput-group">
+                <img src="../../../assets/img/icons/password.png" width="20px" alt="password">
+                <input type="password" class="textBox" name="password" [(ngModel)]="users.password" placeholder="ENTER YOUR PASSWORD">
+            </div>
+
+            <button type="submit" [disabled]="!f.valid" class="loginBtn">LOGIN</button>
+        </form>
+    </div>
+</div>
