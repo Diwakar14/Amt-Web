@@ -1,8 +1,9 @@
+import { environment } from './../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { Users } from './../models/usersModel';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 
 @Injectable({
@@ -19,11 +20,12 @@ export class AuthService {
 
 
   login(user: Users){
-    return this.http.post("http://54.186.217.203:5009/login", user).pipe(map(user => {
-      this.cookie.set('access_token', user['token']);
-      this.users = <Users>user;
-      return user;
-    }));
+    return this.http.post(environment.apiEndPoint + "auth/login/email", user, {observe: 'response'}).pipe(
+      map((user:any) => {
+        this.users = user.user;
+        return user;
+      })
+    );
   }
 
   getStatus(){

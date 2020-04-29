@@ -1,6 +1,8 @@
 import { JwtInterceptor } from './services/jwt.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { DndModule } from 'ngx-drag-drop';
 
@@ -30,6 +32,8 @@ import { ClientOngticketsComponent } from './components/client/components/client
 import { ClientPPaymentComponent } from './components/client/components/client-main/components/client-p-payment/client-p-payment.component';
 import { AddClientComponent } from './pages/add-client/add-client.component';
 import { AddOperatorComponent } from './pages/add-operator/add-operator.component';
+import { OperatorListComponent } from './pages/operator-list/operator-list.component';
+import { ClientListComponent } from './pages/client-list/client-list.component';
 
 
 @NgModule({
@@ -55,11 +59,14 @@ import { AddOperatorComponent } from './pages/add-operator/add-operator.componen
     ClientOngticketsComponent,
     ClientPPaymentComponent,
     AddClientComponent,
-    AddOperatorComponent
+    AddOperatorComponent,
+    OperatorListComponent,
+    ClientListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     NgCircleProgressModule.forRoot(

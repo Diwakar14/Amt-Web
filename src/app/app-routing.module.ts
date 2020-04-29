@@ -1,3 +1,4 @@
+import { OperatorListComponent } from './pages/operator-list/operator-list.component';
 import { AddOperatorComponent } from './pages/add-operator/add-operator.component';
 import { MainComponent } from './components/main/main.component';
 import { AddClientComponent } from './pages/add-client/add-client.component';
@@ -25,6 +26,10 @@ const routes: Routes = [
       {
         path: 'addOperator',
         component: AddOperatorComponent
+      },
+      {
+        path: 'operatorList',
+        component: OperatorListComponent
       },
       {
         path: 'addClient',

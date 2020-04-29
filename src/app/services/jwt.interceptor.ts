@@ -18,14 +18,17 @@ export class JwtInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
     let currentUser:Users = <Users><unknown>this.authService.currentUserValue;
-    let token = this.cookie.get('access_token');
-        if (currentUser && currentUser.token) {
-            request = request.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-        }
+
+    console.log(request.headers.get('Authorization'));
+    
+    if (currentUser) {
+      this.cookie.set('auth_token', request.headers.get('Authorization'));
+        request = request.clone({
+            setHeaders: {
+                Authorization: `Bearer ${request.headers.get('Authorization')}`
+            }
+        });
+    }
     return next.handle(request);
   }
 }

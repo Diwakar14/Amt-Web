@@ -16,8 +16,8 @@
             </span> 
             <span>Client</span>
         </li>
-        <li class="list-item">
-            <div class="menu d-flex" style="width:100%">
+        <li class="list-item" >
+            <div class="menu d-flex" style="width:100%" (click)="expand()">
                 <span class="icon mr-3">
                     <img src="../../../assets/img/icons/operator-white.png" alt="operator">
                 </span> 
@@ -26,11 +26,12 @@
                     <img src="../../../assets/img/icons/chevron-right.png"  alt="">
                 </span>
             </div>
-            <ul class="submenu">
+            <ul class="submenu" @expanded *ngIf="isExpanded">
                 <li class="subitem">Add Operator</li>
                 <li class="subitem">Operator List</li>
             </ul>
         </li>
+        
         <li class="list-item">
             <div class="menu d-flex" style="width:100%">
                 <span class="icon mr-3">

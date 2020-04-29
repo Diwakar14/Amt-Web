@@ -4,6 +4,8 @@ import { NgForm } from '@angular/forms';
 import { Folder } from './../../../../../../models/folderModel';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DndDropEvent } from 'ngx-drag-drop';
+import { HttpEventType } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
 declare var Notiflix:any;
 declare var $:any;
 @Component({
@@ -19,6 +21,12 @@ export class DocumentComponent implements OnInit {
     orphan_docs:[]
   };
   folderId;
+
+  isProgress:boolean = false;
+  progress = {
+    width:'',
+    complete: false
+  };
 
   filesInFolder = {
     folder:'',
@@ -68,7 +76,8 @@ export class DocumentComponent implements OnInit {
     this.documentFileList = file;
   }
 
-  uploadDocuments(f){
+  uploadDocuments(f:NgForm){
+    this.isProgress = true;
     let file = this.documentFile.nativeElement.files;
     var formdata = new FormData();
     for (let i = 0; i < file.length; i++) {
@@ -76,12 +85,33 @@ export class DocumentComponent implements OnInit {
     }
     formdata.append('folder', this.folderId);
     formdata.append('chat_id', '1234');
-    this.documentService.uploadDocument(formdata, 1).subscribe(
-      res => {
-        console.log(res);
-      },
-      err => {
-        console.log(err);
+    this.documentService.uploadDocument(formdata, 1).pipe(
+      map(event => {
+        switch(event.type){
+          case HttpEventType.UploadProgress:
+            let progress = Math.round(event.loaded * 100 / event.total);
+            this.progress.width = progress+'%';
+            this.progress.complete = true;
+            break;
+          case HttpEventType.Response:
+            this.documentFileList = [];
+            f.reset()
+            this.ngOnInit();
+            this.progress.complete = false;
+            Notiflix.Notify.Success('File Uploaded !');
+            return event;
+        }
+      }),
+      catchError((error => {
+        this.isProgress = false;
+        return 'Upload Failed!!!';
+      }))
+    ).subscribe((event: any) => {  
+        if (typeof (event) === 'object') {  
+          console.log(event.body);  
+          f.reset();
+          this.isProgress = false;
+        }  
       }
     )
   }
@@ -103,19 +133,6 @@ export class DocumentComponent implements OnInit {
     handle: false,
     class: 'dragging'
   };
-
-  onDragStart(event:DragEvent) {
-    console.log("drag started", JSON.stringify(event, null, 2));
-  }
-  
-  onDragEnd(event:DragEvent) {
-    console.log("drag ended", JSON.stringify(event, null, 2));
-  }
-  
-
-  onDragover(event:DragEvent) {
-    console.log("dragover", JSON.stringify(event, null, 2));
-  }
   
   onDrop(event:DndDropEvent, folderId) {
     let payload = {

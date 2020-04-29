@@ -42,14 +42,14 @@
 #fileList{
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 100vh;
+    max-height: 70vh;
     height: 100%;
     border-right: 1px solid #ccc;
 }
 #fileBody{
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 100vh;
+    max-height: 70vh;
     height: 100%;
 }
 #fileList .list-group-item{
@@ -84,7 +84,7 @@
     margin-bottom: 1rem;
 }
 .fileUploadBox{
-    padding: 4rem 0rem;
+    padding: 5rem 0rem;
     border: 2px dotted #ccc;
     border-radius: 0.8rem;
     margin: 1.5rem 0;
@@ -93,6 +93,42 @@
     align-items: center;
 }
 
+.fileUploadBox .fileWrapper{
+    height: 120px;
+    width: 120px;
+    border-radius: 999px;
+    background: url('../../../../../../../assets/img/icons/icons8-upload-100.png') center no-repeat;
+    border: 1px solid #02024c;
+}
+.fileUploadBox .fileWrapper:active{
+    transition: all ease .2s;
+    transform: scale(0.9);
+}
+.fileUploadBox .fileWrapper #files{
+    height: 120px;
+    width: 120px;
+    border-radius: 999px;
+    opacity: 0;
+}
+#fileToUpload{
+    margin: 1.5rem 0;
+    overflow-y: auto;
+    max-height: 18rem;
+    height: 100%;
+}
+#fileToUpload .list-group-item{
+    font-size: 0.8rem;
+    border: 1px solid rgb(230, 230, 230) !important;
+    margin: 0.2rem 0;
+    border-radius: 0.3rem;
+    
+}
+.uploadProgress{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 0.7rem;
+}
 .fileLogo{
     width: 20%;
     margin-top: 1rem;
@@ -114,17 +150,50 @@
     padding: 0rem !important;
 
 }
+.close{
+    color: white !important;
+}
+.close:hover{
+    color: #ccc !important;
+}
+.modal-header{
+    background: #02024c !important;
+    color: white !important;
+    padding: 0.5rem 1rem;
+}
 .card-title{
     font-size: 0.8rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    padding: 0 5rem;
+    -webkit-box-orient: vertical;
+    
+}
+// Dialog Box Styling...
+#createFolder .modal-body{
+    padding: 2rem !important;
 }
 
 
-// Dialog Box Styling...
 .list-group-item:first-child,.list-group-item:last-child  {
     border-radius: 0 !important;
 }
+
+.modal-dialog{
+    max-width: 65vw !important;
+    border-radius: 0.5rem;
+}
 .modal-body{
     padding:0rem 0 !important;
+    max-height: 70vh !important;
+    overflow: hidden;
+
+}
+.modal-content{
+    border: 0px solid;
+    border-radius: 0.5rem;
 }
 #showFolder{
     border: 0rem solid !important;
@@ -132,6 +201,7 @@
 
 .FolderActive{
     background: #ccc;
+    font-weight: bold;
 }
 .dragging{
     transition: all ease .2s;

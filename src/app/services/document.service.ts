@@ -9,7 +9,9 @@ export class DocumentService {
   constructor(private http: HttpClient) { }
 
   uploadDocument(payload, userId){
-    return this.http.post("http://54.186.217.203:5009/documents/"+userId, payload);
+    return this.http.post("http://54.186.217.203:5009/documents/"+userId, payload, {
+      reportProgress: true, observe: 'events'
+    });
   }
 
   deleteDocument(folderId){

@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
     console.log(users);
     this.authService.login(users).subscribe(model => {
       if(model){
-        this.cookie.set("access_token", model['token']);
         this.router.navigateByUrl('/dashboard');
       }
     });

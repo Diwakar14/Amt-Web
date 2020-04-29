@@ -6,7 +6,8 @@
   display: flex;
   
   .leftSide{
-    background: $dark-blue;
+    background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../../assets/img/icons/business-consultation-1000x667.jpg');
+    background-size: cover;
     height: 100vh;
     width: 55%;
     padding: 3rem;
@@ -90,6 +91,7 @@
 }
 .loginBtn:disabled{
   background:  $totalTicketDark;
+  opacity: 0.5;
 }
 .row{
   padding: 0;
