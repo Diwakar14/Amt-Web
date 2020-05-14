@@ -1,0 +1,39 @@
+@import '../../../variables';
+
+.minimizedChatBox{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    padding-top: 1rem;
+    width: 80%;
+    .chatbox{
+        border-radius: .5rem .5rem 0 0;
+        padding: .5rem 1rem;
+        color: white;
+        display: flex;
+        width: 25%;
+        margin-left: 1rem;
+        background: $dark-blue;
+        .content{
+            padding-top: 0.5rem;
+            cursor: pointer;
+            .name{
+                font-size: 0.8rem;
+                margin-right: .5rem;
+            }
+            .service{
+                margin-left: .5rem;
+                font-size: 0.6rem;
+                color: #aaa;
+            }
+        }
+        .avatar{
+            border-radius: 5rem;
+            width: 40px;
+        }
+        .avatar img{
+            border-radius: 5rem;
+        }
+    }
+}

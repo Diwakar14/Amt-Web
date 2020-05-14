@@ -1,0 +1,58 @@
+@import '../../../../../variables';
+
+.pendingPayment{
+    margin: .5rem 1rem;
+    .heading{
+        margin-bottom: 0.7rem;
+        span{
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+    }
+    .content{
+        display: flex;
+        justify-content: space-between;
+        overflow-y: auto;
+        padding: 0.5rem;
+        max-height: 10rem;
+        flex-wrap: wrap;
+        .paymentCard{
+            width: 47%;
+            padding: .5rem;
+            border-radius: 0.7rem;
+            margin-bottom: 1rem;
+            box-shadow: 0.1rem 0.2rem 0.4rem #ccc;
+            .row, .col-sm-5, .col-md-5, .col-sm, .col-md{
+                margin: 0;
+                padding: 0;
+            }
+            div{
+                margin-top: .3rem;
+                font-size: .8rem;
+               
+            }
+            .title{
+                font-size: .9rem;
+                font-weight: 600;
+                text-align: right;
+                letter-spacing: 0.1rem;
+            }
+            .subtitle{
+                font-size: .5rem;
+                font-weight: 500;
+                text-align: right;
+            }
+            .myBtn{
+                padding: .3rem .4rem !important;
+                margin-top: .4rem;
+                font-size: .6rem !important;
+                border: 1px solid $dark-blue;
+                color: black;
+                background: white !important;
+                border-radius: .3rem !important;
+                float: right;
+            }
+        }
+    }
+    
+}

@@ -1,0 +1,24 @@
+<div class="pendingPayment">
+    <div class="heading">
+        <span>Pending Payments</span>
+    </div>
+    <div class="content">
+        <div class="paymentCard" *ngFor="let pending of pendingPayments">
+            <div class="row">
+                <div class="col-sm-5 col-md-5">
+                    <span><img src="../../../../../../../assets/img/icons/pending-payment.png" width="20px" alt="Not loaded"></span>
+                    <div>{{pending.service}}</div>
+                </div>
+                <div class="col-sm col-md">
+                    <div class="title">
+                        Rs. {{pending.amount}}
+                    </div>
+                    <div class="subtitle">
+                        .of Rs. 30,0000 pending
+                    </div>
+                    <button class="myBtn">Send Invoice</button>
+                </div>
+            </div>
+        </div>  
+    </div>
+</div>

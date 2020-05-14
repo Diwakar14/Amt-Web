@@ -7,21 +7,23 @@
 
 form{
     margin: 2rem 3rem;
+    height: 100vh;
 }
 
 .form{
     margin-top: 2rem;
     padding: 0 3rem;
     .heading{
+        font-size: 1rem;
         font-family: $headingFont;
         font-weight: 400;
     }
-
     .form-group{
         label{
             font-family: $headingFont;
             font-weight: 400;
-            color: $totalTicketFontColor;
+            font-size: 0.8rem;
+            color: black;
         }
     }
 }

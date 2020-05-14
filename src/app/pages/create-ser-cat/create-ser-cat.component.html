@@ -1,0 +1,116 @@
+<div class="createSerCat">
+    <div class="heading">
+        Service Category
+        <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#createSerCat">Create New Service Category</button>
+    </div>
+    <div class="panel">
+        <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cat of allServiceCat; index as i">
+                <th scope="row">{{i+1}}</th>
+                <td>{{cat.name}}</td>
+                <td>{{cat.description}}</td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-secondary" (click)="edit(cat)">Edit</button>
+                        <button type="button" class="btn btn-secondary" (click)="delete(cat.id)">Delete</button>
+                    </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+  <div class="modal fade" id="updateSerCat" tabindex="-1" role="dialog" aria-labelledby="createSerCatLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createSerCatLabel">Update Service Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" #f="ngForm" (ngSubmit)="updateServiceCategory(f)">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label for="">Name</label>
+                            <input type="text" name="serviceCat" id="" 
+                            class="form-control" 
+                            [(ngModel)]="serviceCategory.name" 
+                            placeholder="Enter Service Category"
+                            required>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Descriptions</label>
+                            <textarea class="form-control" 
+                            name="desc" id="" cols="30" rows="5" 
+                            [(ngModel)]="serviceCategory.description" 
+                            placeholder="Enter Description of the Category"
+                            required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="reset" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Update</button>
+            </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="createSerCat" tabindex="-1" role="dialog" aria-labelledby="createSerCatLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createSerCatLabel">Create Service Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" #f="ngForm" (ngSubmit)="createCategory(f)">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label for="">Name</label>
+                            <input type="text" name="serviceCat" id="" 
+                            class="form-control" 
+                            [(ngModel)]="serviceCategory.name" 
+                            placeholder="Enter Service Category"
+                            required>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Descriptions</label>
+                            <textarea class="form-control" 
+                            name="desc" id="" cols="30" rows="5" 
+                            [(ngModel)]="serviceCategory.description" 
+                            placeholder="Enter Description of the Category"
+                            required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="reset" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Create</button>
+            </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+</div>

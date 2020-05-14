@@ -7,10 +7,10 @@
     height: 100%;
 }
 #totalT{
-    background: $totalTicketLight;
+    background: $dark-blue;
 }
 #ongoingT{
-    background: #7676c4a9;
+    background: totalTicketLight;
 }
 #closedT{
     background: $closedTicketDark;
@@ -29,8 +29,8 @@
     border-radius: 1rem;
     text-align: center;
     margin: 0rem 1.2rem auto 1rem;
-    box-shadow: 0.1rem .2rem 0.8rem rgba(0, 0, 0, 0.16);
-    background: rgba(255, 255, 255, 0.329);
+    box-shadow: 0rem 0rem 0.6rem rgba(0, 0, 0, 0.10);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .tcard .tcard-content{

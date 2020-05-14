@@ -1,36 +1,59 @@
+import { UserService } from './../../services/user.service';
 import { UIService } from './../../services/ui.service';
 import { Component, OnInit } from '@angular/core';
-import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
-  animations:[
-    trigger('expanded', [
-      transition('* <=> *', [
-        style({ opacity:0, height:'0' }),
-        animate('1ms ease', style({ opacity: 1, height:'100%' }))
-      ]),
-      transition('* => void', [
-        style({ opacity:1 }),
-        animate('100ms ease', style({ opacity: 0, height:'0' }))
-      ])
-    ])
-  ]
+  styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
 
   isExpanded = false;
-  constructor(private uiService: UIService) { }
-
-  ngOnInit(): void {
+  onlineUsers = [];
+  userOnlinelist = [];
+  expanded = true;
+  usersList;
+  constructor(private uiService: UIService, private userService: UserService) {
     this.uiService.currentApprovalStageMessage.subscribe(
-      res => {
-        console.log("This is from sidebar - " + res)
+      (res:any) => {
+        this.usersList = res;
+        this.expanded = res
       }
     )
   }
+  
+  ngOnInit(): void {
+    this.userService.getOnlineUsers().subscribe(
+      (res:any) => {
+        this.onlineUsers = res.users
+      },
+      err => {
+        console.log('Error ', err);
+      }
+    )
+  }
+
+  userDetails(user){
+    let userObj = {
+      userId:''+user.id+'',
+      windowState: true,
+      name:''+user.name+''
+    }
+    this.userOnlinelist.forEach(ele => {
+      ele.windowState = false
+    });
+    let parsedList = JSON.parse(this.usersList);
+    let id = parsedList.users.find(m => m.userId === userObj.userId);
+    
+    if(!id){
+      this.userOnlinelist.push(userObj);
+      this.uiService.updateApprovalMessage({
+        users: this.userOnlinelist
+      });
+    }
+  }
+
 
   expand(){
     this.isExpanded = !this.isExpanded;

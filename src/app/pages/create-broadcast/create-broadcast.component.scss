@@ -1,0 +1,24 @@
+@import '../../../variables';
+
+
+.createBroadcast{
+    margin: 2rem 5rem;
+    height: 100vh;
+    width: 80%;
+    label{
+        font-family: 'Lato',sans-serif;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+    .heading{
+        font-family: $headingFont;
+        font-size: 1.5rem;
+        font-weight: 300;
+        margin-bottom: 2rem;
+    }
+
+    .select2-container--default .select2-selection--single{
+        margin-left: 2rem !important;
+        padding: 2rem !important;
+    }
+}

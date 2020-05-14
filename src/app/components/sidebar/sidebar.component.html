@@ -1,23 +1,55 @@
-<div class="sidebar">
+<div class="sidebar" [class.collasped]="expanded">
     <div class="header">
         Ace my <strong>Tax</strong>
     </div>
-
-    <ul class="list">
-        <li class="list-item">
+    <app-menu>
+        <app-submenu [title]="'Home'" [logo]="'../../../assets/img/icons/home-white.png'">
+        </app-submenu>
+        <app-submenu [title]="'Client'" [logo]="'../../../assets/img/icons/client-white.png'">
+            <li class="subitem" routerLink="/dashboard/addClient">Add Client</li>
+            <li class="subitem" routerLink="/dashboard/clientList">Client List</li>
+        </app-submenu>
+        <app-submenu [title]="'Operator'" [logo]="'../../../assets/img/icons/operator-white.png'">
+            <li class="subitem" routerLink="/dashboard/addOperator">Add Operator</li>
+            <li class="subitem" routerLink="/dashboard/operatorList">Operator List</li>
+        </app-submenu>
+        <app-submenu [title]="'Products'" [logo]="'../../../assets/img/icons/product-white.png'">
+            <li class="subitem" routerLink="/dashboard/createSerCat">Service Category</li>
+            <li class="subitem" routerLink="/dashboard/createService">Services</li>
+            <li class="subitem" routerLink="/dashboard/createBroadcast">Create Broadcasts</li>
+            <li class="subitem" routerLink="/dashboard/createNotify">Create Notifications</li>
+        </app-submenu>
+        <app-submenu [title]="'Settings'" [logo]="'../../../assets/img/icons/settings-white.png'">
+            <li class="subitem" routerLink="/dashboard/changePassword">Change Password</li>
+        </app-submenu>
+    </app-menu>
+    
+    
+    
+    <!-- <ul class="list">
+        <li class="list-item" routerLink="/dashboard">
             <span class="icon mr-3">
                 <img src="../../../assets/img/icons/home-white.png" alt="home">
             </span>
             <span>Home</span>
         </li>
         <li class="list-item">
-            <span class="icon mr-3">
-                <img src="../../../assets/img/icons/client-white.png" alt="client">
-            </span> 
-            <span>Client</span>
+            <div class="menu d-flex" style="width:100%">
+                <span class="icon mr-3">
+                    <img src="../../../assets/img/icons/client-white.png" alt="client">
+                </span> 
+                <span>Client</span>
+                <span class="rightA">
+                    <img src="../../../assets/img/icons/chevron-right.png"  alt="">
+                </span>
+            </div>
+            <ul class="submenu">
+                <li class="subitem" routerLink="/dashboard/addClient">Add Client</li>
+                <li class="subitem" routerLink="/dashboard/clientList">Client List</li>
+            </ul>
         </li>
         <li class="list-item" >
-            <div class="menu d-flex" style="width:100%" (click)="expand()">
+            <div class="menu d-flex" style="width:100%">
                 <span class="icon mr-3">
                     <img src="../../../assets/img/icons/operator-white.png" alt="operator">
                 </span> 
@@ -26,9 +58,9 @@
                     <img src="../../../assets/img/icons/chevron-right.png"  alt="">
                 </span>
             </div>
-            <ul class="submenu" @expanded *ngIf="isExpanded">
-                <li class="subitem">Add Operator</li>
-                <li class="subitem">Operator List</li>
+            <ul class="submenu">
+                <li class="subitem" routerLink="/dashboard/addOperator">Add Operator</li>
+                <li class="subitem" routerLink="/dashboard/operatorList">Operator List</li>
             </ul>
         </li>
         
@@ -42,7 +74,12 @@
                     <img src="../../../assets/img/icons/chevron-right.png"  alt="">
                 </span>
             </div>
-            
+            <ul class="submenu">
+                <li class="subitem" routerLink="/dashboard/createSerCat">Service Category</li>
+                <li class="subitem" routerLink="/dashboard/createService">Services</li>
+                <li class="subitem" routerLink="/dashboard/createBroadcast">Create Broadcasts</li>
+                <li class="subitem" routerLink="/dashboard/createNotify">Create Notifications</li>
+            </ul>
         </li>
         <li class="list-item">
             <div class="menu d-flex" style="width:100%">
@@ -54,60 +91,29 @@
                     <img src="../../../assets/img/icons/chevron-right.png"  alt="">
                 </span>
             </div>
-            
+            <ul class="submenu">
+                <li class="subitem" routerLink="/dashboard/changePassword">Change Password</li>
+            </ul>
         </li>
-    </ul>
+    </ul> -->
 
     <hr>
 
     <div class="chat">
         <div class="chatheader">
-           <div> Online Clients</div> <div class="d-block ml-auto">10</div>
+           <div> Online Clients</div> <div class="d-block ml-auto">{{onlineUsers.length}}</div>
         </div>
-
         <ul class="chatList">
-            <li class="chatList-item">
+            <li class="chatList-item" *ngFor="let user of onlineUsers" (click)="userDetails(user)">
                 <div class="media">
                     <div class="avatar online mr-3">
                         <img src="../../../assets/img/unnamed.jpg" width="100%" class=" " alt="...">
                     </div>
                     <div class="media-body">
-                      <p>John Doe</p>
+                      <p>{{user.name}}</p>
                     </div>
                 </div>
             </li>
-            
-            <li class="chatList-item">
-                <div class="media">
-                    <div class="avatar online mr-3">
-                        <img src="../../../assets/img/unnamed.jpg" width="100%" class=" " alt="...">
-                    </div>
-                    <div class="media-body">
-                      <p>John Doe</p>
-                    </div>
-                </div>
-            </li>
-            <li class="chatList-item">
-                <div class="media">
-                    <div class="avatar online mr-3">
-                        <img src="../../../assets/img/unnamed.jpg" width="100%" class=" " alt="...">
-                    </div>
-                    <div class="media-body">
-                      <p>John Doe</p>
-                    </div>
-                </div>
-            </li>
-            <li class="chatList-item">
-                <div class="media">
-                    <div class="avatar online mr-3">
-                        <img src="../../../assets/img/unnamed.jpg" width="100%" class=" " alt="...">
-                    </div>
-                    <div class="media-body">
-                      <p>John Doe</p>
-                    </div>
-                </div>
-            </li>
-            
         </ul>
     </div>
 </div>

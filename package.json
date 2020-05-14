@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "prod-build": "ng build --prod --aot",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -26,6 +27,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "ng-circle-progress": "^1.5.1",
+    "ng-loading-bar": "0.0.10",
     "ngx-cookie-service": "^3.0.4",
     "ngx-drag-drop": "^2.0.0",
     "pusher": "^3.0.1",

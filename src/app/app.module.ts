@@ -22,18 +22,26 @@ import { TicketsComponent } from './components/tickets/tickets.component';
 import { TicketCardComponent } from './components/tickets/components/ticket-card/ticket-card.component';
 import { OngoingTicketComponent } from './components/ongoing-ticket/ongoing-ticket.component';
 import { ClientComponent } from './components/client/client.component';
-import { ClientSidebarComponent } from './components/client/components/client-sidebar/client-sidebar.component';
-import { ClientMainComponent } from './components/client/components/client-main/client-main.component';
-import { ChatboxComponent } from './components/client/components/chatbox/chatbox.component';
-import { ProfileComponent } from './components/client/components/client-sidebar/components/profile/profile.component';
-import { DocumentComponent } from './components/client/components/client-sidebar/components/document/document.component';
-import { ClientTicketCardComponent } from './components/client/components/client-main/components/client-ticket-card/client-ticket-card.component';
-import { ClientOngticketsComponent } from './components/client/components/client-main/components/client-ongtickets/client-ongtickets.component';
-import { ClientPPaymentComponent } from './components/client/components/client-main/components/client-p-payment/client-p-payment.component';
+import { ClientSidebarComponent } from './components/client-sidebar/client-sidebar.component';
+import { ClientMainComponent } from './components/client-main/client-main.component';
+import { ChatboxComponent } from './components/chatbox/chatbox.component';
+import { ProfileComponent } from './components/client-sidebar/components/profile/profile.component';
+import { DocumentComponent } from './components/client-sidebar/components/document/document.component';
+import { ClientTicketCardComponent } from './components/client-main/components/client-ticket-card/client-ticket-card.component';
+import { ClientOngticketsComponent } from './components/client-main/components/client-ongtickets/client-ongtickets.component';
+import { ClientPPaymentComponent } from './components/client-main/components/client-p-payment/client-p-payment.component';
 import { AddClientComponent } from './pages/add-client/add-client.component';
 import { AddOperatorComponent } from './pages/add-operator/add-operator.component';
 import { OperatorListComponent } from './pages/operator-list/operator-list.component';
 import { ClientListComponent } from './pages/client-list/client-list.component';
+import { CreateBroadcastComponent } from './pages/create-broadcast/create-broadcast.component';
+import { CreateNotifyComponent } from './pages/create-notify/create-notify.component';
+import { CreateSerCatComponent } from './pages/create-ser-cat/create-ser-cat.component';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { MinimizedchatboxComponent } from './components/minimizedchatbox/minimizedchatbox.component';
+import { CreateServiceComponent } from './pages/create-service/create-service.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { SubmenuComponent } from './components/submenu/submenu.component';
 
 
 @NgModule({
@@ -61,7 +69,15 @@ import { ClientListComponent } from './pages/client-list/client-list.component';
     AddClientComponent,
     AddOperatorComponent,
     OperatorListComponent,
-    ClientListComponent
+    ClientListComponent,
+    CreateBroadcastComponent,
+    CreateNotifyComponent,
+    CreateSerCatComponent,
+    ChangePasswordComponent,
+    MinimizedchatboxComponent,
+    CreateServiceComponent,
+    MenuComponent,
+    SubmenuComponent
   ],
   imports: [
     BrowserModule,

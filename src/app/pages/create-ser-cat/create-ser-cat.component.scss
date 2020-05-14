@@ -1,0 +1,31 @@
+@import '../../../variables';
+
+.createSerCat{
+    margin: 2rem 5rem;
+    height: 100vh;
+    .panel{
+        background: white;
+        padding: 0.2rem;
+        border-radius: 0.1rem;
+        box-shadow: 0rem 0.1rem 0.5rem rgba(0, 0, 0, 0.1);
+        tbody tr{
+            font-size: 0.8rem;
+        }
+    }
+    label{
+        font-family: 'Lato',sans-serif;
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+    }
+    .heading{
+        font-family: $headingFont;
+        font-size: 1.5rem;
+        font-weight: 300;
+        margin-bottom: 2rem;
+    }
+
+    .table th {
+        font-family: $headingFont;
+    }
+    
+}

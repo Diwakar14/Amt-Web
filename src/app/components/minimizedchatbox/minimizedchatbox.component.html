@@ -1,0 +1,15 @@
+<div class="minimizedChatBox">
+    <div class="chatbox" *ngFor="let chat of minimizedChats">
+        <div class="avatar online mr-3">
+            <img src="../../../assets/img/unnamed.jpg" width="100%" class=" " alt="...">
+        </div>
+        <div class="content" (click)="openDialog(chat)">
+            <span class="name">{{chat.name}}</span>
+            <span class="service">GST Filling</span>
+        </div>
+    </div>
+    <ng-template ngFor let-chat [ngForOf]="minimizedChats" let-i=index>
+        <app-client [windowState]="chat.windowState" [chatData]="chat"></app-client>
+    </ng-template>
+
+</div>

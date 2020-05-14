@@ -1,0 +1,16 @@
+<li class="list-item">
+    <div class="menu d-flex" style="width:100%" (click)="toggle.emit()">
+        <span class="icon mr-3">
+            <img src="{{logo}}" alt="client">
+        </span> 
+        <span>{{title}}</span>
+        <span class="rightA">
+            <img src="../../../assets/img/icons/chevron-right.png"  alt="">
+        </span>
+    </div>
+    <ul class="submenu" *ngIf="opened" @faddingIn>
+        <ng-content></ng-content>
+    </ul>
+</li>
+
+

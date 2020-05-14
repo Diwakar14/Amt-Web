@@ -13,19 +13,18 @@ export class AuthService {
 
   constructor(private http: HttpClient, private cookie: CookieService) { }
 
-  users:Users;
+  users;
   currentUserValue(){
     return this.users;
   }
 
 
   login(user: Users){
-    return this.http.post(environment.apiEndPoint + "auth/login/email", user, {observe: 'response'}).pipe(
-      map((user:any) => {
-        this.users = user.user;
+    return this.http.post(environment.apiEndPoint + "auth/login/email", user, {observe: 'response'})
+      .pipe(map((user:any) => {
+        this.users = user;
         return user;
-      })
-    );
+      }));
   }
 
   getStatus(){
@@ -35,7 +34,6 @@ export class AuthService {
   }
 
   logout(){
-    this.users = null;
-    this.cookie.delete('access_token');
+    return this.http.post(environment.apiEndPoint + "auth/logout", null);
   }
 }

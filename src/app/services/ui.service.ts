@@ -1,22 +1,33 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+export interface users{
+  userId: number,
+  windowState: false,
+  name: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class UIService {
 
   state = {
-    collapse: false,
-    windowOpen: false
+    "collapse": "collapse",
+    "windowOpen": false,
+    "users": []
   }
 
 
-  private approvalStageMessage = new BehaviorSubject('Basic Approval is required!');
+  private approvalStageMessage = new BehaviorSubject(JSON.stringify(this.state));
   currentApprovalStageMessage = this.approvalStageMessage.asObservable();
   constructor() { }
 
-  updateApprovalMessage(message: string) {
-    this.approvalStageMessage.next(message);
+  updateApprovalMessage(state) {
+    this.state.collapse = state.collapse;
+    this.state.windowOpen = state.windowOpen;
+    this.state.users = state.users;
+    this.approvalStageMessage.next(JSON.stringify(state));
   }
 }

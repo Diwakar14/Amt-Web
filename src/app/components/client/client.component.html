@@ -1,8 +1,9 @@
 
-<div class="overlay"></div>
-<div class="client shadow">
+<!-- <div class="overlay" *ngIf="windowState"></div> -->
+<div class="client shadow" *ngIf="windowState" @slideUp>
     <div class="header">
-        John Doe  
+        {{userState.user.name}}
+        <button class="close" (click)="close()">×</button>
     </div>
     <div class="wrapper">
         <app-client-sidebar></app-client-sidebar>

@@ -1,11 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import './assets/css/bootstrap.min.css';
-@import './assets/css/notiflix-2.1.3.min.css';
 
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import './assets/css/notiflix-2.1.3.min.css';
+@import './assets/css/animate.css';
+@import './assets/css/select2.min.css';
 
 @import './variables';
 @import './custom';
+
+
+
 *{
     font-family: 'Open Sans', sans-serif;
 }
@@ -55,6 +61,14 @@ p{
     background: $totalTicketDark ;
     box-shadow: .1rem .2rem .5rem rgba(0, 0, 0, 0.164);
 }
+.myBtn:active{
+    outline: none;
+    transition: all ease .2s;
+    box-shadow: .3rem .3rem .5rem rgba(0, 0, 0, 0.3);
+}
+.myBtn:disabled{
+    opacity: .5;
+}
 
 .butterBtn{
     border-radius: 0.8rem;
@@ -66,9 +80,29 @@ p{
     font-size: .8rem;
 }
 
+.online{
+    position: relative;
+}
+.online::after{
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0rem;
+    height: 0.8rem;
+    width: 0.8rem;
+    border-radius: 999px;
+    background: #5ebf00;
+    z-index: 1;
+}
 // Scollbar Styling...
 
 /* width */
+body{
+    ::-webkit-scrollbar {
+        display: none;
+      }
+}
+
 ::-webkit-scrollbar {
     width: 3px;
   }

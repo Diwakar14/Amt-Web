@@ -1,7 +1,13 @@
 $padding: 1.3rem 1.5rem;
 
+.toolbarExpanded{
+    width: 16%;
+    transition: all cubic-bezier(0.54, 0.01, 0, 0.99) .3s;
+}
+
 .toolbar{
     display: flex;
+    
 }
 .title{
     font-size: 1.5rem;
@@ -22,6 +28,7 @@ $padding: 1.3rem 1.5rem;
     border: 0 solid;
     height: 30px;
     width: 30px;
+    background: transparent;
 }
 .rightSide{
     display: flex;
