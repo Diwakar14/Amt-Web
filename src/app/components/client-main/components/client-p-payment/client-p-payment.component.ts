@@ -21,14 +21,21 @@ export class ClientPPaymentComponent implements OnInit {
         if(user[i].windowState === true)
           this.userId = user[i].userId;
       }
-      this.paymentService.getPaymentList(this.userId).subscribe(
-        (res:any) => {
-          this.pendingPayments = res.payments;
-        }
-      )
+      this.getPaymentList(this.userId);
     });
+    this.uiService.currentApprovalStageRefreshMessage.subscribe(() => {
+      this.getPaymentList(this.userId);
+    })
+  }
 
-    
+
+  getPaymentList(userid){
+    this.paymentService.getPaymentList(userid).subscribe(
+      (res:any) => {
+        this.pendingPayments = res.payments;
+        console.log(this.pendingPayments);
+      }
+    )
   }
 
 }

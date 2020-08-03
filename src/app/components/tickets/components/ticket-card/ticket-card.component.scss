@@ -8,12 +8,21 @@
 }
 #totalT{
     background: $dark-blue;
+    .logo{
+        background: #e1e1ff27;
+    }
 }
 #ongoingT{
-    background: totalTicketLight;
+    background: $totalTicketLight;
+    .logo{
+        background: #e1e1ff27;
+    }
 }
 #closedT{
     background: $closedTicketDark;
+    .logo{
+        background: #ffb0c53d;
+    }
 }
 .tcard{
     padding: 2.1rem 2.7rem;

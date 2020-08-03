@@ -1,8 +1,10 @@
+import { OperatorService } from './../../../../services/operator.service';
 import { NgForm } from '@angular/forms';
 import { UIService } from './../../../../services/ui.service';
 import { PaymentsService } from './../../../../services/payments.service';
 import { Component, OnInit } from '@angular/core';
 import { UserserviceService } from 'src/app/services/userservice.service';
+import { take } from 'rxjs/operators';
 declare var $:any;
 declare var Notiflix:any;
 
@@ -14,9 +16,14 @@ declare var Notiflix:any;
 export class ClientOngticketsComponent implements OnInit {
 
   paymentsList = {
-    tickets:[]
+    tickets:[] = []
   };
-  serviceId
+  service = {
+    serviceId:'',
+    assign:false,
+    assignee: ''
+  }
+  
   
   user = {
     userId:0,
@@ -31,17 +38,25 @@ export class ClientOngticketsComponent implements OnInit {
     customer_name: '',
     due_date: ''
   }
+
+  submitPayment = false;
+  submitTicket = false;
+  operators: any = [];
+
   constructor(private paymentService: PaymentsService, 
     private userService: UserserviceService,
+    private operatorSer: OperatorService,
     private uiService: UIService) {
-      this.paymentService.getService().subscribe(
+      this.paymentService.getService('category').subscribe(
         (res:any) => {
-          this.serviceList = res.services
+          this.serviceList = res.categories;
+          this.service.serviceId = this.serviceList[0].services[0].id;
         },
         err => {
-  
+          console.log(err)
         }
-      )
+      );
+      
     }
 
   ngOnInit(): void {
@@ -56,26 +71,46 @@ export class ClientOngticketsComponent implements OnInit {
       }
       this.userService.getUserService(this.user.userId).subscribe(
         (res: any) => {
-          for (let i = 0; i < res.length; i++) {
-            if(res[i].statuses[0].status === 'Ongoing')
-              this.paymentsList.tickets.push(res[i]);
-          }
+          this.paymentsList.tickets = res.tickets;
+          console.log(this.paymentsList)
         }
       );
       
     });
   }
 
+  changeAssignee(){
+    this.service.assign = !this.service.assign;
+    this.operatorSer.AllOperator().subscribe((res: any) => {
+      if (res.success == 1) {
+        this.operators = res.users;
+        this.service.assignee = res.users[0].id;
+      }
+    });
+  }
+
   createTicket(f: NgForm){
-    this.userService.createUserService(this.user.userId, this.serviceId).subscribe(
+    this.submitTicket = true;
+
+    let formdata = new FormData();
+    formdata.append('user', this.user.userId.toString());
+    formdata.append('service',this.service.serviceId);
+    if(this.service.assign){
+      formdata.append('assignee',this.service.assignee);
+    }
+    this.userService.createUserService(formdata).subscribe(
       res => {
         Notiflix.Notify.Success("New Ticket Created !");
         f.reset();
+        this.submitTicket = false;
         $("#createTicket").modal('hide');
         this.ngOnInit();
+        this.uiService.updateApprovalRefreshMessage(true);
       },
       err => {
         Notiflix.Notify.Failure(err.error.message);
+        this.submitTicket = false;
+
       }
     )
   }
@@ -84,23 +119,32 @@ export class ClientOngticketsComponent implements OnInit {
   showPaymentDialog(payment){
     $('#createPayment').modal('show');
     this.createPayementObj.amount = payment.amount;
-    this.createPayementObj.service_availed = payment.service_name;
-    this.createPayementObj.due_date = payment.start_date_formatted;
+    this.createPayementObj.service_availed = payment.service.name;
+    this.createPayementObj.due_date = payment.end_date;
     this.createPayementObj.user_id = this.user.userId;
-    this.createPayementObj.user_service_id = payment.service_id;
+    this.createPayementObj.user_service_id = payment.id;
 }
 
   generatePayment(){
     console.log(this.createPayementObj);
-    this.paymentService.createPayment(this.createPayementObj.user_id, 
-      this.createPayementObj.user_service_id, this.createPayementObj.amount)
+    this.submitPayment = true;
+    let paymentObj = {
+      user: this.createPayementObj.user_id, 
+      ticket: this.createPayementObj.user_service_id, 
+      amount: this.createPayementObj.amount
+    }
+    this.paymentService.createPayment(paymentObj)
+      .pipe(take(1))
       .subscribe(
         (res: any) => {
           Notiflix.Notify.Success(res.message);
           $("#createPayment").modal('hide');
+          this.submitPayment = false;
+          this.uiService.updateApprovalRefreshMessage(true);
         },
         err => {
           Notiflix.Notify.Failure(err.error.message);
+          this.submitPayment = false;
         }
       )
   }

@@ -2,24 +2,22 @@
 
 .ongoingticket{
     padding: 0.5rem 0;
-    font-family: 'Open Sans', sans-serif;
+   
     .heading{
-        padding: 1rem;
-        margin-bottom: 0.5rem;
-        span{
+        padding: 0.5rem 1rem;
+        flex-direction: row;
+        align-items: center;
+        font-family: 'Montserrat', sans-serif;
+        div{
             font-size: 0.8rem;
             font-weight: bold;
+            color: #666666;
         }
-        .myBtn{
-            float: right;
-            font-size: 0.6rem !important;
-            padding: 0.5rem 1rem !important;
-        }
-        
     }
     .row, .col-sm-4, .col-md-4{
         padding: 0 !important;
         margin: 0 !important;
+        align-items: center;
     }
     .list-group{
         padding:0.8rem !important;
@@ -34,23 +32,6 @@
             
         }
     }
-    #gbtn{
-        padding: 0.5rem 0.7rem !important;
-        font-size: 0.7rem !important;
-        background: $ongoingTicketDark;
-        float: right;
-        margin-top: 0.2rem;
-    }
-    .myBtnInfo{
-        font-size: 0.5rem !important;
-        background: white !important;
-        padding: 0.4rem 0.6rem !important;
-        color: black !important;
-        font-weight: bold;
-        margin: 0.2rem auto auto auto;
-        display: block;
-        
-    }
     .title{
         font-size: 0.9rem;
         font-weight: bold;
@@ -63,7 +44,16 @@
         line-height: 1.5rem;
     }
 }
-
+.btn-primary{
+    font-size: 0.6rem;
+    padding: 0.5rem 0.95rem;
+}
+.btn-default{
+    font-size: 0.6rem;
+    padding: 0.5rem 1.2rem;
+    background-color: white;
+    border-radius: 0.8rem;
+}
 .modal-dialog{
     border-radius: 0.5rem;
 }
@@ -80,3 +70,10 @@
     border: 0px solid;
     border-radius: 0.5rem;
 }
+
+@media (min-width: 576px){
+    .modal-dialog {
+      max-width: 500px;
+      margin: 9rem auto;
+    }
+  }

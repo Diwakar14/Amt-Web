@@ -4,8 +4,9 @@ import { NgForm } from '@angular/forms';
 import { Folder } from '../../../../models/folderModel';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DndDropEvent } from 'ngx-drag-drop';
-import { HttpEventType } from '@angular/common/http';
+import { HttpEventType, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
+import { UIService } from 'src/app/services/ui.service';
 declare var Notiflix:any;
 declare var $:any;
 @Component({
@@ -22,6 +23,9 @@ export class DocumentComponent implements OnInit {
   };
   folderId;
 
+  submitFolder = false;
+  submitDoc = false;
+
   isProgress:boolean = false;
   progress = {
     width:'',
@@ -35,8 +39,11 @@ export class DocumentComponent implements OnInit {
 
   documentFileList = [];
   @ViewChild('documentFile', {static: false}) documentFile:ElementRef;
+  userId: any;
 
-  constructor(private folderService: FolderService, private documentService: DocumentService) {
+  constructor(private folderService: FolderService, 
+    private uiService: UIService,
+    private documentService: DocumentService) {
     Notiflix.Notify.Init({
       cssAnimationStyle: 'from-top',
       timeout:3000,
@@ -44,24 +51,49 @@ export class DocumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.folderService.getAllFolders(1).subscribe((item:any) =>{
-      this.foldersAndDocs = item;
+    this.uiService.currentApprovalStageMessage.subscribe(
+      (res: any) => {
+        let data = JSON.parse(res);
+        for (let i = 0; i < data.users.length; i++) { 
+          if(data.users[i].windowState === true){
+            this.userId = data.users[i].userId;
+            this.getFolders(data.users[i].userId);
+          }
+        }
+      },
+      err => {
+        console.log("Error Occured: ", err);
+      }
+    )
+  }
+
+  getFolders(userId){
+    this.folderService.getAllFolders(userId).subscribe((item:any) =>{
+      this.foldersAndDocs.folders = item.folders;
+      this.folderId = item.folders[0].id;
+      this.foldersAndDocs.orphan_docs = item.orphan_docs;
     });
   }
 
   createFolder(f:NgForm){
-    this.folderService.createNewFolder(this.folderM, 1).subscribe(
+    this.submitFolder = true;
+    this.folderService.createNewFolder(this.folderM, this.userId).subscribe(
       res =>{
         f.reset();
         $("#createFolder").modal('hide');
+        this.submitFolder = false;
         this.ngOnInit();
+      },
+      err => {
+        this.submitFolder = false;
       }
     );
   }
   showFilesFolder(folderId){
-    this.addActiveClass(folderId);
     let files = this.foldersAndDocs.folders.find(f => f.id == folderId);
     this.filesInFolder = files;
+    this.folderId = folderId;
+    this.addActiveClass(folderId);
   }
 
   viewFolder(folderId){
@@ -78,14 +110,16 @@ export class DocumentComponent implements OnInit {
 
   uploadDocuments(f:NgForm){
     this.isProgress = true;
+    this.submitDoc = true;
     let file = this.documentFile.nativeElement.files;
     var formdata = new FormData();
     for (let i = 0; i < file.length; i++) {
       formdata.append('documents['+i+']', file[i]);
     }
     formdata.append('folder', this.folderId);
-    formdata.append('chat_id', '1234');
-    this.documentService.uploadDocument(formdata, 1).pipe(
+    formdata.append('user', this.userId);
+    // formdata.append('chat_id', '1234');
+    this.documentService.uploadDocument(formdata, this.userId).pipe(
       map(event => {
         switch(event.type){
           case HttpEventType.UploadProgress:
@@ -98,12 +132,15 @@ export class DocumentComponent implements OnInit {
             f.reset()
             this.ngOnInit();
             this.progress.complete = false;
+            this.submitDoc = false;
+            $("#uploadDocuments").modal('hide');
             Notiflix.Notify.Success('File Uploaded !');
             return event;
         }
       }),
       catchError((error => {
         this.isProgress = false;
+        this.submitDoc = false;
         return 'Upload Failed!!!';
       }))
     ).subscribe((event: any) => {  
@@ -116,12 +153,20 @@ export class DocumentComponent implements OnInit {
     )
   }
 
-  deleteDocument(folderId){
-    this.documentService.deleteDocument(folderId).subscribe(
+  deleteDocument(document){
+    let httpParams = new HttpParams().set('documents', '[' + document.id + ']');
+    this.documentService.deleteDocument(httpParams).subscribe(
       res => {
         Notiflix.Notify.Success('File Deleted !');
-        this.ngOnInit();
-        this.showFilesFolder(folderId);
+        this.getFolders(this.userId);
+
+        setTimeout(() => {
+           this.showFilesFolder(document.folder_id);
+        }, 1000);
+       
+      },
+      err => {
+        Notiflix.Notify.Failure(err.error.message);
       }
     )
   }
@@ -143,11 +188,27 @@ export class DocumentComponent implements OnInit {
       res => {
         Notiflix.Notify.Success('File Moved !!!');
         this.ngOnInit();
-        this.showFilesFolder(folderId);
+        this.getFolders(this.userId);
+
+        setTimeout(() => {
+           this.showFilesFolder(this.folderId);
+        }, 1000);
       },
       err => {
         console.log(err);
       }
+    )
+  }
+
+  downloadFile(documentId){
+    this.documentService.downloadDoc(documentId).subscribe((res: any) => {
+      if(res.success == 1){
+        console.log(res);
+      }
+    },
+    err => {
+      console.log(err);
+    }
     )
   }
 

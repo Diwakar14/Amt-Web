@@ -1,0 +1,54 @@
+<div class="notification">
+    <div class="heading d-flex">
+        <div class="">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="type" id="inlineRadio1" [(ngModel)]="notification.type" value="Article" (click)="changeType('Article')">
+                <label class="form-check-label" for="inlineRadio1">Article</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="type" id="inlineRadio2" value="Instant" (click)="changeType('Instant')">
+                <label class="form-check-label" for="inlineRadio2">Instant</label>
+              </div>
+        </div>
+        <button class="btn btn-outline-primary-new d-block ml-auto btn-sm" routerLink="/dashboard/createNotify">New Notification</button>
+    </div>
+    <div class="panel">
+        <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th scope="col" width="2%" class="text-center">#</th>
+                <th scope="col" width="5%"></th>
+                <th scope="col" width="10%">Type</th>
+                <th scope="col" width="20%">Title</th>
+                <th scope="col" width="20%">Body</th>
+                <th scope="col" width="5%" class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let notif of notifList; index as i">
+                    <td scope="row" class="text-center"> {{i+1}} </td>
+                    <td> 
+                        <div class="photo border">
+                            <img src="{{notif.message.photo}}" width="100%" alt="loading...">
+                        </div>
+                    </td>
+                    <td> {{notif.type || '-'}} </td>
+                    <td> {{notif.message.title || '-'}} </td>
+                    <td> {{notif.message.body || '-'}} </td>
+                    <td class="text-center"> 
+                        <button type="button" class="btn btn-outline-primary btn-sm" (click)="deleteNotification(notif.id, i)">
+                            <span class="material-icons" id="del_notif_{{i}}">delete</span>
+                            <img src="../../../assets/img/loader/loader.svg" width="20px" id="del_notif_load_{{i}}" style="display: none;">
+                          
+                        </button>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+        <p class="text-center text-muted p-2" *ngIf="notifList.length == 0"> No Notifications </p>
+        <div class="loader d-block m-auto p-2" *ngIf="loading">
+            <img src="../../../assets/img/loader/loader.svg" width="30px" alt="">
+        </div>
+    </div>
+</div>

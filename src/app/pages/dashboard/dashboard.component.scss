@@ -6,15 +6,8 @@ section{
     background: #f0f5ff86;
     position: relative;
     width: 86%;
-}
-.expanded-sidebar{
-    width: 18%;
-    transition: all cubic-bezier(0.54, 0.01, 0, 0.99) .3s;
-}
-
-.collapsed-sidebar{
-    width: 10%;
-    transition: all cubic-bezier(0.54, 0.01, 0, 0.99) .3s;
+    overflow-y: auto;
+    height: 100vh;
 }
 
 app-sidebar{

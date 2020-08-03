@@ -3,6 +3,7 @@ import { AuthService } from './../../services/auth.service';
 import { UIService } from './../../services/ui.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-toolbar',
@@ -10,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
+  loading: boolean = false;
   constructor(private router: Router, 
     private activatedRoute: ActivatedRoute,
     private uiService: UIService,
@@ -18,23 +20,43 @@ export class ToolbarComponent implements OnInit {
 
   title;
   collaspe;
+  users;
+  date;
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe((data) => {
-      this.title = data.title;
-      console.log(this.title)
-    });
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    this.date = new Date().getDate() + ", " + monthNames[new Date().getMonth()] + " " + new Date().getFullYear();
+    
+    
     this.uiService.currentApprovalStageMessage.subscribe(
       (res:any) => {
-        console.log("Toolbar - ", res);
+        this.users = res;
       }
     );
+    this.uiService.currentApprovalStageToolbarMessage.subscribe((res: any) => {
+      this.title = JSON.parse(res);
+    })
   }
 
   logout(){
+    $("#logout").modal('show');
+  }
+  confirm(){
+    this.loading = true;
     this.auth.logout().subscribe(
       res => {
         this.cookie.delete('auth_token');
-        this.router.navigateByUrl('/login');
+        this.cookie.deleteAll();
+        $("#logout").modal('hide');
+        this.loading = false;
+        setTimeout(() => {
+          this.router.navigateByUrl('/login');
+        },1000);
+      },
+      err =>{
+        console.log(err);
+        this.loading = false;
       }
     );
   }
@@ -42,7 +64,8 @@ export class ToolbarComponent implements OnInit {
   toggleSidebar(){
     this.collaspe = !this.collaspe;
     this.uiService.updateApprovalMessage({
-      collapse: this.collaspe,
+      sidebar: this.collaspe,
+      users: JSON.parse(this.users).users
     });
   }
 

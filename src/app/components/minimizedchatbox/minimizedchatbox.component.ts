@@ -27,7 +27,10 @@ export class MinimizedchatboxComponent implements OnInit {
     let chatObj = {
       userId: ''+chat.userId+'',
       windowState: true,
-      name: ''+chat.name+''
+      name: ''+chat.name+'',
+      email: ''+chat.email+'',
+      phone: ''+chat.phone+''
+      
     }
     this.minimizedChats.forEach(ele => {
       ele.windowState = false

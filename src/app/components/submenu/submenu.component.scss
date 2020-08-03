@@ -1,33 +1,41 @@
 .list-item{
     list-style: none;
-    padding: .6rem 0.8rem .6rem 1.5rem;
-    margin: .5rem 1rem .5rem 0rem;
-    border-radius: 0rem 1.5rem 1.5rem 0rem;    
-    transition: all ease .2s;
+    margin: .5rem 0.5rem .5rem 0rem;
+    border-radius: 0rem 1rem 1rem 0rem;    
     font-size: .9rem;
+    transition: all ease .3s;
+    font-weight: 600;
 }
 
 .list-item .submenu{
     list-style: none;
-    transition: all ease .2s;
     font-size: .8rem;
     padding: 0;
     margin-top: 1rem;
+    transition: all ease .3s;
 }
 
-
+.menu{
+    padding: 0.5rem 1rem;
+}
 .rightA{
     display: block;
     margin-left: auto;
 }
 .rightA img{
-    width: 0.8rem;
+    width: 10px;
 }
 
+
+
+
 .list-item:hover{
-    transition: all ease .2s;
     background: rgba(255, 255, 255, 0.219);
     cursor: pointer;
+    transition: all ease .3s;
+}
+.list-itemActive{
+    background: rgba(255, 255, 255, 0.219);
 }
 
 .icon{
@@ -36,4 +44,17 @@
 }
 .icon img{
     width: 1rem;
+}
+
+.active{
+    transform: rotate(90deg);
+    transition: all ease .3s;
+}
+
+.closed{
+    height: 0;
+    overflow: hidden;
+    margin: 0 !important;
+    padding: 0;
+    transition: all ease .3s;
 }

@@ -6,11 +6,6 @@
     .myBtn{
         padding: 0.5rem 7rem;
     }
-    label{
-        font-family: 'Lato',sans-serif;
-        font-size: 1rem;
-        margin-bottom: 0.3rem;
-    }
     .heading{
         font-family: $headingFont;
         font-size: 1.5rem;
@@ -23,6 +18,7 @@
         position: relative;
         .card-body{
             padding: 0;
+            height: 320px;
         }
         .tint{
             position: absolute;
@@ -34,6 +30,30 @@
                 padding: 1rem;
                 position: absolute;
                 bottom: 0;
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                .file-uploader{
+                    border: 1px solid #aaa;
+                    border-radius: 10rem;
+                    cursor: pointer;
+                    position: relative;
+                    color: white;
+                    width: 50px;
+                    height: 50px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .file-uploader input[type=file]{
+                    width: 50px;
+                    height: 50px;
+                    top: 0;
+                    left: 0;
+                    position: absolute;
+                    border-radius: 10rem;
+                    opacity: 0;
+                }
                 .title{
                     color:white;
                 }
@@ -44,5 +64,9 @@
             }
         }
     }
-    
+}
+
+.notif{
+    font-size: 0.78rem;
+    color: #aaa;
 }

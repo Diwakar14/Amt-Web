@@ -1,14 +1,14 @@
-<li class="list-item">
+<li class="list-item" [class.list-itemActive]="opened">
     <div class="menu d-flex" style="width:100%" (click)="toggle.emit()">
         <span class="icon mr-3">
             <img src="{{logo}}" alt="client">
         </span> 
-        <span>{{title}}</span>
+        <span class="title">{{title}}</span>
         <span class="rightA">
-            <img src="../../../assets/img/icons/chevron-right.png"  alt="">
+            <img src="../../../assets/img/icons/chevron-right.png" [class.active]="opened"  alt="">
         </span>
     </div>
-    <ul class="submenu" *ngIf="opened" @faddingIn>
+    <ul class="submenu" [@faddingIn]="opened? 'opened':'closed'">
         <ng-content></ng-content>
     </ul>
 </li>

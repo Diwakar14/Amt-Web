@@ -3,13 +3,14 @@ import { DocumentService } from '../../services/document.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ChatService } from '../../services/chat.service';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.scss']
 })
-export class ChatboxComponent implements OnInit {
+export class ChatboxComponent implements OnInit, AfterViewInit {
   allChats = {
     messages: []
   };
@@ -22,7 +23,6 @@ export class ChatboxComponent implements OnInit {
     '/assets/img/newFileIcons/doc.png',
     '/assets/img/newFileIcons/word.png',
     '/assets/img/newFileIcons/excel.png',
-    
   ];
   
   chat = {
@@ -41,11 +41,14 @@ export class ChatboxComponent implements OnInit {
     private pusherService: PusherService) { 
       
     }
+  ngAfterViewInit(): void {
+    this.chatboxlist.nativeElement.scrollTop = this.chatboxlist.nativeElement.scrollHeight;
+  }
 
 
   ngOnInit(): void {
     this.userId = this.cookie.get('id');
-    this.chatService.getChats(this.chatId).subscribe(
+    this.chatService.getChats(this.chatId).pipe(debounceTime(3000)).subscribe(
       (res:any) => {
         this.allChats = res;
       }
@@ -64,7 +67,9 @@ export class ChatboxComponent implements OnInit {
     }
     formdata.append('chat_id', this.chatId);
     formdata.append('folder', '0');
-    this.documentService.uploadDocument(formdata, this.userId).subscribe(
+    this.documentService.uploadDocument(formdata, this.userId).pipe(
+      debounceTime(3000),
+    ).subscribe(
       res => {
         this.chatboxlist.nativeElement.scrollTop = this.chatboxlist.nativeElement.scrollHeight;
       },
@@ -76,8 +81,7 @@ export class ChatboxComponent implements OnInit {
   sendMessage(){
     this.chat.chat_id = this.chatId;
     this.chat.sender_id = this.userId;
-    console.log(this.chat);
-    this.chatService.sendChat(this.chat).subscribe(
+    this.chatService.sendChat(this.chat).pipe(debounceTime(3000)).subscribe(
       res => {
         this.chatboxlist.nativeElement.scrollTop = this.chatboxlist.nativeElement.scrollHeight;
       },

@@ -16,13 +16,9 @@
 }
 .createSer{
     margin: 2rem 5rem;
-    min-height: 100vh;
-    height: 100%;
     .panel{
         background: white;
-        padding: 0.2rem;
         border-radius: 0.1rem;
-        box-shadow: 0rem 0.1rem 0.5rem rgba(0, 0, 0, 0.1);
         tbody tr{
             font-size: 0.8rem;
         }
@@ -41,7 +37,23 @@
         font-family: $headingFont;
         font-size: 1.5rem;
         font-weight: 300;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
     }
     
+}
+.loader img{
+    fill: #000;
+    filter: invert(1);
+}
+.btn-outline-primary-new{
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 0.72rem;
+    font-size: 0.85rem;
+    font-weight: 300;
+    padding: 0.5rem 1rem;
+    font-family: "Montserrat", sans-serif;
+    background: $dark-blue;
+    color: white;
+    border: 1px solid $dark-blue;
 }

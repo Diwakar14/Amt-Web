@@ -1,116 +1,52 @@
-<div class="sidebar" [class.collasped]="expanded">
+<div class="sidebar">
     <div class="header">
         Ace my <strong>Tax</strong>
     </div>
     <app-menu>
         <app-submenu [title]="'Home'" [logo]="'../../../assets/img/icons/home-white.png'">
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard">Dashboard</li>
         </app-submenu>
         <app-submenu [title]="'Client'" [logo]="'../../../assets/img/icons/client-white.png'">
-            <li class="subitem" routerLink="/dashboard/addClient">Add Client</li>
-            <li class="subitem" routerLink="/dashboard/clientList">Client List</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/addClient">Add Client</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/clientList">Client List</li>
         </app-submenu>
         <app-submenu [title]="'Operator'" [logo]="'../../../assets/img/icons/operator-white.png'">
-            <li class="subitem" routerLink="/dashboard/addOperator">Add Operator</li>
-            <li class="subitem" routerLink="/dashboard/operatorList">Operator List</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/addOperator">Add Operator</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/operatorList">Operator List</li>
         </app-submenu>
-        <app-submenu [title]="'Products'" [logo]="'../../../assets/img/icons/product-white.png'">
-            <li class="subitem" routerLink="/dashboard/createSerCat">Service Category</li>
-            <li class="subitem" routerLink="/dashboard/createService">Services</li>
-            <li class="subitem" routerLink="/dashboard/createBroadcast">Create Broadcasts</li>
-            <li class="subitem" routerLink="/dashboard/createNotify">Create Notifications</li>
+        <app-submenu [title]="'Products'" routerLinkActive="activeSidebar" [logo]="'../../../assets/img/icons/product-white.png'">
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/createSerCat">Service Category</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/createService">Services</li>
+            <!-- <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/createBroadcast">Broadcasts</li> -->
+            <!-- <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/notifications">Notifications</li> -->
+        </app-submenu>
+        <app-submenu [title]="'Notifications'" routerLinkActive="activeSidebar" [logo]="'../../../assets/img/icons/product-white.png'">
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/notifications">All Notifications</li>
         </app-submenu>
         <app-submenu [title]="'Settings'" [logo]="'../../../assets/img/icons/settings-white.png'">
-            <li class="subitem" routerLink="/dashboard/changePassword">Change Password</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/changePassword">Change Password</li>
         </app-submenu>
     </app-menu>
-    
-    
-    
-    <!-- <ul class="list">
-        <li class="list-item" routerLink="/dashboard">
-            <span class="icon mr-3">
-                <img src="../../../assets/img/icons/home-white.png" alt="home">
-            </span>
-            <span>Home</span>
-        </li>
-        <li class="list-item">
-            <div class="menu d-flex" style="width:100%">
-                <span class="icon mr-3">
-                    <img src="../../../assets/img/icons/client-white.png" alt="client">
-                </span> 
-                <span>Client</span>
-                <span class="rightA">
-                    <img src="../../../assets/img/icons/chevron-right.png"  alt="">
-                </span>
-            </div>
-            <ul class="submenu">
-                <li class="subitem" routerLink="/dashboard/addClient">Add Client</li>
-                <li class="subitem" routerLink="/dashboard/clientList">Client List</li>
-            </ul>
-        </li>
-        <li class="list-item" >
-            <div class="menu d-flex" style="width:100%">
-                <span class="icon mr-3">
-                    <img src="../../../assets/img/icons/operator-white.png" alt="operator">
-                </span> 
-                <span>Add Operator</span>
-                <span class="rightA">
-                    <img src="../../../assets/img/icons/chevron-right.png"  alt="">
-                </span>
-            </div>
-            <ul class="submenu">
-                <li class="subitem" routerLink="/dashboard/addOperator">Add Operator</li>
-                <li class="subitem" routerLink="/dashboard/operatorList">Operator List</li>
-            </ul>
-        </li>
-        
-        <li class="list-item">
-            <div class="menu d-flex" style="width:100%">
-                <span class="icon mr-3">
-                    <img src="../../../assets/img/icons/product-white.png" alt="products">
-                </span> 
-                <span>Products</span>
-                <span class="rightA">
-                    <img src="../../../assets/img/icons/chevron-right.png"  alt="">
-                </span>
-            </div>
-            <ul class="submenu">
-                <li class="subitem" routerLink="/dashboard/createSerCat">Service Category</li>
-                <li class="subitem" routerLink="/dashboard/createService">Services</li>
-                <li class="subitem" routerLink="/dashboard/createBroadcast">Create Broadcasts</li>
-                <li class="subitem" routerLink="/dashboard/createNotify">Create Notifications</li>
-            </ul>
-        </li>
-        <li class="list-item">
-            <div class="menu d-flex" style="width:100%">
-                <span class="icon mr-3">
-                    <img src="../../../assets/img/icons/settings-white.png" alt="setting">
-                </span> 
-                <span>Settings</span>
-                <span class="rightA">
-                    <img src="../../../assets/img/icons/chevron-right.png"  alt="">
-                </span>
-            </div>
-            <ul class="submenu">
-                <li class="subitem" routerLink="/dashboard/changePassword">Change Password</li>
-            </ul>
-        </li>
-    </ul> -->
-
     <hr>
 
     <div class="chat">
         <div class="chatheader">
-           <div> Online Clients</div> <div class="d-block ml-auto">{{onlineUsers.length}}</div>
+           <div>Clients</div> <div class="d-block ml-auto">{{filteredClients.length}}</div>
+        </div>
+        <div class="search mx-2 mb-2">
+            <input type="search" class="form-control" placeholder="Search Clients" (keyup)="search($event)" name="search" autocomplete="off">
+        </div>
+        <div class="loader d-block m-auto" *ngIf="loader">
+            <img src="../../../assets/img/loader/loader.svg" width="30px" alt="">
         </div>
         <ul class="chatList">
-            <li class="chatList-item" *ngFor="let user of onlineUsers" (click)="userDetails(user)">
+            <li class="chatList-item" *ngFor="let user of filteredClients" (click)="userDetails(user)">
                 <div class="media">
-                    <div class="avatar online mr-3">
-                        <img src="../../../assets/img/unnamed.jpg" width="100%" class=" " alt="...">
+                    <div class="avatar mr-3" [class.online]="user.is_online == 1">
+                        <img src="../../../assets/img/operator/dummy.png" width="100%" class=" " alt="...">
                     </div>
                     <div class="media-body">
-                      <p>{{user.name}}</p>
+                      <p>{{user.name || '-'}}</p>
                     </div>
                 </div>
             </li>

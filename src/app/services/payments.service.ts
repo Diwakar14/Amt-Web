@@ -28,9 +28,11 @@ export class PaymentsService {
   createService(service){
     return this.http.post(environment.apiEndPoint + 'services', service);
   }
+
   getService(groupBy?:string){
     return this.http.get(environment.apiEndPoint + 'services?group_by=' + groupBy);
   }
+  
   getServiceDetail(serviceId: number){
     return this.http.get(environment.apiEndPoint + 'services/' + serviceId);
   }
@@ -45,8 +47,9 @@ export class PaymentsService {
   getPaymentList(userId: number){
     return this.http.get(environment.apiEndPoint + 'payments/' + userId)
   }
-  createPayment(userId: number, serviceId: number, amount: number){
-    return this.http.post(environment.apiEndPoint + 'payments/'+ userId + '/' + serviceId, {amount:amount});
+
+  createPayment(payment){
+    return this.http.post(environment.apiEndPoint + 'payments', payment);
   }
 
 

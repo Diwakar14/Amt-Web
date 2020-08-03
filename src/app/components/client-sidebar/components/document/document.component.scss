@@ -3,47 +3,36 @@
     padding: 0;
     margin: 0;
 }
-
+.btn-outline-secondary{
+    font-size: 0.8rem;
+    .material-icons{
+        font-size: 0.9rem;
+    }
+}
 .document{
-    padding: 1rem;
+    padding: 1rem 0.5rem 0 1rem;
     
+}
+.heading{
+    flex-direction: row;
+    align-items: center;
 }
 .heading span{
     font-size: 0.8rem;
     font-family: 'Montserrat', sans-serif;
 }
-.redBtn{
-    width: 100%;
-    margin: 1rem 0;
-    padding:  0.4rem 1.2rem;
-    font-size: 0.7rem;
-}
-.redBtn .icon{
-    margin-right: 0.5rem;
-}
-.btntxt{
-    line-height: 1rem;
-}
-.myBtn{
-    font-size: 0.6rem !important;
-    padding: 0.2rem 0.5rem !important;
-    float: right;
-    border-radius: 0.5rem !important;
-}
-.redBtn span{
-    width: 30px;
-}
+
 
 .list-group{
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 12rem;
+    max-height: 20rem;
 }
 #fileList{
     overflow-y: auto;
     overflow-x: hidden;
     min-height: 70vh;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid #e5e5e5;
 }
 #fileBody{
     overflow-y: auto;
@@ -63,9 +52,12 @@
 }
 .list-group-item{
     padding: 0.4rem 0.6rem;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     border: unset !important;
     font-family: 'Lato', sans-serif;
+    color: #808080;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .list-group-item .row{
@@ -75,6 +67,7 @@
 .list-group-item .row:hover{
     cursor: pointer;
     color: #02024c;    
+    font-weight: 600;
 }
 .heading{
     font-family: 'Lato',sans-serif;
@@ -82,7 +75,7 @@
     margin-bottom: 1rem;
 }
 .fileUploadBox{
-    padding: 5rem 0rem;
+    padding: 2rem 0rem;
     border: 2px dotted #ccc;
     border-radius: 0.8rem;
     margin: 1.5rem 0;
@@ -129,20 +122,22 @@
 }
 .fileLogo{
     width: 20%;
-    margin-top: 1rem;
 }
 
 .card{
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 0rem solid !important;
-    margin: 1rem;
+    border: 0;
+    padding: 1.5rem 1rem !important;
+    border-radius: 0;
+    border-bottom: 1px solid #e5e5e5 !important;
+    border-right: 1px solid #e5e5e5 !important;
 }
 .card:hover{
     transition: all ease .2s;
-    border: 1px solid #aaa;
-    box-shadow: .1rem .1rem .5rem #ccc;
+    cursor: pointer;
+    box-shadow: 0 .1rem .5rem #e5e5e5;
 }
 .card-body{
     padding: 0rem !important;
@@ -198,13 +193,28 @@
 }
 
 .FolderActive{
-    background: #ccc;
+    background: #e5e5e5;
     font-weight: bold;
 }
 .dragging{
     transition: all ease .2s;
-    border: 1px solid #ccc;
-    border-radius: 0.3rem;
     padding: 0.2rem 0.1rem;
-    box-shadow: .1rem .1rem .3rem #ccc;
+    border: 1px solid #e5e5e5;
+    box-shadow: .1rem .1rem .3rem #efefef;
+    margin: 0.5rem;
 }
+
+.grid-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.dialogMargin{
+    margin: 9rem auto;
+}
+
+
+.btn-sm{
+    font-size: 0.65rem !important;
+    padding: 0.2rem 0.8rem;
+  }

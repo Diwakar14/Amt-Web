@@ -32,7 +32,14 @@
 .butterBtn{
     margin-top: 2rem;
     font-weight: 500;
+    background-color: rgba(255, 255, 255, 0.4);
+    outline: none;
     color: $dark-blue;
+    border: none;
+    border-radius: 0.8rem;
+    font-size: 0.85rem;
+    font-family: 'Montserrat', sans-serif;
+    padding: 0.8rem 1rem;
     transition: all ease .2s;
 
 }

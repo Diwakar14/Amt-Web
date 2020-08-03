@@ -4,32 +4,43 @@
     margin: 0;
 }
 .clientList{
-    padding: 1.5rem;
-    height: 100vh;
+    padding: 2rem 5rem;
 }
 .clientList-card{
     background: white;
     border-radius: 2rem;
     overflow: hidden;
     padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    box-shadow: 0.5rem 0.5rem 1rem #f0f5ffa4;
+    transition: all ease .2s;
+
+    &:hover{
+        transition: all ease .2s;
+        box-shadow: 0.5rem 0.5rem 1rem #cfcfcf46;
+        cursor: pointer;
+    }
     .content{
         display: flex;
-        line-height: 3rem;
+        line-height: 2rem;
+        flex-direction: row;
+        align-items: center;
         .text{
-            line-height: 3rem;
-            font-size: 1.3rem;
-            font-family: 'Lato', sans-serif;
+            line-height: 2rem;
+            font-size: 1.1rem;
+            font-family: "Lato", sans-serif;
             padding: 0 0.5rem;
             font-weight: bold;
+            margin-top: 0.3rem;
         }
         .avatar{
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 999px;
             overflow: hidden;
             display: flex;
+            border: 1px solid #dee2e6;
+            margin-right: 1rem;
             justify-content: center;
         }
         .leftSide{
@@ -38,15 +49,17 @@
             .wrap{
                 display: flex;
                 padding: 0 0.5rem;
+                flex-direction: row;
+                align-items: center;
                 .icon{
                     width: 15px;
-                    height: 15px;
+                    // height: 15px;
                 }
                 .text{
                     line-height:unset;
-                    font-size: 0.7rem;
+                    font-size: 0.8rem;
                     letter-spacing: 1px;
-                    color: rgb(146, 146, 146);
+                    color: #595959;
                     font-family: 'Lato', sans-serif;
                 }
             }
@@ -68,9 +81,9 @@
     .content{
         display: flex;
         justify-content: space-between;
-        border-right: 1px solid #aaa;
+        border-right: 1px solid #dee2e6 ;
         
-        .totalTicket{
+        .Ticket{
             text-align: center;
             line-height: 2rem;
             margin: 0 1.5rem;
@@ -84,6 +97,15 @@
                 font-weight: bold;
             }
         }
+        .totalTicketColor{
+            color: #464690;
+        }
+        .ongoingTicketColor{
+            color: #38b1e4;
+        }
+        .closedTicketColor{
+            color: #fe7191;
+        }
         .count{
             padding: 0 1rem;
             font-size: 2.5rem;
@@ -92,4 +114,13 @@
             font-family: 'Montserrat',sans-serif;
         }
     }
+}
+
+
+.bar{
+    border-right: 1px solid #dee2e6 ;
+}
+
+.pad10{
+    padding-left: 1rem;
 }

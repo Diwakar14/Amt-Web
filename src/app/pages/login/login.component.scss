@@ -6,7 +6,7 @@
   display: flex;
   
   .leftSide{
-    background:linear-gradient(rgba(6, 6, 104, 0.8), rgba(3, 29, 114, .8)), url('../../../assets/img/icons/business-consultation-1000x667.jpg');
+    background: linear-gradient(rgba(6, 6, 104, 0.8), rgba(3, 29, 114, .8)), url('../../../assets/img/icons/business-consultation-1000x667.jpg');
     background-size: cover;
     height: 100vh;
     width: 55%;
@@ -65,39 +65,12 @@
     }
   }
 }
-.loginBtn{
-  margin-top: 3rem;
-  padding: 0.7rem 3rem;
-  color: white;
-  border: 0px solid;
-  border-radius: 0.6rem;
-  font-size: 0.8rem;
-  font-family: 'Lato',sans-serif;
-  text-transform: uppercase;
-  background:  $totalTicketDark;
-  outline: none;
-  letter-spacing: 1px;
-  transition: all ease .2s;
+form{
+  padding-right: 5rem;
 }
-.loginBtn:hover{
-  transition: all ease .2s;
-  background:  $dark-blue;
-  box-shadow: .2rem .1rem .4rem rgba(0, 0, 0, 0.2);
-}
-.loginBtn:focus{
-  transition: all ease .2s;
-  background:  $dark-blue;
-  box-shadow: .2rem .1rem .4rem rgba(0, 0, 0, 0.2);
-}
-.loginBtn:active{
-  transition: all ease .2s;
-  background:  $dark-blue;
-  box-shadow: .2rem .1rem .4rem rgba(0, 0, 0, 0.2);
-}
-.loginBtn:disabled{
-  background:  $totalTicketDark;
-  opacity: 0.5;
-}
+
+
+
 .row{
   padding: 0;
   margin: 0;

@@ -1,66 +1,51 @@
-<form action="">
-    <div class="row">
-        <div class="col-sm-6 col-md-6 col-lg-6">
-            <div class="form">
-                <div class="heading mb-5">
-                    Personal Information
-                </div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form">
+        <div class="heading mb-5">
+            Personal Information
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
                     <label for="fullname">Full Name</label>
-                    <input class="form-control" type="text" name="fullname" placeholder="e.g. John Doe">
-                </div>
-                <div class="form-group">
-                    <label for="dob">Date of Birth</label>
-                    <input class="form-control" type="date" name="dob" placeholder="dd/mm/yyyy">
-                </div>
-                <div class="form-group">
-                    <label for="dob">Gender</label>
-                    <div class="gender">
-                        <div class="form-group">
-                            <input class="mr-3" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                            <label class="" for="gridRadios1">
-                                Female
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <input class="mr-3" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                            <label class="" for="gridRadios1">
-                                Male
-                            </label>
-                        </div>
-                       
-                    </div>    
-                </div>
-                <div class="form-group">
-                    <label for="adhaar">Adhaar Card Number</label>
-                    <input class="form-control" type="number" name="adhaar" placeholder="">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6"> 
-            <div class="form">
-                <div class="heading  mb-5">
-                    Contact Information
+                    <input formControlName="name" 
+                    class="form-control"
+                    type="text" 
+                    [ngClass]="{ 'is-invalid': submit && f.name.errors }"
+                    name="fullname" 
+                    placeholder="e.g. John Doe">
+                    <div *ngIf="submit && f.name.errors" class="invalid-feedback">
+                        <div *ngIf="f.name.errors.required">Name is required</div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="email">Email ID</label>
-                    <input class="form-control" type="text" name="email" placeholder="e.g. abc@gmail.com">
+                    <input formControlName="email" 
+                    class="form-control" 
+                    type="text" name="email" 
+                    [ngClass]="{ 'is-invalid': submit && f.email.errors }"
+                    placeholder="e.g. abc@gmail.com">
+                    <div *ngIf="submit && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">Email is required</div>
+                        <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input class="form-control" type="number" name="phone" placeholder="">
+                    <input formControlName="phone" 
+                    class="form-control" 
+                    type="text" 
+                    maxlength="10"
+                    [ngClass]="{ 'is-invalid': submit && f.phone.errors }"
+                    name="phone" placeholder="">
+                    <div *ngIf="submit && f.phone.errors" class="invalid-feedback">
+                        <div *ngIf="f.phone.errors.required">Phone is required</div>
+                        <div *ngIf="f.phone.errors.minlength">Phone must be of 10 digits</div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <textarea class="form-control" name="address" id="" cols="30" rows="5"></textarea>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 col-sd-12 col-lg-12">
-            <div class="content">
-                <div class="btn "> Add Client</div>
+                <button type="submit" class="btn btn-primary" [disabled]="submit || form.invalid">
+                    Add Client
+                    <img src="../../../assets/img/loader/btnLoader.svg" *ngIf="submit" width="30px" alt="loading">
+                </button>
             </div>
         </div>
     </div>

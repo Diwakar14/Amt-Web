@@ -1,14 +1,17 @@
 
-<!-- <div class="overlay" *ngIf="windowState"></div> -->
+<div class="overlay" *ngIf="windowState"></div>
 <div class="client shadow" *ngIf="windowState" @slideUp>
     <div class="header">
-        {{userState.user.name}}
+        {{userState.user.name || '-'}}
         <button class="close" (click)="close()">×</button>
     </div>
     <div class="wrapper">
         <app-client-sidebar></app-client-sidebar>
         <app-client-main></app-client-main>
         <app-chatbox></app-chatbox>
+    </div>
+    <div class="tint" *ngIf="loading">
+        <h3>Loading ...</h3>
     </div>
 </div>
 

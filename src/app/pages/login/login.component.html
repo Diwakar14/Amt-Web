@@ -22,7 +22,10 @@
                 <input type="password" class="textBox" name="password" [(ngModel)]="users.password" placeholder="ENTER YOUR PASSWORD" required>
             </div>
 
-            <button type="submit" [disabled]="!f.valid" class="loginBtn">LOGIN</button>
+            <button type="submit" [disabled]="!f.valid || loading" class="btn btn-primary">
+                LOGIN
+                <img src="../../../assets/img/loader/btnLoader.svg" *ngIf="loading" width="30px" alt="loading">
+            </button>
         </form>
     </div>
 </div>

@@ -1,4 +1,4 @@
-$padding: 1.3rem 1.5rem;
+$padding: 1rem;
 
 .toolbarExpanded{
     width: 16%;
@@ -7,12 +7,13 @@ $padding: 1.3rem 1.5rem;
 
 .toolbar{
     display: flex;
-    
+    background: #f7faff;
+    position: sticky;
 }
 .title{
     font-size: 1.5rem;
     font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
+    font-weight: 500;
 }
 .leftSide{
     display: flex;
@@ -26,8 +27,9 @@ $padding: 1.3rem 1.5rem;
 }
 .leftSide li .collapebtn{
     border: 0 solid;
-    height: 30px;
-    width: 30px;
+    height: 35px;
+    width: 35px;
+    outline: none;
     background: transparent;
 }
 .rightSide{
@@ -37,7 +39,7 @@ $padding: 1.3rem 1.5rem;
 }
 .rightSide .date{
     line-height: 2.5rem;
-    color: #aaa;
+    color: #595959;
     font-weight: lighter;
 }
 .rightSide li{

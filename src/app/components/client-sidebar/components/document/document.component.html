@@ -1,15 +1,15 @@
 <div class="document">
-    <div class="heading">
+    <div class="heading d-flex">
         <span>Document</span>
-        <button class="myBtn" data-toggle="modal" data-target="#uploadDocuments">Upload Document</button>
+        <button class="btn btn-primary btn-sm ml-auto" data-toggle="modal" data-target="#uploadDocuments">Upload</button>
     </div>
-    <button class="redBtn" data-toggle="modal" data-target="#createFolder">
-        <span class="icon">
+    <button class="btn btn-danger-theme btn-block" data-toggle="modal" data-target="#createFolder">
+        <span class="icon mr-2">
             <img src="../../../../../../../assets/img/icons/folder-white.png" width="12px" alt="folder">
         </span>
-        <span class="btntxt" >Create New Folder</span>
+        <span >Create New Folder</span>
     </button>
-    <ul class="list-group">
+    <ul class="list-group mt-2">
         <div class="list-group-item" *ngFor="let folders of foldersAndDocs.folders">
             <div class="row" 
                 dndDropzone
@@ -46,7 +46,7 @@
 
 <div class="modal fade" id="createFolder" data-backdrop="false" 
 tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog shadow-lg" role="document">
+    <div class="modal-dialog shadow-lg dialogMargin" role="document">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Create Folder</h5>
@@ -54,16 +54,18 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form action="" #f="ngForm" (ngSubmit)="createFolder(f)">
+        <form #f="ngForm" (ngSubmit)="createFolder(f)">
             <div class="modal-body">
                 <div class="form-group">
                     <label for="folderName">Folder Name </label>
-                    <input type="text" class="form-control" name="folderName" [(ngModel)]="folderM.folder" placeholder="Enter folder name">
+                    <input type="text" class="form-control" name="folderName" required [(ngModel)]="folderM.folder" placeholder="Enter folder name">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="submit" [disabled]="f.invalid || submitFolder"  class="btn btn-primary">
+                    Save changes
+                    <img src="../../../assets/img/loader/btnLoader.svg" *ngIf="submitFolder" width="30px" alt="loading">
+                </button>
             </div>
         </form>
     </div>
@@ -71,72 +73,61 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
 </div>
 
 <div class="modal fade" id="uploadDocuments" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl shadow-lg" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-xl shadow-lg" role="document" style="width: 800px;">
+        <div class="modal-content" >
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Upload File</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form action="" #f="ngForm" (ngSubmit)="uploadDocuments(f)">
+        <form #uploadDoc="ngForm" (ngSubmit)="uploadDocuments(uploadDoc)">
             <div class="modal-body">
                 <div class="row">
-                    <div class="co-sm-7 col-md-7">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="fileUploadBox">
-                                    <div class="fileWrapper">
-                                        <input type="file" id="files" name="document" #documentFile (change)="showfiles()" multiple required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="selectF">Select Folder</label>
-                                    <select class="form-control" id="selectF" name="select" [(ngModel)]="folderId">
-                                        <option *ngFor="let folders of foldersAndDocs.folders" value="{{folders.id}}">{{folders.folder}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="co-sm-5 col-md-5">
-                        <div class="row">
-                            <div class="col-sm-12 p-0">
-                                <div class="card my-5" *ngIf="documentFileList.length == 0">
-                                    <div class="card-body">
-                                        <h4>Select Document to Upload</h4>
-                                    </div>
-                                </div>
-                                <ul class="list-group" id="fileToUpload">
-                                    <li class="list-group-item d-flex justify-content-between" *ngFor="let file of documentFileList">
-                                       <strong>{{file.name}}</strong><span class="">{{(file.size/1024)|number}}MB</span>
-                                    </li>
-                                </ul>
+                        <div class="fileUploadBox">
+                            <div class="fileWrapper">
+                                <input type="file" id="files" name="document" #documentFile (change)="showfiles()" multiple required>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-12 p-0">
-                                <div class="uploadProgress" *ngIf="documentFileList.length != 0">
-                                    <div class="totalFile">{{documentFileList.length}} File(s) selected</div>
-                                    <div class="prog" *ngIf="progress.complete">{{progress.width}}</div>
-                                    <div class="complete" *ngIf="progress.complete">File Upload Completed.</div>
-                                </div>
-                                <div class="progress" style="height: 3px;" *ngIf="isProgress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                    role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width]="progress.width"></div>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label for="selectF">Select Folder</label>
+                            <select class="form-control" id="selectF" name="select" [(ngModel)]="folderId">
+                                <option *ngFor="let folders of foldersAndDocs.folders; index as i" value="{{folders.id}}">{{folders.folder}}</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div class="co-sm-7 col-md-7">
+                        <div class="mt-4" *ngIf="documentFileList.length == 0">
+                            <p class="text-muted text-center">Select Document to Upload</p>
+                        </div>
+                        <ul class="list-group mt-4" id="fileToUpload">
+                            <li class="list-group-item d-flex justify-content-between" *ngFor="let file of documentFileList; index as i">
+                               <strong>{{file.name}}</strong>
+                               <div class="">{{(file.size/1024)/1024|number}} MB 
+                                   <!-- <span class="material-icons" (click)="delDoc(i)">clear</span> -->
+                               </div>
+                               
+                            </li>
+                        </ul>
+                        <div class="uploadProgress" *ngIf="documentFileList.length != 0">
+                            <div class="totalFile">{{documentFileList.length}} File(s) selected</div>
+                            <div class="prog" *ngIf="progress.complete">{{progress.width}}</div>
+                            <div class="complete" *ngIf="progress.complete">File Upload Completed.</div>
+                        </div>
+                        <div class="progress" style="height: 3px;" *ngIf="isProgress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                            role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width]="progress.width"></div>
                         </div>
                     </div>
                 </div>   
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Upload</button>
+                <button type="submit" class="btn btn-primary" [disabled]="uploadDoc.invalid || submitDoc">
+                    Upload
+                    <img src="../../../assets/img/loader/btnLoader.svg" *ngIf="submitDoc" width="30px" alt="loading">
+                </button>
             </div>
         </form>
     </div>
@@ -144,17 +135,17 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
 </div>
 
 <div class="modal fade" data-backdrop="false"  id="showFolder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog shadow-lg borderless modal-xl" role="document">
+    <div class="modal-dialog shadow-lg borderless modal-xl" role="document" style="width: 950px;">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{filesInFolder.folder}}</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{filesInFolder.folder || '-'}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
             <div class="row">
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <ul class="list-group" id="fileList">
                         <div class="list-group-item" *ngFor="let folders of foldersAndDocs.folders" id="fol_{{folders.id}}" (click)="showFilesFolder(folders.id)">
                             <div class="row"
@@ -167,7 +158,7 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
                                     <img src="../../../../../../../assets/img/icons/folder-purple.png" width="12px" alt="folder">
                                 </div>
                                 <div class="col-sm col-md">
-                                    {{folders.folder}}
+                                    {{folders.folder || '-'}}
                                 </div>
                             </div>
                         </div>
@@ -181,80 +172,77 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
                                     <img src="../../../../../../../assets/img/file icons/icons8-binary-file-96.png" width="12px" alt="folder">
                                 </div>
                                 <div class="col-sm-8 col-md-8">
-                                    {{docs.name}}
+                                    {{docs.name || '-'}}
                                 </div>
                             </div>
-                        
                         </div>
                     </ul>
-                    
                 </div>
-                <div class="col-sm-10" id="fileBody">
-                    <div class="card py-4" *ngIf="filesInFolder.documents.length==0">
-                        <div class="card-body">
-                            <h3>No Files in this folder</h3>
-                        </div>
+                <div class="col-sm-9" id="fileBody">
+                    <div class="py-4 text-center" *ngIf="filesInFolder.documents.length==0">
+                        <p class="text-muted text-center">No Files in this folder</p>
                     </div>
-                    <div class="row">
-                        
-                        <div class="col-sm-4" *ngFor="let file of filesInFolder.documents"> 
-                            <div class="card p-2"
-                                [dndDraggable]="file.id"
-                                [dndEffectAllowed]="draggable.effectAllowed"
-                                [dndDraggingClass]="draggable.class"
-                            >
+                    <div class="grid-container">
+                        <div class="card p-2"
+                            [dndDraggable]="file.id"
+                            [dndEffectAllowed]="draggable.effectAllowed"
+                            [dndDraggingClass]="draggable.class"
+                            *ngFor="let file of filesInFolder.documents"
+                        >
+                        <div class="fileLogo" *ngIf="file.format=='zip'">
+                            <img src="../../../../../../../assets/img/file icons/icons8-7zip-100.png" width="100%" alt="">
+                        </div>
+                        <div class="fileLogo" *ngIf="file.format=='jpg'">
+                            <img src="../../../../../../../assets/img/file icons/icons8-jpg-100.png" width="100%" alt="">
+                        </div>
+                        <div class="fileLogo" *ngIf="file.format=='pdf'">
+                            <img src="../../../../../../../assets/img/file icons/icons8-pdf-100.png" width="100%" alt="">
+                        </div>
+                        <div class="fileLogo" *ngIf="file.format=='png'">
+                            <img src="../../../../../../../assets/img/file icons/icons8-png-100.png" width="100%" alt="">
+                        </div>
+                        <div class="fileLogo" *ngIf="file.format=='ppt' || file.format=='pptx'">
+                            <img src="../../../../../../../assets/img/file icons/icons8-ppt-100.png" width="100%" alt="">
+                        </div>
+                        <div class="fileLogo" *ngIf="file.format=='rar'">
+                            <img src="../../../../../../../assets/img/file icons/icons8-rar-100.png" width="100%" alt="">
+                        </div>
+                        <div class="fileLogo" *ngIf="file.format=='docx' || file.format=='doc' || file.format=='txt'">
+                            <img src="../../../../../../../assets/img/file icons/icons8-word-100.png" width="100%" alt="">
+                        </div>
+                        <div class="fileLogo" *ngIf="file.format=='xlsx' || file.format=='xls'">
+                            <img src="../../../../../../../assets/img/file icons/icons8-xls-100.png" width="100%" alt="">
+                        </div>
 
-                                <div class="fileLogo" *ngIf="file.format=='zip'">
-                                    <img src="../../../../../../../assets/img/file icons/icons8-7zip-100.png" width="100%" alt="">
-                                </div>
-                                <div class="fileLogo" *ngIf="file.format=='jpg'">
-                                    <img src="../../../../../../../assets/img/file icons/icons8-jpg-100.png" width="100%" alt="">
-                                </div>
-                                <div class="fileLogo" *ngIf="file.format=='pdf'">
-                                    <img src="../../../../../../../assets/img/file icons/icons8-pdf-100.png" width="100%" alt="">
-                                </div>
-                                <div class="fileLogo" *ngIf="file.format=='png'">
-                                    <img src="../../../../../../../assets/img/file icons/icons8-png-100.png" width="100%" alt="">
-                                </div>
-                                <div class="fileLogo" *ngIf="file.format=='ppt' || file.format=='pptx'">
-                                    <img src="../../../../../../../assets/img/file icons/icons8-ppt-100.png" width="100%" alt="">
-                                </div>
-                                <div class="fileLogo" *ngIf="file.format=='rar'">
-                                    <img src="../../../../../../../assets/img/file icons/icons8-rar-100.png" width="100%" alt="">
-                                </div>
-                                <div class="fileLogo" *ngIf="file.format=='docx' || file.format=='doc' || file.format=='txt'">
-                                    <img src="../../../../../../../assets/img/file icons/icons8-word-100.png" width="100%" alt="">
-                                </div>
-                                <div class="fileLogo" *ngIf="file.format=='xlsx' || file.format=='xls'">
-                                    <img src="../../../../../../../assets/img/file icons/icons8-xls-100.png" width="100%" alt="">
-                                </div>
+                        <div class="fileLogo" *ngIf="file.format!='xlsx' && file.format!='xls' && file.format!='pdf' && file.format!='png' && file.format!='docx' && file.format!='jpg' && file.format!='doc' && file.format!='txt' && file.format!='ppt' && file.format!='pptx' && file.format!='rar'  && file.format!='zip' ">
+                            <img src="../../../../../../../assets/img/file icons/icons8-file-512.png" width="100%" alt="">
+                        </div>
 
-                                <div class="fileLogo" *ngIf="file.format!='xlsx' && file.format!='xls' && file.format!='pdf' && file.format!='png' && file.format!='docx' && file.format!='jpg' && file.format!='doc' && file.format!='txt' && file.format!='ppt' && file.format!='pptx' && file.format!='rar'  && file.format!='zip' ">
-                                    <img src="../../../../../../../assets/img/file icons/icons8-file-512.png" width="100%" alt="">
-                                </div>
-        
-                                <div class="card-body">
-                                    <div class="card-title text-center">
-                                        {{file.name}}
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="btn-group" role="group">
-                                            <a class="btn btn-secondary btn-sm" *ngIf="file.format=='png' || file.format=='jpg' || file.format=='pdf'" target="_blank" href="{{file.path}}">View</a>
-                                            <a class="btn btn-secondary btn-sm" href="{{file.path}}" download="{{file.path}}">Download</a>
-                                            <button class="btn btn-secondary btn-sm" (click)="deleteDocument(file.id)" >Delete</button>
-                                        </div>
-                                        
-                                    </div>
+                        <div class="card-body">
+                            <div class="card-title text-center">
+                                {{file.name || '-'}}
+                            </div>
+                            <div class="text-center mt-2">
+                                <div class="btn-group" role="group">
+                                    <a class="btn btn-outline-primary btn-sm" *ngIf="file.format=='png' || file.format=='jpg' || file.format=='pdf'" target="_blank" href="{{file.path}}" download="{{file.path}}">
+                                        <span class="material-icons">visibility</span>
+                                    </a>
+                                    <a class="btn btn-outline-primary btn-sm" href="{{file.path}}" download="{{file.path}}">
+                                        <span class="material-icons">get_app</span>
+                                    </a>
+                                    <button class="btn btn-outline-primary btn-sm" (click)="deleteDocument(file)" >
+                                        <span class="material-icons">delete</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div> 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-info btn-sm">Create Folder</button>
-          <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

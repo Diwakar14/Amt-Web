@@ -13,17 +13,21 @@ export class ProfileComponent implements OnInit {
 
   loading = false;
   users = {
-    name:''
+    name:'',
+    email:'',
+    phone:''
   };
 
   ngOnInit(): void {
     this.uiService.currentApprovalStageMessage.subscribe(
       (res: any) => {
-        console.log("Message from profile", JSON.parse(res));
+        // console.log("Message from profile", JSON.parse(res));
         let data = JSON.parse(res);
         for (let i = 0; i < data.users.length; i++) { 
           if(data.users[i].windowState === true){
             this.users.name = data.users[i].name;
+            this.users.email = data.users[i].email;
+            this.users.phone = data.users[i].phone;
           }
         }
       },

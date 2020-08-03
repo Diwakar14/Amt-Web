@@ -1,21 +1,35 @@
 @import '../../../variables';
 
 .overlay{
-    position: fixed;
-    height: 100%;
-    width: 100%;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
     top: 0;
+    left: 0;
+    z-index: 2;
     background: rgba(255, 255, 255, 0.7);
 }
 .client{
-    width: 82%;
     right: 0;
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    height: 100vh;
+    width: 100%;
     border-radius: 1rem 1rem 0 0;
     background: white;
     z-index: 1024;
+    overflow: hidden;
+    .tint{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.99);
+        position: absolute;
+        z-index: 1025;
+    }
 }
 .wrapper{
     display: flex;
@@ -40,8 +54,8 @@ app-client-sidebar{
 }
 app-client-main{
     width: 50%;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
 }
 app-chatbox{
     width: 30%;

@@ -10,6 +10,16 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getOnlineUsers(){
-    return this.http.get(environment.apiEndPoint + 'users/online/clients');
+    return this.http.get(environment.apiEndPoint + 'clients/online');
+  }
+  AllClients(q?: any){
+    return this.http.get(environment.apiEndPoint + 'clients?q=' + q);
+  }
+  createClient(client){
+    return this.http.post(environment.apiEndPoint + 'clients', client);
+  }
+
+  getPage(page){
+    return this.http.get(environment.apiEndPoint + 'clients?page=' + page);
   }
 }

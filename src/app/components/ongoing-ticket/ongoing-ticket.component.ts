@@ -1,3 +1,5 @@
+import { UIService } from './../../services/ui.service';
+import { UserserviceService } from './../../services/userservice.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OngoingTicketComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userSerice: UserserviceService, private uiService: UIService) { }
+
+  ongoingService = [];
 
   ngOnInit(): void {
+    
+    
   }
 
 }

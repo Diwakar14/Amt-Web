@@ -2,6 +2,6 @@ export class Operator{
     name: string;
     password: string;
     email: string;
-    role: string;
+    role: string = 'Admin';
     phone: number;
 }

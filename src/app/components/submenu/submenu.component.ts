@@ -1,4 +1,4 @@
-import { trigger, transition, animate, style } from '@angular/animations';
+import { trigger, transition, animate, style, state } from '@angular/animations';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -7,13 +7,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./submenu.component.scss'],
   animations:[
     trigger('faddingIn', [
-      transition('void => *', [
-        style({opacity:0, height:'*'}),
-        animate('800ms ease', style({opacity:1, height:'100%'}))
-      ]),
-      transition('* => void', [
-        style({opacity:1, height:'*'}),
-        animate('600ms ease', style({opacity:0, height:'0'}))
+      state('opened', style({opacity:1, height:'*', marginTop:'0.5rem', overflow:'visible'})),
+      state('closed', style({opacity:0, height:'0', marginTop: 0, overflow:'hidden'})),
+      
+      transition('closed <=> opened', [
+        animate('300ms ease-in-out')
       ])
     ])
   ]

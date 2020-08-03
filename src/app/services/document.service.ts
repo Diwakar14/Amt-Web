@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { environment } from './../../environments/environment';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -9,12 +10,17 @@ export class DocumentService {
   constructor(private http: HttpClient) { }
 
   uploadDocument(payload, userId){
-    return this.http.post("http://54.186.217.203:5009/documents/"+userId, payload, {
+    return this.http.post(environment.apiEndPoint + "document", payload, {
       reportProgress: true, observe: 'events'
     });
   }
 
-  deleteDocument(folderId){
-    return this.http.delete("http://54.186.217.203:5009/documents/" + folderId);
+  downloadDoc(documentId){
+    return this.http.get(environment.apiEndPoint + "document/" + documentId);
+  }
+
+  deleteDocument(folderOptions){
+    let options = { params: folderOptions }
+    return this.http.delete(environment.apiEndPoint + "document", options);
   }
 }

@@ -13,6 +13,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CreateServiceComponent } from './pages/create-service/create-service.component';
+import { NotifListComponent } from './pages/notif-list/notif-list.component';
 
 
 const routes: Routes = [
@@ -42,9 +43,14 @@ const routes: Routes = [
         data: {title:'Operator List'},
       },
       {
+        path: 'notifications',
+        component: NotifListComponent,
+        data: {title:'Notifications'},
+      },
+      {
         path: 'createNotify',
         component: CreateNotifyComponent,
-        data: {title:'Create Notifications'},
+        data: {title:'Notifications'},
       },
       {
         path: 'createService',
@@ -59,7 +65,7 @@ const routes: Routes = [
       {
         path: 'createBroadcast',
         component: CreateBroadcastComponent,
-        data: {title:'Create Broadcast'},
+        data: {title:'Broadcast'},
 
       },
       {
@@ -81,17 +87,14 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path:'**',
-    component: DashboardComponent,
-    data: {title:'Dashboard'},
-    canActivate: [AuthGuard]
+    path:'',
+    redirectTo: 'login',
+    pathMatch: 'full',
   },
   {
-    path:'',
-    component: DashboardComponent,
-    data: {title:'Dashboard'},
-    canActivate: [AuthGuard]
-  }
+    path:'**',
+    redirectTo: 'login',
+  },
 ];
 
 @NgModule({

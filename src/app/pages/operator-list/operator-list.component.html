@@ -1,33 +1,36 @@
 <div class="clientList">
-    <div class="clientList-card">
+    <div class="loader d-block m-auto" *ngIf="loader">
+        <img src="../../../assets/img/loader/loader.svg" width="30px" alt="" style="filter: invert(1);">
+      </div>
+    <div class="clientList-card" *ngFor="let operator of operators">
         <div class="row pb-2 border-bottom">
             <div class="col-sm-3 col-md-3 col-lg-3">
                 <div class="content">
                     <div class="avatar">
-                        <img src="../../../assets/img/unnamed.jpg" width="100%"  alt="">
+                        <img src="../../../assets/img/operator/dummy.png" width="100%"  alt="">
                     </div>
-                    <div class="text">
-                        Marry Williams 
+                    <div class="text ellipses">
+                        {{operator.name || '-'}}
                     </div>
                 </div>
             </div>
             <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="content">
                     <div class="leftSide">
-                        <div class="wrap">
-                            <div class="icon">
+                        <div class="wrap bar">
+                            <div class="icon" *ngIf="operator.phone">
                                 <img src="../../../assets/img/icons/phone.png" width="100%" alt="">
                             </div>
-                            <div class="text">
-                                9876543210
+                            <div class="text" *ngIf="operator.phone">
+                                {{operator.phone || '-'}}
                             </div>
                         </div>
-                        <div class="wrap">
-                            <div class="icon">
+                        <div class="wrap" style="padding-left:1rem">
+                            <div class="icon" *ngIf="operator.email">
                                 <img src="../../../assets/img/icons/mail.png" width="100%" alt="">
                             </div>
-                            <div class="text">
-                                sample@gmail.com
+                            <div class="text" *ngIf="operator.email">
+                                {{operator.email}}
                             </div>
                         </div>
                     </div>
@@ -40,33 +43,33 @@
         <div class="row pt-2" id="lowerRow">
             <div class="col-sm-4 col-md-4 col-lg-4">
                 <div class="content">
-                    <div class="totalTicket">
+                    <div class="Ticket ">
                         <img src="../../../assets/img/operator/total-ticket.png" width="100%" alt="">
                         <div>Total Ticket</div>
                     </div>
-                    <div class="count">
+                    <div class="totalTicketColor count">
                         15
                     </div>
                 </div>
             </div>
             <div class="col-sm-4 col-md-4 col-lg-4">
                 <div class="content">
-                    <div class="totalTicket">
+                    <div class="Ticket ongoingTicketColor">
                         <img src="../../../assets/img/operator/ongoing-ticket.png" width="100%" alt="">
                         <div>Ongoing Ticket</div>
                     </div>
-                    <div class="count">
+                    <div class="ongoingTicketColor count">
                         15
                     </div>
                 </div>
             </div>
             <div class="col-sm-4 col-md-4 col-lg-4">
                 <div class="content border-0">
-                    <div class="totalTicket">
+                    <div class="Ticket closedTicketColor">
                         <img src="../../../assets/img/operator/closed-ticket.png" width="100%" alt="">
                         <div>Closed Ticket</div>
                     </div>
-                    <div class="count">
+                    <div class="closedTicketColor count">
                         15
                     </div>
                 </div>
@@ -74,78 +77,4 @@
         </div>
     </div>
 
-    <div class="clientList-card">
-        <div class="row pb-2 border-bottom">
-            <div class="col-sm-3 col-md-3 col-lg-3">
-                <div class="content">
-                    <div class="avatar">
-                        <img src="../../../assets/img/unnamed.jpg" width="100%"  alt="">
-                    </div>
-                    <div class="text">
-                        Marry Williams 
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-9 col-md-9 col-lg-9">
-                <div class="content">
-                    <div class="leftSide">
-                        <div class="wrap">
-                            <div class="icon">
-                                <img src="../../../assets/img/icons/phone.png" width="100%" alt="">
-                            </div>
-                            <div class="text">
-                                9876543210
-                            </div>
-                        </div>
-                        <div class="wrap">
-                            <div class="icon">
-                                <img src="../../../assets/img/icons/mail.png" width="100%" alt="">
-                            </div>
-                            <div class="text">
-                                sample@gmail.com
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rightSide">
-                        Online
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row pt-2" id="lowerRow">
-            <div class="col-sm-4 col-md-4 col-lg-4">
-                <div class="content">
-                    <div class="totalTicket">
-                        <img src="../../../assets/img/operator/total-ticket.png" width="100%" alt="">
-                        <div>Total Ticket</div>
-                    </div>
-                    <div class="count">
-                        15
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-                <div class="content">
-                    <div class="totalTicket">
-                        <img src="../../../assets/img/operator/ongoing-ticket.png" width="100%" alt="">
-                        <div>Ongoing Ticket</div>
-                    </div>
-                    <div class="count">
-                        15
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-                <div class="content border-0">
-                    <div class="totalTicket">
-                        <img src="../../../assets/img/operator/closed-ticket.png" width="100%" alt="">
-                        <div>Closed Ticket</div>
-                    </div>
-                    <div class="count">
-                        15
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

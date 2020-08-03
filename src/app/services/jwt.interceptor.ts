@@ -43,7 +43,9 @@ export class JwtInterceptor implements HttpInterceptor {
             this.cookie.delete('auth_token');
             this.router.navigateByUrl('/login');
           }else if(error.status === 403){
+            this.cookie.delete('auth_token');
             Notiflix.Notify.Failure(error.error.message);
+            this.router.navigateByUrl('/login');
           }else if(error.status === 500){
             Notiflix.Notify.Failure(error.error.message);
           }

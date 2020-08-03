@@ -1,46 +1,26 @@
 @import '../../../variables';
 
-.row{
+.row .col-sm-6 .col-md-6 .col-lg-6{
     padding: 0;
     margin: 0;
 }
 
 form{
-    margin: 2rem 3rem;
+    margin: 2rem 5rem;
 }
 
 .form{
     margin-top: 2rem;
-    padding: 0 3rem;
     .heading{
         font-family: $headingFont;
         font-weight: 400;
     }
-
-    .form-group{
-        label{
-            font-family: $headingFont;
-            font-weight: 400;
-            color: black;
-        }
-    }
+    
 }
 .form-group{
     margin-bottom: 2rem;
 }
 
-.gender{
-    display: flex;
-    justify-content: space-evenly;
-    margin: 1rem 0;
-}
-
-.btn{
-    background: $dark-blue !important;
-    color: white !important;
-    padding: 0.5rem 7rem !important;
-    border-radius: 1rem !important;
-}
 .content {
     display: flex;
     justify-content: center;

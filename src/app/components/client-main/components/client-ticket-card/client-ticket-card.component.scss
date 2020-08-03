@@ -4,7 +4,6 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin: 1.3rem 0rem;
     width: 100%;
     padding: 0 0.7rem;
 }
@@ -49,3 +48,10 @@
         }
     }
 }
+
+
+@media (min-width: 576px){
+    .modal-dialog {
+      margin: 9rem auto;
+    }
+  }

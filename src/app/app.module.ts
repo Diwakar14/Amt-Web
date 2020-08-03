@@ -5,10 +5,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { DndModule } from 'ngx-drag-drop';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -42,6 +43,7 @@ import { MinimizedchatboxComponent } from './components/minimizedchatbox/minimiz
 import { CreateServiceComponent } from './pages/create-service/create-service.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { SubmenuComponent } from './components/submenu/submenu.component';
+import { NotifListComponent } from './pages/notif-list/notif-list.component';
 
 
 @NgModule({
@@ -77,14 +79,17 @@ import { SubmenuComponent } from './components/submenu/submenu.component';
     MinimizedchatboxComponent,
     CreateServiceComponent,
     MenuComponent,
-    SubmenuComponent
+    SubmenuComponent,
+    NotifListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
+    NgxPaginationModule,
     NgCircleProgressModule.forRoot(
       {
         radius: 100,

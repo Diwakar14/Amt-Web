@@ -1,19 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-
-
-
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import './assets/css/notiflix-2.1.3.min.css';
 @import './assets/css/animate.css';
-@import './assets/css/select2.min.css';
 
 @import './variables';
 @import './custom';
 
 
-
 *{
-    font-family: 'Open Sans', sans-serif;
+    outline: none !important;
 }
 
 ul{
@@ -33,51 +28,9 @@ p{
 .tile{
     padding:1.5rem;
 }
-.redBtn{
-    border-radius: 0.6rem;
-    background: rgba(255, 255, 255, 0.411);
-    border: 0 solid;
-    padding: 0.6rem 1.2rem;
-    outline: none;
-    color: white;
-    background: crimson;
-    font-size: .8rem;
-    line-height: 1rem;
-}
-.myBtn{
-    border-radius: 0.8rem;
-    background: rgba(255, 255, 255, 0.411);
-    border: 0 solid;
-    padding: 0.6rem 1.2rem;
-    outline: none;
-    color: white;
-    background: $dark-blue;
-    font-size: .8rem;
-    line-height: 1rem;
-    transition: all ease .2s;
-}
-.myBtn:hover{
-    transition: all ease .2s;
-    background: $totalTicketDark ;
-    box-shadow: .1rem .2rem .5rem rgba(0, 0, 0, 0.164);
-}
-.myBtn:active{
-    outline: none;
-    transition: all ease .2s;
-    box-shadow: .3rem .3rem .5rem rgba(0, 0, 0, 0.3);
-}
-.myBtn:disabled{
-    opacity: .5;
-}
 
-.butterBtn{
-    border-radius: 0.8rem;
-    background: rgba(255, 255, 255, 0.411);
-    border: 0 solid;
-    padding: 0.8rem 1.5rem;
-    outline: none;
-    color: black;
-    font-size: .8rem;
+.loader{
+    text-align: center;
 }
 
 .online{
@@ -88,19 +41,27 @@ p{
     position: absolute;
     right: 0;
     top: 0rem;
-    height: 0.8rem;
-    width: 0.8rem;
+    height: 8px;
+    width: 8px;
     border-radius: 999px;
     background: #5ebf00;
     z-index: 1;
+}
+
+.ellipses{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 180px;
+    overflow: hidden;
 }
 // Scollbar Styling...
 
 /* width */
 body{
+    font-family: 'Lato', sans-serif;
     ::-webkit-scrollbar {
         display: none;
-      }
+    }
 }
 
 ::-webkit-scrollbar {
@@ -120,4 +81,10 @@ body{
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #555; 
+  }
+
+  @media (min-width: 1500px){
+    .ellipses{
+        max-width: 220px;
+    }
   }

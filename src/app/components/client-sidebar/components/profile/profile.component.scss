@@ -9,24 +9,40 @@
     float: right;
 }
 .profile{
-    padding: 0.5rem;
+    padding-bottom: 1rem;
 }
 .avatar{
-    height: 80px;
-    width: 80px;
+    height: 60px;
+    width: 60px;
     border-radius: 999px;
     overflow: hidden;
     display: block;
-    margin: 1rem auto;
+    margin: auto;
 }
 .name{
     text-align: center;
     margin: 0.5rem auto;
+    color: #666666;
     font-family: 'Montserrat', sans-serif;
 }
 
-span{
-font-size: 0.7rem;
-    font-family: 'Lato', sans-serif;
-    line-height: 2.2rem;
+.list{
+    max-width: 200px;
+    overflow: hidden;
+    display: flex;
+    margin-bottom: 0.5rem;
+    span{
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 0.7rem;
+        color: #808080;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        font-family: 'Lato', sans-serif;
+    }
+}
+
+
+.details{
+    padding: 0 1.5rem;
 }

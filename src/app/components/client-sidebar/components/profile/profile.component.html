@@ -1,40 +1,28 @@
 <div class="profile">
-    <div class="avatar">
-        <img src="../../../../../../../assets/img/unnamed.jpg" alt="named" width="100%">
+    <div class="avatar border">
+        <img src="../../../../../assets/img/operator/dummy.png" alt="named" width="100%">
     </div>
-    <div class="name">{{users.name}}</div>
+    <div class="name">{{users.name || '-'}}</div>
     <div class="details">
-        <div class="row">
-            <div class="col-sm-2">
-                <img src="../../../../../../../assets/img/icons/phone.png" width="100%" alt="">
-            </div>
-            <div class="col-sm">
-                <span>9876543210</span>
-            </div>
+        <div class="list">
+            <img src="../../../../../../../assets/img/icons/phone.png" width="15px" alt="">
+            <span class="ml-2">{{users.phone || '-'}}</span>
         </div>
-        <div class="row">
-            <div class="col-sm-2">
-                <img src="../../../../../../../assets/img/icons/mail.png" width="100%" alt="">
-            </div>
-            <div class="col-sm">
-                <span>diwalarp@gmail.com</span>
-            </div>
+        <div class="list">
+            <img src="../../../../../../../assets/img/icons/mail.png" width="15px" alt="">
+            <span class="ml-2">{{users.email || '-'}}</span>
         </div>
-        <div class="row">
-            <div class="col-sm-2">
-                <img src="../../../../../../../assets/img/icons/location.png" width="100%" alt="">
-            </div>
-            <div class="col-sm">
-                <span>Kolkata</span>
-            </div>
+        <!-- <div class="list">
+            <img src="../../../../../../../assets/img/icons/location.png" width="15px" alt="">
+            <span class="ml-2">9876543210</span>
         </div>
-        <div class="row">
-            <div class="col-sm-2">
-                <img src="../../../../../../../assets/img/icons/occupation.png" width="100%" alt="">
-            </div>
-            <div class="col-sm">
-                <span>Software Engineer at Wipro</span>
-            </div>
+        <div class="list">
+            <img src="../../../../../../../assets/img/icons/phone.png" width="15px" alt="">
+            <span class="ml-2">Kolkata</span>
         </div>
+        <div class="list">
+            <img src="../../../../../../../assets/img/icons/occupation.png" width="15px" alt="">
+            <span class="ml-2">Software Engineer at Wipro</span>
+        </div> -->
     </div>
 </div>

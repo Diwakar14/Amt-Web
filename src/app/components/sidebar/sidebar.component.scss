@@ -13,7 +13,10 @@
 .sidebar{
     background: rgb(28, 28, 85);
     height: 100%;
+    overflow: hidden;
     color: white;
+    overflow-y: auto;
+    max-height: 100vh;
 }
 p{
     font-family: 'Lato', sans-serif;
@@ -27,36 +30,73 @@ p{
 }
 
 .subitem{
-    padding: 0.5rem 1rem;
-    text-align: center;
-    border-radius: 1.5rem;    
+    padding: 0.5rem 0.5rem 0.5rem 3rem;
+    text-align: left;
+    outline: none;
+    font-weight: 400;
+    border-radius: 0 1rem 1rem 0;    
+    margin-bottom: 0.2rem;
 }
 .subitem:hover{
     transition: all ease .2s;
     background: rgba(255, 255, 255, 0.219);
     cursor: pointer;
 }
-
-.chat{
-    padding: 1rem;
+.activeSidebar{
+    background: rgba(255, 255, 255, 0.219);
     
 }
+
+
+
 .chat .chatheader{
     font-size: 0.95rem;
-    margin: 1rem 0;
+    margin-top: 1rem;
     display: flex;
-    // font-family: 'Montserrat', sans-serif;
+    padding: 0.8rem;
+}
+.chat .form-control{
+    background-color: rgba(255, 255, 255, 0.219);
+    color: #f7f7f7;
+    padding: 0.1rem 0.5rem !important;
+    border-color: rgba(255, 255, 255, 0.219);
+    border-radius: 6px;
+    font-size: 12px;
+}
+.chat .form-control:hover{
+    color: #fff;
+    border-color: #fff;
+}
+.chat .form-control::placeholder{
+    color: rgba(255, 255, 255, 0.5);
+}
+.chat .form-control:focus{
+    color: #fff;
+    border-color: #fff;
+    
 }
 .chatList{
-    padding: 0;
-    margin: 1.5rem 0;
+    padding: 0rem;
+    margin-bottom: 1.5rem;
 }
 .chatList-item{
     list-style: none;
-    margin: 1.5rem 0;
+    padding: 0.8rem 1rem;
     font-size: 0.9rem;
-    transition: all ease .5s;
+    transition: all ease .1s;
 }
+.chatList-item:hover{
+    background: rgba(255, 255, 255, 0.219);
+    transition: all ease .1s;
+    cursor: pointer;
+    box-shadow: 0rem .1rem .5rem rgba(0, 0, 0, 0.164);
+}
+
+.chatActive{
+    background: rgba(255, 255, 255, 0.219);
+    box-shadow: 0rem .1rem .5rem rgba(0, 0, 0, 0.164);
+}
+
 .icon{
     height: 17px;
     width: 17px;
@@ -65,20 +105,14 @@ p{
     width: 1rem;
 }
 
-.chatList-item:hover{
-    background: rgba(255, 255, 255, 0.219);
-    border-radius: 99px;
-    transition: all ease .7s;
-    cursor: pointer;
-    box-shadow: .1rem .2rem .5rem rgba(0, 0, 0, 0.164);
-}
+
+
 .chatList-item img{
-    height: 45px;
-    width: 45px;
+    height: 20px;
+    width: 20px;
 }
 
 .chatList-item .media-body{
-    line-height: 3rem;
     overflow: hidden;
     p{
         white-space: nowrap;

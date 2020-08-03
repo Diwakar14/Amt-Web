@@ -1,41 +1,54 @@
 <div class="createSer">
     <div class="heading">
-        Services
-        <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#createSer">Create New Service</button>
+        <button class="btn btn-outline-primary-new d-block ml-auto btn-sm" (click)="createServiceModal()">Create New Service</button>
     </div>
     <div class="panel">
         <table class="table table-borderless">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Documents</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Eta</th>
-                <th scope="col">Actions</th>
+                <th scope="col" width="2%" class="text-center">#</th>
+                <th scope="col" width="10%">Name</th>
+                <th scope="col" width="20%">Documents</th>
+                <th scope="col" width="5%">Amount</th>
+                <th scope="col" width="5%">Eta</th>
+                <th scope="col" width="5%" class="text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let service of serviceList; index as i">
-                <th scope="row">{{i+1}}</th>
-                <td><button class="btn btn-link" (click)="showDetails(service.id)">{{service.name}}</button></td>
+                <th scope="row" class="text-center">{{i+1}}</th>
+                <td>
+                  <button class="btn btn-link text-left p-0" (click)="showDetails(service.id)">{{service.name}}</button>
+                </td>
                 <td>{{service.documents}}</td>
                 <td>{{service.amount|currency:'₹'}}</td>
                 <td>{{service.eta}}</td>
-                <td>
+                <td class="text-center">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-secondary" (click)="edit(service)">Edit</button>
-                        <button type="button" class="btn btn-secondary" (click)="delete(service.id)">Delete</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" (click)="edit(service)">
+                          <span class="material-icons">edit</span>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" (click)="delete(service.id, i)">
+                          <span class="material-icons" id="del_{{i}}">delete</span>
+                          <img src="../../../assets/img/loader/loader.svg" width="20px" id="del_load_{{i}}" style="display:none;filter: invert(1);">
+                          
+                        </button>
                     </div>
                 </td>
               </tr>
             </tbody>
-          </table>
+        </table>
+        <p class="text-center text-muted p-2" *ngIf="serviceList.length == 0"> No Services </p>
+
+        <div class="loader d-block m-auto p-2" *ngIf="loader">
+          <img src="../../../assets/img/loader/loader.svg" width="30px" alt="">
+        </div>
+
     </div>
 </div>
 
 <div class="modal fade" id="SerDetails" tabindex="-1" role="dialog" aria-labelledby="createSerLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="updateSerLabel">Service Details</h5>
@@ -43,28 +56,31 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-            <div class="modal-body" *ngIf="serviceDetails">
-                <div class="form-group">
-                    <label for="">Name: </label>
-                    <strong class="ml-2">{{serviceDetails.name}}</strong>
-                </div>
-                <div class="form-group">
-                    <label for="">Description: </label>
-                    <div>{{serviceDetails.description}}</div>
-                </div>
-                <div class="form-group">
-                    <label for="">Amount: </label>
-                    <strong class="ml-2">{{serviceDetails.amount|currency:'₹'}}</strong>
-                </div>
+        <div class="modal-body d-block m-auto" *ngIf="loadingDetails">
+          <img src="../../../assets/img/loader/loader.svg" width="30px" alt="" style="filter: invert(1);">
+        </div>
+        <div class="modal-body" *ngIf="serviceDetails && !loadingDetails">
+            <div class="form-group">
+                <label for="">Name: </label>
+                <strong class="ml-2">{{serviceDetails.name}}</strong>
             </div>
-            <div class="modal-footer">
-                <button type="reset" class="btn btn-secondary" data-dismiss="modal">OK</button>
+            <div class="form-group">
+                <label for="">Description: </label> <br>
+                <strong>{{serviceDetails.description}}</strong>
             </div>
+            <div class="form-group">
+                <label for="">Amount: </label>
+                <strong class="ml-2">{{serviceDetails.amount|currency:'₹'}}</strong>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="reset" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
       </div>
     </div>
   </div>
 <div class="modal fade" id="updateSer" tabindex="-1" role="dialog" aria-labelledby="createSerLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="updateSerLabel">Update Service</h5>
@@ -79,7 +95,7 @@
                         <div class="form-group">
                             <label for="">Category</label>
                             <select name="updateScategory" [(ngModel)]="service.category" class="form-control" required>
-                                <option *ngFor="let cat of serviceCategory" value="{{cat.id}}" >{{cat.name}}</option>
+                                <option *ngFor="let cat of serviceCategory.categories" value="{{cat.id}}" >{{cat.name}}</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -114,8 +130,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-            <button type="reset" class="btn btn-secondary" data-dismiss="modal">Reset</button>
-            <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Update</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid || submit">
+              Update
+              <img src="../../../assets/img/loader/loader.svg" *ngIf="submit" width="30px" alt="...">
+            </button>
             </div>
         </form>
       </div>
@@ -137,12 +155,12 @@
                         <div class="form-group">
                             <label for="">Category</label>
                             <select name="category" [(ngModel)]="service.category" class="form-control" required>
-                                <option *ngFor="let cat of serviceCategory" value="{{cat.id}}" >{{cat.name}}</option>
+                                <option *ngFor="let cat of serviceCategory.categories" value="{{cat.id}}" >{{cat.name}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="">Name</label>
-                            <input type="text" name="service" id="" 
+                            <input type="text" name="service" 
                             class="form-control" 
                             [(ngModel)]="service.name" 
                             placeholder="Enter Service Name"
@@ -153,7 +171,7 @@
                         
                         <div class="form-group">
                             <label for="">Amount</label>
-                            <input type="text" name="amout" id="" 
+                            <input type="text" name="amout" 
                             class="form-control" 
                             [(ngModel)]="service.amount" 
                             placeholder="Enter Service Amount"
@@ -171,10 +189,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-            <button type="reset" class="btn btn-secondary" data-dismiss="modal">Reset</button>
-            <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Create</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid || submit">
+              Create
+              <img src="../../../assets/img/loader/loader.svg" *ngIf="submit" width="30px" alt="">
+            </button>
             </div>
-
         </form>
       </div>
     </div>

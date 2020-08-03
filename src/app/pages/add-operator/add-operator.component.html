@@ -1,45 +1,88 @@
-<form action="" #f="ngForm" (ngSubmit)="createOperator(f)">
+<form (ngSubmit)="f.form.valid && createOperator(f)" #f="ngForm" novalidate>
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6">
-            <div class="form">
-                <div class="heading mb-5">
-                    Personal Information
+            <div class="heading mb-5">
+                Personal Information
+            </div>
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input class="form-control" type="text" 
+                name="fullname" #name="ngModel" 
+                [(ngModel)]="operator.name" 
+                placeholder="e.g. John Doe" 
+                autocomplete="off" 
+                [ngClass]="{ 'is-invalid': f.submitted && name.invalid }"
+                required>
+                <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+                    <div *ngIf="name.errors.required">Name is required</div>
                 </div>
-                <div class="form-group">
-                    <label for="fullname">Full Name</label>
-                    <input class="form-control" type="text" name="fullname" [(ngModel)]="operator.name" placeholder="e.g. John Doe" autocomplete="off" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Password</label>
+                <input class="form-control" 
+                type="password" 
+                name="password" 
+                #password="ngModel"
+                [(ngModel)]="operator.password" 
+                autocomplete="off" 
+                placeholder="Enter your Password" 
+                [ngClass]="{ 'is-invalid': f.submitted && password.invalid }"
+                required>
+                <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
+                    <div *ngIf="password.errors.required">Password is required</div>
                 </div>
-                <div class="form-group">
-                    <label for="dob">Password</label>
-                    <input class="form-control" type="password" name="password" [(ngModel)]="operator.password" autocomplete="off" placeholder="Enter your Password" required>
-                </div>
-                <div class="form-group">
-                    <label for="role">Role</label>
-                    <input class="form-control" type="text" name="role" [(ngModel)]="operator.role" autocomplete="off" placeholder="Enter your Role" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select name="role" 
+                class="form-control" 
+                #role="ngModel" 
+                [(ngModel)]="operator.role" 
+                [ngClass]="{ 'is-invalid': f.submitted && role.invalid }"
+                required>
+                    <option value="Admin">Admin</option>
+                    <option value="Operator">Operator</option>
+                </select>
+                <div *ngIf="f.submitted && role.invalid" class="invalid-feedback">
+                    <div *ngIf="role.errors.required">Role is required</div>
                 </div>
             </div>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6"> 
-            <div class="form">
-                <div class="heading  mb-5">
-                    Contact Information
+            <div class="heading  mb-5">
+                Contact Information
+            </div>
+            <div class="form-group">
+                <label for="email">Email ID</label>
+                <input class="form-control" 
+                type="text" 
+                name="email" 
+                #email="ngModel" 
+                [(ngModel)]="operator.email" 
+                autocomplete="off" 
+                [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
+                placeholder="e.g. abc@gmail.com" 
+                required>
+                <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+                    <div *ngIf="email.errors.required">Email is required</div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email ID</label>
-                    <input class="form-control" type="text" name="email" [(ngModel)]="operator.email" autocomplete="off" placeholder="e.g. abc@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input class="form-control" type="number"  name="phone" [(ngModel)]="operator.phone" autocomplete="off" placeholder="" required>
-                </div>
-               
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input class="form-control" type="text"  
+                maxlength="10"
+                name="phone" [(ngModel)]="operator.phone" 
+                autocomplete="off" placeholder="" required>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12 col-sd-12 col-lg-12">
             <div class="content mt-5">
-                <button type="submit" [disabled]="!f.valid" class="btn "> Add Operator</button>
+                <button type="submit" class="btn btn-primary" [disabled]="submit || f.invalid">
+                     Add Operator
+                    <img src="../../../assets/img/loader/btnLoader.svg" *ngIf="submit" width="30px" alt="loading">
+                </button>
             </div>
         </div>
     </div>
