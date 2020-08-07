@@ -1,5 +1,5 @@
 <div class="clientMain">
-    <app-client-ticket-card></app-client-ticket-card>
-    <app-client-ongtickets></app-client-ongtickets>
-    <app-client-p-payment></app-client-p-payment>
+    <app-client-ticket-card [clientId]="chatData.clientId" (change)="someSentData($event)"></app-client-ticket-card>
+    <app-client-ongtickets [client]="chatData" [userServiceData]="userServiceData" *ngIf="userServiceData"></app-client-ongtickets>
+    <app-client-p-payment [clientId]="chatData.clientId"></app-client-p-payment>
 </div>

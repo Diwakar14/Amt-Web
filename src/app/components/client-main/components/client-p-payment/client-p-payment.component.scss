@@ -1,6 +1,9 @@
 @import '../../../../../variables';
-
-.pendingPayment{
+.payments{
+    overflow-y: auto;
+    max-height: 35vh;
+}
+.completedPayment,.pendingPayment{
     margin: .5rem 1rem;
     .heading{
         font-family: 'Montserrat', sans-serif;
@@ -14,9 +17,7 @@
     .content{
         display: flex;
         justify-content: space-between;
-        overflow-y: auto;
         padding: 0.5rem;
-        max-height: 20vh;
         flex-wrap: wrap;
         .paymentCard{
             width: 47%;

@@ -10,8 +10,8 @@ export class FolderService {
 
   constructor(private http: HttpClient) { }
 
-  getAllFolders(userId){
-    return this.http.get(environment.apiEndPoint + "document?user="+userId+"&group_by=folder");
+  getAllFolders(userId, folderId?: any){
+    return this.http.get(environment.apiEndPoint + "document?user="+userId+"&group_by=folder&folder=" + folderId);
   }
   createNewFolder(folder:Folder, userId){
     return this.http.post(environment.apiEndPoint + "folders/" + userId, folder);

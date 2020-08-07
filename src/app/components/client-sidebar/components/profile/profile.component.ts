@@ -1,6 +1,6 @@
 import { Users } from './../../../../models/usersModel';
-import { UIService, users } from './../../../../services/ui.service';
-import { Component, OnInit } from '@angular/core';
+import { UIService } from './../../../../services/ui.service';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
+  @Input() profileData;
   constructor(private uiService: UIService) { }
 
   loading = false;
@@ -19,22 +20,9 @@ export class ProfileComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.uiService.currentApprovalStageMessage.subscribe(
-      (res: any) => {
-        // console.log("Message from profile", JSON.parse(res));
-        let data = JSON.parse(res);
-        for (let i = 0; i < data.users.length; i++) { 
-          if(data.users[i].windowState === true){
-            this.users.name = data.users[i].name;
-            this.users.email = data.users[i].email;
-            this.users.phone = data.users[i].phone;
-          }
-        }
-      },
-      err => {
-        console.log("Error Occured: ", err);
-      }
-    )
+    this.users.email = this.profileData.email;
+    this.users.phone = this.profileData.phone;
+    this.users.name = this.profileData.name;
   }
 
 }

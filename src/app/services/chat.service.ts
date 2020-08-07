@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -8,10 +9,10 @@ export class ChatService {
   constructor(private http: HttpClient) { }
 
   getChats(chatId){
-    return this.http.get("http://54.186.217.203:5009/message?chat_id=" + chatId);
+    return this.http.get(environment.apiEndPoint + "message?chat=" + chatId);
   }
 
   sendChat(chat){
-    return this.http.post('http://54.186.217.203:5009/message', chat);
+    return this.http.post(environment.apiEndPoint + "message", chat);
   }
 }

@@ -1,20 +1,32 @@
+import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 declare const Pusher: any;
 import { environment } from '../environments/environment';
-import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
 export class PusherService {
   pusher: any;
   channel: any;
-  constructor(private http: HttpClient) {
+  chatBoxChannel: any;
+  constructor(private cookie: CookieService) {
     this.pusher = new Pusher(environment.pusher.key, {
       cluster: environment.pusher.cluster,
-      encrypted: true
+      encrypted: true,
+      authEndpoint: environment.apiEndPoint + 'auth/pusher',
+      auth: {
+        headers: {
+          Authorization: 'Bearer ' + this.cookie.get('auth_token'),
+        }
+      } 
     });
-    this.channel = this.pusher.subscribe('siddhant1');
+
+    this.channel = this.pusher.subscribe('presence-acemytax');
+
+    
   }
 
-  
+  subscribeForChatBox(subscriptionId){
+    this.chatBoxChannel = this.pusher.subscribe(subscriptionId)
+  }
 }

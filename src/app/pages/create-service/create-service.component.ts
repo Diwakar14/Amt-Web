@@ -47,7 +47,6 @@ export class CreateServiceComponent implements OnInit {
     this.loader = true;
     this.paymentService.getServiceCategory().subscribe((cat: any) => {
       this.serviceCategory.categories = cat.categories;
-      
     });
     this.paymentService.getService().subscribe(
       (res: any) => {

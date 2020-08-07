@@ -1,9 +1,10 @@
+import { UIService } from './../../services/ui.service';
 import { PusherService } from '../../pusher.service';
 import { DocumentService } from '../../services/document.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ChatService } from '../../services/chat.service';
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { debounceTime } from 'rxjs/operators';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
+import { debounceTime, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chatbox',
@@ -15,7 +16,7 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
     messages: []
   };
   userId;
-  chatId = 'ios123';
+  chatId;
   fileFormates = [
     '/assets/img/newFileIcons/pdf.png',
     '/assets/img/newFileIcons/txt.png',
@@ -27,16 +28,18 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
   
   chat = {
     text: '',
-    chat_id:'',
-    sender_id: 0,
+    chat:''
   }
 
   @ViewChild('attachment', { static: false }) attachment: ElementRef;
   @ViewChild('chatboxlist') chatboxlist: ElementRef<HTMLDivElement>;
+  @ViewChild('download') download: ElementRef<HTMLAnchorElement>;
+  @Input() chatData;
   
   constructor(
     private chatService: ChatService, 
     private cookie:CookieService,
+    private uiService: UIService,
     private documentService: DocumentService,
     private pusherService: PusherService) { 
       
@@ -47,14 +50,24 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    this.userId = this.cookie.get('id');
-    this.chatService.getChats(this.chatId).pipe(debounceTime(3000)).subscribe(
-      (res:any) => {
-        this.allChats = res;
-      }
+    this.userId = this.chatData.clientId;
+    this.chatService.getChats(this.chatData.chat)
+      .pipe(debounceTime(3000))
+      .subscribe(
+        (res:any) => { 
+          this.allChats = res;
+          this.chatboxlist.nativeElement.scrollTop = this.chatboxlist.nativeElement.scrollHeight;
+        }
     );
-    this.pusherService.channel.bind("message-exchange", data =>{
+
+    this.pusherService.subscribeForChatBox(this.chatData.chat);
+    this.pusherService.chatBoxChannel.bind("pusher:subscription_succeeded", (data) => {
+      // console.log(data);
+    })
+    
+    this.pusherService.chatBoxChannel.bind("chat-message", data =>{
       this.allChats.messages.push(JSON.parse(data.message));
+      // console.log(this.allChats);
     });
   }
 
@@ -65,7 +78,7 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < files.length; i++) {
       formdata.append('documents['+i+']', files[i]);
     }
-    formdata.append('chat_id', this.chatId);
+    formdata.append('chat', this.chatId);
     formdata.append('folder', '0');
     this.documentService.uploadDocument(formdata, this.userId).pipe(
       debounceTime(3000),
@@ -79,16 +92,36 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
     );
   }
   sendMessage(){
-    this.chat.chat_id = this.chatId;
-    this.chat.sender_id = this.userId;
-    this.chatService.sendChat(this.chat).pipe(debounceTime(3000)).subscribe(
-      res => {
-        this.chatboxlist.nativeElement.scrollTop = this.chatboxlist.nativeElement.scrollHeight;
-      },
-      err => {
-        console.log(err);
-      }
-    )
+    this.chat.chat = this.chatData.chat;
+    console.log(this.chat);
+    this.chatService.sendChat(this.chat).pipe(
+      take(1),
+      debounceTime(3000))
+      .subscribe(
+        res => {
+          this.chatboxlist.nativeElement.scrollTop = this.chatboxlist.nativeElement.scrollHeight;
+        },
+        err => {
+          console.log(err);
+        }
+      )
     this.chat.text = '';
+  }
+
+  downloadDoc(chat){
+    console.log(chat);
+    this.documentService.downloadDoc(chat.preview.id).subscribe((res: any) => {
+      this.downLoadFile(res, chat.preview.type, chat.preview.name);
+    })
+  }
+
+  private downLoadFile(data: any, type: string, filename: string) {
+    let blob = new Blob([data], { type: type});
+    let url = window.URL.createObjectURL(blob);
+
+    const link = this.download.nativeElement;
+    link.href = url;
+    link.download = filename;
+    link.click();
   }
 }

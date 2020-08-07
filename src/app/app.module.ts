@@ -45,6 +45,11 @@ import { MenuComponent } from './components/menu/menu.component';
 import { SubmenuComponent } from './components/submenu/submenu.component';
 import { NotifListComponent } from './pages/notif-list/notif-list.component';
 
+// for Router import:
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+
+// for Core import:
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 @NgModule({
   declarations: [
@@ -90,6 +95,10 @@ import { NotifListComponent } from './pages/notif-list/notif-list.component';
     ReactiveFormsModule,
     HttpClientModule,
     NgxPaginationModule,
+    // for Router use:
+    LoadingBarRouterModule,
+    // for Core use:
+    LoadingBarModule,
     NgCircleProgressModule.forRoot(
       {
         radius: 100,

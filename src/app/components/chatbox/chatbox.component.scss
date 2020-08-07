@@ -4,7 +4,8 @@
     position: relative;
     padding-left: 0.7rem;
     height: 100%;
-
+    background: url('../../../assets/img/chat/chat-bg.png') center;
+    background-size: cover;
     .chatTime{
         font-size: 0.7rem;
         padding: 0.8rem 0;
@@ -61,47 +62,33 @@
     }
 
     .chatList{
-        height: 90vh;
-        max-height: 88vh;  
+        height: 80vh;
+        max-height: 88vh;
         overflow-y: auto;
+        margin-bottom: 50px;
+        font-family: 'Lato', sans-serif;
         .operator{
             margin: 0.7rem 0;
             .title{
                 font-size: 0.6rem;
-                font-family: 'Lato', sans-serif;
                 text-align: left;
-                color: $ongoingTicketLight;
+                color: #808080;
             }
             .text-bubble{
                 position: relative;
-                padding: 0.5rem 0.5rem 0 0.5rem;
-                border-radius: 0 0.6rem 0.6rem 0.6rem; 
-                box-shadow: 0rem 1px 1px rgba(0, 0, 0, 0.2) ;
+                padding: 0.5rem 1rem 0.5rem 0.5rem;
+                border-radius: 0 1.2rem 1.2rem 1.2rem;
+                box-shadow: 0rem 1px 1px rgba(0, 0, 0, 0.2);
                 font-size: 0.7rem;
                 color: white;
-                font-family: 'Lato', sans-serif;
                 text-align: left;
-                width: 80%;
+                display: inline-block;
                 letter-spacing: 0.5px;
-                background: $ongoingTicketDark;
-                margin-left: 10px;
-                ::before{
-                    content: '';
-                    position: absolute;
-                    left: 0;
-                    top: 0px;
-                    width: 0;
-                    height: 0;
-                    border: 10px solid transparent;
-                    border-right-color: $ongoingTicketDark;
-                    border-left: 0;
-                    border-top: 0;
-                    margin-left: -10px;
-                    margin-top: 0px;
-                }
+                background: #02024c;
                 .footer{
                     margin-top: 0.5rem;
                     padding: 0.1rem;
+                    padding-right: 10px;
                     font-size: 0.6rem;
                     color: $chatDate;
                     text-align: right;
@@ -112,9 +99,8 @@
             margin: 0.7rem 0.5rem 0.7rem 0rem;
             .title{
                 font-size: 0.6rem;
-                font-family: 'Lato', sans-serif;
                 text-align: right;
-                color: $ongoingTicketLight;
+                color: #808080;
                 display: -webkit-box;
                 -webkit-line-clamp: 1;
                 -webkit-box-orient: vertical;
@@ -122,33 +108,16 @@
             .text-bubble{
                 position: relative;
                 padding: 0.5rem 0.5rem 0 0.5rem;
-                border-radius: 0.6rem 0 0.6rem 0.6rem; 
-                box-shadow: 0rem 1px 1px rgba(0, 0, 0, 0.2) ;
+                border-radius: 1.2rem 0 1.2rem 1.2rem; 
+                box-shadow: 3px 2px 5px rgba(0, 0, 0, 0.1) ;
                 font-size: 0.7rem;
-                color: black;
-                font-family: 'Lato', sans-serif;
+                color: #595959;
                 text-align: right;
-                width: 80%;
+                width: max-content;
                 letter-spacing: 0.5px;
-                background: #8c9af22a;
-                margin-right: 10px;
+                background: #fff;
                 display: block;
                 margin-left: auto;
-                ::before{
-                    content: '';
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                    width: 0;
-                    
-                    height: 0;
-                    border: 10px solid transparent;
-                    border-left-color: #8c9af22a;
-                    border-right: 0;
-                    border-top: 0;
-                    margin-top: 0px;
-                    margin-right: -10px;
-                }
                 .footer{
                     margin-top: 0.5rem;
                     padding: 0.1rem;
@@ -164,7 +133,6 @@
             border-radius: 0.6rem; 
             font-size: 0.7rem;
             color: white;
-            font-family: 'Lato', sans-serif;
             width: 80%;
             margin-bottom: 0.7rem;
             box-shadow: 0rem 1px 1px rgba(0, 0, 0, 0.2) ;
@@ -200,8 +168,13 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    border-radius: 20rem;
-                    border: 1px solid #aaa;
+                    cursor: pointer;
+                    a{
+                        .material-icons{
+                            color: white;
+                            font-size: 22px;
+                        }
+                    }
                 }
             }
             .body{
@@ -227,8 +200,7 @@
         .fileOperator{
             display: block;
             margin-right: auto;
-            margin-left: 10px;
-            background: $ongoingTicketDark;
+            background: $dark-blue;
             .header{
                 .wrapper{
                     .title{

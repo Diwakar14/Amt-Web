@@ -1,3 +1,4 @@
+import { PusherService } from './../../pusher.service';
 import { UIService } from './../../services/ui.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
@@ -9,11 +10,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  channel: any;
   constructor(
     public authSerive: AuthService, 
     public router: Router,
     
     private activatedRoute: ActivatedRoute,  
+    private pusherService: PusherService,
     private state: UIService) {
       this.activatedRoute.data.subscribe((data:any) => {
         this.state.updateApprovalToolbarMessage(data.title);
@@ -35,7 +38,7 @@ export class DashboardComponent implements OnInit {
         this.style.main = '100%';
         this.style.sidebar = '16%';
       } 
-    })
+    });
   }
 
 

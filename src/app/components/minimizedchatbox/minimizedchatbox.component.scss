@@ -26,6 +26,10 @@
         }
         .content{
             cursor: pointer;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
             .name{
                 font-size: 0.8rem;
                 margin-right: .5rem;

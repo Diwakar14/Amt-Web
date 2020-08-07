@@ -47,7 +47,16 @@ p{
     background: #5ebf00;
     z-index: 1;
 }
-
+.reload{
+    cursor: pointer;
+}
+.reload:active{
+    transform: scale(0.9);
+}
+.reload:hover{
+    animation: rotateReload ease 2s;
+    animation-iteration-count: 1;
+}
 .ellipses{
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -87,4 +96,16 @@ body{
     .ellipses{
         max-width: 220px;
     }
+  }
+
+  @keyframes rotateReload{
+      0%{
+          transform: rotate(0deg);
+      }
+      50%{
+          transform: rotate(360deg);
+      }
+      100%{
+          transform: rotate(0deg);
+      }
   }

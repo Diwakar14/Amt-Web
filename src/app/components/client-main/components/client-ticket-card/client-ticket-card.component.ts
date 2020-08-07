@@ -1,6 +1,7 @@
+import { switchMap } from 'rxjs/operators';
 import { UIService } from 'src/app/services/ui.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-client-ticket-card',
@@ -14,40 +15,33 @@ export class ClientTicketCardComponent implements OnInit {
   closed = 0;
   userId: any;
 
+  @Input() clientId;
+  @Output() change = new EventEmitter();
   constructor(private userService: UserserviceService,
     private uiService: UIService
     ) { }
 
   ngOnInit(): void {
-    this.uiService.currentApprovalStageRefreshMessage.subscribe(() => {
-      this.getStats();
-    })
+    // this.uiService.currentApprovalStageRefreshMessage.subscribe(() => {
+    //   this.getStats();
+    // })
 
     this.getStats();
   }
 
   getStats(){
-    this.uiService.currentApprovalStageMessage.subscribe(data => {
-      let user = JSON.parse(data).users;
-      for (let i = 0; i < user.length; i++) {
-        if(user[i].windowState === true)
-          this.userId = user[i].userId;
+    this.userService.getUserService(this.clientId).subscribe((data: any) => {
+      if(data.success == 1){
+        this.closed = 0;
+        this.ongoing = 0;
+        this.total = 0;
+        data.tickets.map(item => {
+          if(item.status == 'Ongoing') this.ongoing++;
+          else if(item.status == 'Closed') this.closed++;
+          this.total++;
+        });
+        this.change.emit(data);
       }
-
-      this.userService.getUserService(this.userId).subscribe((res: any) => {
-        if(res.success == 1){
-          this.closed = 0;
-          this.ongoing = 0;
-          this.total = 0;
-          res.tickets.map(item => {
-            if(item.status == 'Ongoing') this.ongoing++;
-            else if(item.status == 'Closed') this.closed++;
-            this.total++;
-          });
-        }
-      });
-      
     });
   }
-
 }

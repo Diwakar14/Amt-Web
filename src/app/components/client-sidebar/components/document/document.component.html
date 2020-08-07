@@ -1,28 +1,32 @@
 <div class="document">
     <div class="heading d-flex">
-        <span>Document</span>
-        <button class="btn btn-primary btn-sm ml-auto" data-toggle="modal" data-target="#uploadDocuments">Upload</button>
+        <span class="title">Documents</span>
+        <span class="material-icons ml-auto reload" (click)="reload()">
+            autorenew
+        </span>
+        <!-- <button class="btn btn-primary btn-sm ml-auto" data-toggle="modal" data-target="#uploadDocuments">Upload</button> -->
     </div>
-    <button class="btn btn-danger-theme btn-block" data-toggle="modal" data-target="#createFolder">
+    <button class="btn btn-danger-theme btn-block" (click)="showCreateFolderDialog()">
         <span class="icon mr-2">
             <img src="../../../../../../../assets/img/icons/folder-white.png" width="12px" alt="folder">
         </span>
         <span >Create New Folder</span>
     </button>
     <ul class="list-group mt-2">
-        <div class="list-group-item" *ngFor="let folders of foldersAndDocs.folders">
+        <div class="list-group-item" *ngFor="let folders of foldersAndDocs.folders;index as i">
             <div class="row" 
                 dndDropzone
                 (dndDrop)="onDrop($event, folders.id)"
                 [dndDragoverClass]= "draggable.class"
                 dndPlaceholderRef
-                (click)="viewFolder(folders.id)"
+                (click)="viewFolder(folders.id, i)"
             >
                 <div class="col-sm-2 col-md-2">
                     <img src="../../../../../../../assets/img/icons/folder-purple.png" width="12px" alt="folder">
                 </div>
                 <div class="col-sm col-md">
-                    {{folders.folder}}
+                   <span>{{folders.folder}}</span>
+                   <span style="float: right;">{{folders.documents.length}}</span>
                 </div>
             </div>
         </div>
@@ -44,7 +48,7 @@
 </div>
 <!-- Button trigger modal -->
 
-<div class="modal fade" id="createFolder" data-backdrop="false" 
+<div class="modal fade createFolder" id="createFolder_{{clientData.clientId}}" data-backdrop="false" 
 tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog shadow-lg dialogMargin" role="document">
         <div class="modal-content">
@@ -72,7 +76,14 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
     </div>
 </div>
 
-<div class="modal fade" id="uploadDocuments" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" 
+    id="uploadDocuments_{{clientData.clientId}}" 
+    data-backdrop="false" 
+    tabindex="-1" 
+    role="dialog" 
+    style="z-index: 3000;"
+    aria-labelledby="exampleModalLabel" 
+    aria-hidden="true">
     <div class="modal-dialog modal-xl shadow-lg" role="document" style="width: 800px;">
         <div class="modal-content" >
         <div class="modal-header">
@@ -134,7 +145,7 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
     </div>
 </div>
 
-<div class="modal fade" data-backdrop="false"  id="showFolder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" data-backdrop="false"  id="showFolder_{{clientData.clientId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog shadow-lg borderless modal-xl" role="document" style="width: 950px;">
       <div class="modal-content">
         <div class="modal-header">
@@ -147,7 +158,7 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
             <div class="row">
                 <div class="col-sm-3">
                     <ul class="list-group" id="fileList">
-                        <div class="list-group-item" *ngFor="let folders of foldersAndDocs.folders" id="fol_{{folders.id}}" (click)="showFilesFolder(folders.id)">
+                        <div class="list-group-item" *ngFor="let folders of foldersAndDocs.folders; index as i" id="fol_{{folders.id}}" (click)="showFilesFolder(folders.id, i)">
                             <div class="row"
                                 dndDropzone
                                 [dndDragoverClass]= "draggable.class"
@@ -227,13 +238,14 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
                                     <a class="btn btn-outline-primary btn-sm" *ngIf="file.format=='png' || file.format=='jpg' || file.format=='pdf'" target="_blank" href="{{file.path}}" download="{{file.path}}">
                                         <span class="material-icons">visibility</span>
                                     </a>
-                                    <a class="btn btn-outline-primary btn-sm" href="{{file.path}}" download="{{file.path}}">
+                                    <button class="btn btn-outline-primary btn-sm" (click)="downloadDoc(file)">
                                         <span class="material-icons">get_app</span>
-                                    </a>
+                                    </button>
                                     <button class="btn btn-outline-primary btn-sm" (click)="deleteDocument(file)" >
                                         <span class="material-icons">delete</span>
                                     </button>
                                 </div>
+                                <a #downloadFile></a>
                             </div>
                         </div>
                     </div>
@@ -242,6 +254,7 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
             </div> 
         </div>
         <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-sm" (click)="uploadDocumentDialog()">UPLOAD</button>
           <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
         </div>
       </div>

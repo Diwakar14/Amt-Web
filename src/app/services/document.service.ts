@@ -16,7 +16,7 @@ export class DocumentService {
   }
 
   downloadDoc(documentId){
-    return this.http.get(environment.apiEndPoint + "document/" + documentId);
+    return this.http.get(environment.apiEndPoint + "document/" + documentId, {responseType:'arraybuffer'});
   }
 
   deleteDocument(folderOptions){

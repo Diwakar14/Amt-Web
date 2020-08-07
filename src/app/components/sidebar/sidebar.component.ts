@@ -1,7 +1,9 @@
+import { PusherService } from './../../pusher.service';
 import { UserService } from './../../services/user.service';
-import { UIService } from './../../services/ui.service';
+import { UIService, IClients, ChatboxState } from './../../services/ui.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 declare var $: any;
 @Component({
   selector: 'app-sidebar',
@@ -14,25 +16,25 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   clients = [];
   filteredClients = [];
   userOnlinelist = [];
+  onlineClients = [];
   loader = true;
-  usersList;
-  constructor(private uiService: UIService, private userService: UserService) {
-    this.uiService.currentApprovalStageMessage.subscribe(
-      (res:any) => {
-        this.usersList = res;
-      }
-    )
+  usersList = [];
+  channel: any;
+  constructor(private uiService: UIService, 
+    private pusherService: PusherService,
+    private userService: UserService) {
+    
   }
   ngAfterViewInit(): void {
-    $(".chatList-item").click(function(){
-      $(".chatList-item").removeClass("chatActive");
-      $(this).addClass("chatActive");
-    });
+    this.uiService.currentChatboxState.subscribe(
+      (res: any) => {
+        this.usersList = JSON.parse(res).onlineChats;
+      }
+    )
   }
   
   ngOnInit(): void {
     this.loader = true;
-    
     this.userService.AllClients('').subscribe(
       (res:any) => {
         if(res.success == 1){
@@ -45,6 +47,39 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         this.loader = false;
       }
     );
+
+    this.pusherService.channel.bind("pusher:subscription_succeeded", data =>{
+      // console.log("Subscribed -", data);
+      for (const property in data.members) {
+        let onlineMem = data.members[property];
+        this.filteredClients.map(item => {
+          if(item.id == onlineMem.id){
+            item.online = true;
+          }
+        });
+      }
+    });
+    this.pusherService.channel.bind("pusher:subscription_error", data =>{
+      // console.log("Error 1 -",data);
+    });
+    this.pusherService.channel.bind("pusher:member_added", data =>{
+      // console.log("Online  -",data);
+      this.filteredClients.map(item => {
+        if(item.id == data.id){
+          item.online = true;
+        }
+      });
+      // this.filteredClients[0].online = true;
+      // console.log("filtered ", this.filteredClients);
+    });
+    this.pusherService.channel.bind("pusher:member_removed", data =>{
+      // console.log('Offline', data);
+      this.filteredClients.map(item => {
+        if(item.id == data.id){
+          item.online = false;
+        }
+      })
+    });
   }
 
   search(searchData){
@@ -66,39 +101,38 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     );
   }
 
-  userDetails(user){
-    let userObj = {
-      userId:''+user.id+'',
-      windowState: true,
-      name:''+user.name+'',
+  userDetails(user, i){
+    let chatboxState: ChatboxState = new ChatboxState();
+    let clientDetails: IClients = {
+      clientId: '' + user.id + '',
+      name: '' + user.name + '',
       email: '' + user.email + '',
-      phone: '' + user.phone + ''
-    }
-    let parsedList = JSON.parse(this.usersList);   
-    this.userOnlinelist = parsedList.users;
+      phone: user.phone,
+      chat: '' + user.chat.chat_room,
+      index: i
+    };
 
-    let finduser = parsedList.users.find(m => parseInt(m.userId) === parseInt(userObj.userId));
-    this.closeAllboxes();
+    let finduser = this.usersList.findIndex((m: ChatboxState) => parseInt(m.clients.clientId) === parseInt(clientDetails.clientId));
 
-    if(!finduser){
-      this.userOnlinelist.push(userObj);
-      this.uiService.updateApprovalMessage({
-        users: this.userOnlinelist
-      });
+    if(finduser == -1){
+      chatboxState.windowState = 'opened';
+      chatboxState.clients = clientDetails;
+      this.usersList.push(clientDetails);
+      this.uiService.addNewChatboxState(chatboxState);
     }else{
-      this.closeAllboxes();
-      this.uiService.updateApprovalMessage({
-        users: this.userOnlinelist
-      });
+      let state = 'opened';
+      this.uiService.updateChatboxState(state, finduser);
     }
+    this.addActiveClass(i);
   }
 
-  closeAllboxes(){
-    if(this.userOnlinelist.length > 0) {
-      this.userOnlinelist.forEach(ele => {
-        ele.windowState = false
-      });
-    }
+  reload(){
+    this.ngOnInit();
   }
-
+  addActiveClass(index){
+    let items = document.querySelectorAll(".chatList-item");
+    items.forEach(item => item.classList.remove('chatActive'));
+    let itemActive = document.querySelector('#chats_'+ index);
+    itemActive.classList.add('chatActive');
+  }
 }

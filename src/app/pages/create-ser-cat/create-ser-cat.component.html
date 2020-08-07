@@ -8,7 +8,7 @@
               <tr>
                 <th scope="col" class="text-center">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Description</th>
+                <!-- <th scope="col">Description</th> -->
                 <th scope="col" class="text-right">Action</th>
               </tr>
             </thead>
@@ -16,7 +16,7 @@
               <tr *ngFor="let cat of allServiceCat; index as i">
                 <th scope="row" class="text-center">{{i+1}}</th>
                 <td>{{cat.name}}</td>
-                <td>{{cat.description}}</td>
+                <!-- <td>{{cat.description}}</td> -->
                 <td class="text-right">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-outline-primary btn-sm" (click)="edit(cat)">
@@ -54,16 +54,17 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <div class="form-group">
                             <label for="">Name</label>
-                            <input type="text" name="serviceCat" id="" 
+                            <input type="text" name="serviceCat" 
                             class="form-control" 
                             [(ngModel)]="serviceCategory.name" 
                             placeholder="Enter Service Category"
+                            name="serviceName"
                             required>
                         </div>
                         <div class="form-group">
                             <label for="">Descriptions</label>
                             <textarea class="form-control" 
-                            name="desc" id="" cols="30" rows="5" 
+                            name="serviceDescription" cols="30" rows="5" 
                             [(ngModel)]="serviceCategory.description" 
                             placeholder="Enter Description of the Category"
                             required></textarea>
@@ -94,18 +95,20 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <div class="form-group">
                             <label for="">Name</label>
-                            <input type="text" name="serviceCat" id="" 
+                            <input type="text" name="serviceCat" 
                             class="form-control" 
                             [(ngModel)]="serviceCategory.name" 
                             placeholder="Enter Service Category"
+                            name="serviceName"
                             required>
                         </div>
                         <div class="form-group">
                             <label for="">Descriptions</label>
                             <textarea class="form-control" 
-                            name="desc" id="" cols="30" rows="5" 
+                            name="descService" cols="30" rows="5" 
                             [(ngModel)]="serviceCategory.description" 
                             placeholder="Enter Description of the Category"
+                            
                             required></textarea>
                         </div>
                         <div class="form-group">

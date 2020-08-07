@@ -1,8 +1,9 @@
+import { environment } from './../../../../../environments/environment';
 import { DocumentService } from '../../../../services/document.service';
 import { FolderService } from '../../../../services/folder.service';
 import { NgForm } from '@angular/forms';
 import { Folder } from '../../../../models/folderModel';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { DndDropEvent } from 'ngx-drag-drop';
 import { HttpEventType, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
@@ -36,10 +37,12 @@ export class DocumentComponent implements OnInit {
     folder:'',
     documents: []
   };
-
-  documentFileList = [];
-  @ViewChild('documentFile', {static: false}) documentFile:ElementRef;
   userId: any;
+  documentFileList = [];
+  @Input() clientData;
+  @ViewChild('documentFile', {static: false}) documentFile:ElementRef;
+  @ViewChild('downloadFile', {static: false}) download:ElementRef<HTMLAnchorElement>;
+  
 
   constructor(private folderService: FolderService, 
     private uiService: UIService,
@@ -51,20 +54,8 @@ export class DocumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.uiService.currentApprovalStageMessage.subscribe(
-      (res: any) => {
-        let data = JSON.parse(res);
-        for (let i = 0; i < data.users.length; i++) { 
-          if(data.users[i].windowState === true){
-            this.userId = data.users[i].userId;
-            this.getFolders(data.users[i].userId);
-          }
-        }
-      },
-      err => {
-        console.log("Error Occured: ", err);
-      }
-    )
+    this.userId = this.clientData.clientId;
+    this.getFolders(this.userId);
   }
 
   getFolders(userId){
@@ -74,13 +65,15 @@ export class DocumentComponent implements OnInit {
       this.foldersAndDocs.orphan_docs = item.orphan_docs;
     });
   }
-
+  showCreateFolderDialog(){
+    $("#createFolder_" + this.clientData.clientId).modal('show');
+  }
   createFolder(f:NgForm){
     this.submitFolder = true;
     this.folderService.createNewFolder(this.folderM, this.userId).subscribe(
       res =>{
         f.reset();
-        $("#createFolder").modal('hide');
+        $("#createFolder_" + this.clientData.clientId).modal('hide');
         this.submitFolder = false;
         this.ngOnInit();
       },
@@ -89,23 +82,30 @@ export class DocumentComponent implements OnInit {
       }
     );
   }
-  showFilesFolder(folderId){
+  showFilesFolder(folderId, i){
     let files = this.foldersAndDocs.folders.find(f => f.id == folderId);
     this.filesInFolder = files;
     this.folderId = folderId;
     this.addActiveClass(folderId);
   }
 
-  viewFolder(folderId){
-    $('#showFolder').modal('show');
+  viewFolder(folderId, i){
+    $('#showFolder_' + this.clientData.clientId).modal('show');
     let files = this.foldersAndDocs.folders.find(f => f.id == folderId);
-    this.filesInFolder = files;
+    this.folderService.getAllFolders(this.userId, folderId).subscribe((res: any) => {
+      this.filesInFolder = res.folders[i]
+    })
+    // this.filesInFolder = files;
     this.addActiveClass(folderId);
   }
 
   showfiles(){
     let file = this.documentFile.nativeElement.files;
     this.documentFileList = file;
+  }
+
+  uploadDocumentDialog(){
+    $('#uploadDocuments_' + this.clientData.clientId).modal('show');
   }
 
   uploadDocuments(f:NgForm){
@@ -133,7 +133,7 @@ export class DocumentComponent implements OnInit {
             this.ngOnInit();
             this.progress.complete = false;
             this.submitDoc = false;
-            $("#uploadDocuments").modal('hide');
+            $("#uploadDocuments_" + this.clientData.clientId).modal('hide');
             Notiflix.Notify.Success('File Uploaded !');
             return event;
         }
@@ -145,7 +145,7 @@ export class DocumentComponent implements OnInit {
       }))
     ).subscribe((event: any) => {  
         if (typeof (event) === 'object') {  
-          console.log(event.body);  
+          // console.log(event.body);  
           f.reset();
           this.isProgress = false;
         }  
@@ -161,7 +161,7 @@ export class DocumentComponent implements OnInit {
         this.getFolders(this.userId);
 
         setTimeout(() => {
-           this.showFilesFolder(document.folder_id);
+           this.showFilesFolder(document.folder_id, 1);
         }, 1000);
        
       },
@@ -191,7 +191,7 @@ export class DocumentComponent implements OnInit {
         this.getFolders(this.userId);
 
         setTimeout(() => {
-           this.showFilesFolder(this.folderId);
+           this.showFilesFolder(this.folderId, 1);
         }, 1000);
       },
       err => {
@@ -200,16 +200,24 @@ export class DocumentComponent implements OnInit {
     )
   }
 
-  downloadFile(documentId){
-    this.documentService.downloadDoc(documentId).subscribe((res: any) => {
-      if(res.success == 1){
-        console.log(res);
-      }
-    },
-    err => {
-      console.log(err);
-    }
-    )
+  downloadDoc(file){
+    console.log(file);
+    const link = this.download.nativeElement;
+    link.href = environment.apiEndPoint + "document/" + file.id;
+    link.download = file.name;
+    link.click();
+  }
+  private downLoadFile(data: any, type: string, filename: string) {
+    let blob = new Blob([data], { type: type});
+    let url = window.URL.createObjectURL(blob);
+
+    const link = this.download.nativeElement;
+    link.href = url;
+    link.download = filename;
+    link.click();
+  }
+  reload(){
+    this.ngOnInit();
   }
 
   addActiveClass(folderId){

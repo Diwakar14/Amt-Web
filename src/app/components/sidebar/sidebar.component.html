@@ -31,18 +31,22 @@
 
     <div class="chat">
         <div class="chatheader">
-           <div>Clients</div> <div class="d-block ml-auto">{{filteredClients.length}}</div>
+           <div>Clients
+            <span class="material-icons reload ml-1" style="font-size: inherit;" (click)="reload()">autorenew</span>
+           </div> 
+           
+           <div class="d-block ml-auto">{{filteredClients.length}}</div>
         </div>
         <div class="search mx-2 mb-2">
-            <input type="search" class="form-control" placeholder="Search Clients" (keyup)="search($event)" name="search" autocomplete="off">
+            <input type="search" class="form-control" placeholder="Search Clients" #search_client name="search" autocomplete="off">
         </div>
         <div class="loader d-block m-auto" *ngIf="loader">
             <img src="../../../assets/img/loader/loader.svg" width="30px" alt="">
         </div>
         <ul class="chatList">
-            <li class="chatList-item" *ngFor="let user of filteredClients" (click)="userDetails(user)">
+            <li class="chatList-item" *ngFor="let user of filteredClients;index as i" id="chats_{{i}}" (click)="userDetails(user, i)">
                 <div class="media">
-                    <div class="avatar mr-3" [class.online]="user.is_online == 1">
+                    <div class="avatar mr-3" [class.online]="user.online">
                         <img src="../../../assets/img/operator/dummy.png" width="100%" class=" " alt="...">
                     </div>
                     <div class="media-body">

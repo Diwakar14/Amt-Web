@@ -30,7 +30,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: MainComponent
+        component: MainComponent,
+        data: {title:'Dashboard'},
       },
       {
         path: 'addOperator',

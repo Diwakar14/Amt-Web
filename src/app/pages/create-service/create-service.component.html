@@ -8,10 +8,10 @@
               <tr>
                 <th scope="col" width="2%" class="text-center">#</th>
                 <th scope="col" width="10%">Name</th>
-                <th scope="col" width="20%">Documents</th>
-                <th scope="col" width="5%">Amount</th>
-                <th scope="col" width="5%">Eta</th>
-                <th scope="col" width="5%" class="text-center">Actions</th>
+                <!-- <th scope="col" width="20%">Documents</th> -->
+                <!-- <th scope="col" width="5%">Amount</th> -->
+                <!-- <th scope="col" width="5%">Eta</th> -->
+                <th scope="col" width="5%" class="text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -20,10 +20,10 @@
                 <td>
                   <button class="btn btn-link text-left p-0" (click)="showDetails(service.id)">{{service.name}}</button>
                 </td>
-                <td>{{service.documents}}</td>
+                <!-- <td>{{service.documents}}</td>
                 <td>{{service.amount|currency:'₹'}}</td>
-                <td>{{service.eta}}</td>
-                <td class="text-center">
+                <td>{{service.eta}}</td> -->
+                <td class="text-right">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-outline-primary btn-sm" (click)="edit(service)">
                           <span class="material-icons">edit</span>

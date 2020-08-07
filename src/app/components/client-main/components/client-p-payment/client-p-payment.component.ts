@@ -1,6 +1,6 @@
 import { UIService } from './../../../../services/ui.service';
 import { PaymentsService } from 'src/app/services/payments.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-client-p-payment',
@@ -12,20 +12,12 @@ export class ClientPPaymentComponent implements OnInit {
 
   pendingPayments = [];
   userId;
+  @Input() clientId;
+
   constructor(private uiService:UIService, private paymentService: PaymentsService) { }
 
   ngOnInit(): void {
-    this.uiService.currentApprovalStageMessage.subscribe(data => {
-      let user = JSON.parse(data).users;
-      for (let i = 0; i < user.length; i++) {
-        if(user[i].windowState === true)
-          this.userId = user[i].userId;
-      }
-      this.getPaymentList(this.userId);
-    });
-    this.uiService.currentApprovalStageRefreshMessage.subscribe(() => {
-      this.getPaymentList(this.userId);
-    })
+    this.getPaymentList(this.clientId);
   }
 
 
@@ -33,9 +25,12 @@ export class ClientPPaymentComponent implements OnInit {
     this.paymentService.getPaymentList(userid).subscribe(
       (res:any) => {
         this.pendingPayments = res.payments;
-        console.log(this.pendingPayments);
       }
     )
+  }
+
+  reload(){
+    this.ngOnInit();
   }
 
 }

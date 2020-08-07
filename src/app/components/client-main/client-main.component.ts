@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-client-main',
@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientMainComponent implements OnInit {
 
+  @Input() chatData;
+  userServiceData;
+
   constructor() { }
 
   ngOnInit(): void {
+    
+  }
+
+  someSentData(data){
+    this.userServiceData = data;
   }
 
 }

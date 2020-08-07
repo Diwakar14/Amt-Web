@@ -13,14 +13,23 @@ import { Component, OnInit, Input, AfterContentInit, AfterViewInit } from '@angu
 
       // transition('initial <=> final', animate('600ms cubic-bezier(.87,0,.01,1.01)')),
       // transition('final => initial', animate('600ms cubic-bezier(.87,0,.01,1.01)')),
-      transition('void => *', [
-          style({opacity: 0, width:'0%', height:'0%'}),
-          animate('400ms cubic-bezier(.87,0,.01,1.01)')
-      ]),
-      transition('* => void', [
-          style({opacity:1, width:'90%', height:'90%'}),
-          animate('400ms cubic-bezier(.87,0,.01,1.01)')
-      ])
+      // state('void', )
+      //   transition('void => *', [
+      //       style({opacity: 0, width:'0%', height:'0%'}),
+      //       animate('400ms cubic-bezier(.87,0,.01,1.01)')
+      //   ]),
+      //   transition('* => void', [
+      //       style({opacity:1, width:'90%', height:'90%'}),
+      //       animate('400ms cubic-bezier(.87,0,.01,1.01)')
+      //   ])
+        transition('void => *', [
+            style({opacity: 0, width:'0%', height:'0%'}),
+            animate('400ms cubic-bezier(.87,0,.01,1.01)')
+        ]),
+        transition('* => void', [
+            style({opacity:1, width:'90%', height:'90%'}),
+            animate('400ms cubic-bezier(.87,0,.01,1.01)')
+        ])
       ])
     ]
   })
@@ -30,6 +39,8 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
   @Input() windowState;
   @Input() chatData;
+  @Input() index;
+
   loading = true;
   userState = {
     user: {
@@ -39,36 +50,25 @@ export class ClientComponent implements OnInit, AfterViewInit {
     }
   };
 
-  @Input() index;
   windowStateInput;
 
-  ngOnInit(): void {
+  ngOnInit(): void {   
     this.userState.user.name = this.chatData.name;
-    this.userState.user.userId = this.chatData.userId;
-    this.userState.user.windowState = this.chatData.windowState;
+    this.userState.user.userId = this.chatData.clientId;
   }
 
   ngAfterViewInit(){
-    setTimeout(() => {
-      this.loading = false;
-    },3000);
+   
   }
+
   close(){
-    let currentState = [];
-    let userObj = {
-      userId:''+this.userState.user.userId+'',
-      windowState: false,
-      name:''+this.userState.user.name+''
-    }
+    let state = 'closed';
+    this.uiService.updateChatboxState(state, this.index);
+  }
 
-    this.uiService.currentApprovalStageMessage.subscribe((changes) => {
-      currentState = JSON.parse(changes).users;
-    });
 
-    let index = currentState.findIndex(m => parseInt(m.userId) === parseInt(userObj.userId));
-    currentState.splice(index, 1);
-    this.uiService.updateApprovalMessage({
-      users: currentState
-    })
+  minimize(){
+    let state = 'minimized';
+    this.uiService.updateChatboxState(state, this.index);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-client-sidebar',
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientSidebarComponent implements OnInit {
 
+  @Input() chatData;
   constructor() { }
 
   ngOnInit(): void {
