@@ -70,7 +70,8 @@ export class DocumentComponent implements OnInit {
   }
   createFolder(f:NgForm){
     this.submitFolder = true;
-    this.folderService.createNewFolder(this.folderM, this.userId).subscribe(
+    this.folderM.user = this.userId;
+    this.folderService.createNewFolder(this.folderM).subscribe(
       res =>{
         f.reset();
         $("#createFolder_" + this.clientData.clientId).modal('hide');

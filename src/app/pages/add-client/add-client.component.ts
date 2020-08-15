@@ -41,6 +41,7 @@ export class AddClientComponent implements OnInit {
         this.submit = false;
         Notiflix.Notify.Success(res.message);
         this.form.reset();
+        location.reload();
       }
     },
     err => {

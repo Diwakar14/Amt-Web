@@ -13,10 +13,13 @@ export class UserserviceService {
   getUserService(userId: number){
     return this.http.get(environment.apiEndPoint+'user_service/' + userId);
   }
+  getUserServiceStatus(serviceId: number,){
+    return this.http.get(environment.apiEndPoint+'user_service/'+serviceId+'/status');
+  }
   createUserService(usersService){
     return this.http.post(environment.apiEndPoint+'user_service', usersService);
   }
-  updateUserService(serviceId: number){
-    return this.http.get(environment.apiEndPoint+'user_service/' + serviceId)
+  updateUserService(serviceId: number, status){
+    return this.http.put(environment.apiEndPoint + 'user_service/' + serviceId, status)
   }
 }

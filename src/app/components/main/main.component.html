@@ -1,7 +1,7 @@
 <div class="tile">
     <app-banner></app-banner>
-    <app-tickets></app-tickets>
-    <app-ongoing-ticket></app-ongoing-ticket>
+    <app-tickets [data]="dashboard" *ngIf="dashboard"></app-tickets>
+    <app-ongoing-ticket [data]="dashboard" *ngIf="dashboard"></app-ongoing-ticket>
 </div>
 
 

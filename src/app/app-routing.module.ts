@@ -34,14 +34,14 @@ const routes: Routes = [
         data: {title:'Dashboard'},
       },
       {
-        path: 'addOperator',
+        path: 'operator-add',
         component: AddOperatorComponent,
         data: {title:'Add Operator'},
       },
       {
-        path: 'operatorList',
+        path: 'operator',
         component: OperatorListComponent,
-        data: {title:'Operator List'},
+        data: {title:'All Operator'},
       },
       {
         path: 'notifications',

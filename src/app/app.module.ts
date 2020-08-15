@@ -1,3 +1,4 @@
+import { LocaleServiceService } from './services/locale-service.service';
 import { JwtInterceptor } from './services/jwt.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -44,12 +45,14 @@ import { CreateServiceComponent } from './pages/create-service/create-service.co
 import { MenuComponent } from './components/menu/menu.component';
 import { SubmenuComponent } from './components/submenu/submenu.component';
 import { NotifListComponent } from './pages/notif-list/notif-list.component';
+import { MomentModule } from 'ngx-moment';
 
 // for Router import:
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 // for Core import:
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { DatetimeFormaterPipe } from './pipes/datetime-formater.pipe';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,8 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     CreateServiceComponent,
     MenuComponent,
     SubmenuComponent,
-    NotifListComponent
+    NotifListComponent,
+    DatetimeFormaterPipe
   ],
   imports: [
     BrowserModule,
@@ -98,6 +102,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     // for Router use:
     LoadingBarRouterModule,
     // for Core use:
+    
     LoadingBarModule,
     NgCircleProgressModule.forRoot(
       {
@@ -112,6 +117,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     DndModule
   ],
   providers: [
+    LocaleServiceService,
     CookieService,
     {
       provide: HTTP_INTERCEPTORS,

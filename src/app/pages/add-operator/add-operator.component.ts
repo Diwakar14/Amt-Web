@@ -13,6 +13,7 @@ declare var Notiflix:any;
 export class AddOperatorComponent implements OnInit {
 
   submit = false;
+  operatorId;
 
   operator:Operator = new Operator();
   constructor(
@@ -29,7 +30,6 @@ export class AddOperatorComponent implements OnInit {
   ngOnInit(): void {
   }
   createOperator(f:NgForm){
-    console.log(this.operator);
     this.submit = true;
     this.operatorService.createOperator(this.operator).subscribe(
       res => {

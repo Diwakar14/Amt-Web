@@ -8,14 +8,14 @@
         </app-submenu>
         <app-submenu [title]="'Client'" [logo]="'../../../assets/img/icons/client-white.png'">
             <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/addClient">Add Client</li>
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/clientList">Client List</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/clientList">All Clients</li>
         </app-submenu>
         <app-submenu [title]="'Operator'" [logo]="'../../../assets/img/icons/operator-white.png'">
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/addOperator">Add Operator</li>
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/operatorList">Operator List</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/operator-add">Add Operator</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/operator">All Operators</li>
         </app-submenu>
         <app-submenu [title]="'Products'" routerLinkActive="activeSidebar" [logo]="'../../../assets/img/icons/product-white.png'">
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/createSerCat">Service Category</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/createSerCat">Category</li>
             <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/createService">Services</li>
             <!-- <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/createBroadcast">Broadcasts</li> -->
             <!-- <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/notifications">Notifications</li> -->
@@ -44,7 +44,7 @@
             <img src="../../../assets/img/loader/loader.svg" width="30px" alt="">
         </div>
         <ul class="chatList">
-            <li class="chatList-item" *ngFor="let user of filteredClients;index as i" id="chats_{{i}}" (click)="userDetails(user, i)">
+            <li class="chatList-item" *ngFor="let user of filteredClients;index as i" id="chats_{{i}}" (click)="userDetails(user, i)" @fadeAnimation>
                 <div class="media">
                     <div class="avatar mr-3" [class.online]="user.online">
                         <img src="../../../assets/img/operator/dummy.png" width="100%" class=" " alt="...">

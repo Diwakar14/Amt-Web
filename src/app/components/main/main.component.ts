@@ -1,3 +1,4 @@
+import { DashboardService } from './../../services/dashboard.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UIService } from 'src/app/services/ui.service';
@@ -9,13 +10,22 @@ import { UIService } from 'src/app/services/ui.service';
 })
 export class MainComponent implements OnInit {
 
-  constructor( private activatedRoute: ActivatedRoute,
+  dashboard;
+  constructor(private activatedRoute: ActivatedRoute,
+    private dashboardService: DashboardService,
     private state: UIService) { }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data:any) => {
       this.state.updateApprovalToolbarMessage(data.title);
     });
+
+    this.dashboardService.getDashboardData().subscribe((res: any) => {
+      this.dashboard = res.dashboard;
+      console.log(this.dashboard);
+    }, err => {
+      console.log(err);
+    })
   }
 
 }

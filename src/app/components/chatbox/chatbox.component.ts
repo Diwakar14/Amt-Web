@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ChatService } from '../../services/chat.service';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
 import { debounceTime, take } from 'rxjs/operators';
+declare var Notiflix: any;
 
 @Component({
   selector: 'app-chatbox',
@@ -38,8 +39,6 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
   
   constructor(
     private chatService: ChatService, 
-    private cookie:CookieService,
-    private uiService: UIService,
     private documentService: DocumentService,
     private pusherService: PusherService) { 
       
@@ -55,19 +54,25 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
       .pipe(debounceTime(3000))
       .subscribe(
         (res:any) => { 
-          this.allChats = res;
-          this.chatboxlist.nativeElement.scrollTop = this.chatboxlist.nativeElement.scrollHeight;
+          // this.allChats = res;
+          this.allChats = this.processChatList(res);
+          setTimeout(() => {
+            this.chatboxlist.nativeElement.scrollTop = this.chatboxlist.nativeElement.scrollHeight;
+          }, 1)
         }
     );
 
-    this.pusherService.subscribeForChatBox(this.chatData.chat);
-    this.pusherService.chatBoxChannel.bind("pusher:subscription_succeeded", (data) => {
-      // console.log(data);
-    })
-    
+    if(this.chatData.chat){
+      this.pusherService.subscribeForChatBox(this.chatData.chat);
+    }else{
+      Notiflix.Notify.Success("You are not joined to chat room.");
+    }
     this.pusherService.chatBoxChannel.bind("chat-message", data =>{
       this.allChats.messages.push(JSON.parse(data.message));
-      // console.log(this.allChats);
+      setTimeout(() => {
+        this.processChatList(this.allChats);
+        this.chatboxlist.nativeElement.scrollTop = this.chatboxlist.nativeElement.scrollHeight;
+      })
     });
   }
 
@@ -78,8 +83,8 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < files.length; i++) {
       formdata.append('documents['+i+']', files[i]);
     }
-    formdata.append('chat', this.chatId);
-    formdata.append('folder', '0');
+    formdata.append('user', this.userId);
+    formdata.append('chat', this.chatData.chat);
     this.documentService.uploadDocument(formdata, this.userId).pipe(
       debounceTime(3000),
     ).subscribe(
@@ -93,23 +98,24 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
   }
   sendMessage(){
     this.chat.chat = this.chatData.chat;
-    console.log(this.chat);
-    this.chatService.sendChat(this.chat).pipe(
-      take(1),
-      debounceTime(3000))
-      .subscribe(
-        res => {
-          this.chatboxlist.nativeElement.scrollTop = this.chatboxlist.nativeElement.scrollHeight;
-        },
-        err => {
-          console.log(err);
-        }
-      )
-    this.chat.text = '';
+    if(this.chat.text){
+      this.chatService.sendChat(this.chat).pipe(
+        take(1),
+        debounceTime(3000))
+        .subscribe(
+          res => {
+            this.chatboxlist.nativeElement.scrollTop = this.chatboxlist.nativeElement.scrollHeight;
+            this.processChatList(this.allChats);
+          },
+          err => {
+            console.log(err);
+          }
+        )
+      this.chat.text = '';
+    }
   }
 
   downloadDoc(chat){
-    console.log(chat);
     this.documentService.downloadDoc(chat.preview.id).subscribe((res: any) => {
       this.downLoadFile(res, chat.preview.type, chat.preview.name);
     })
@@ -123,5 +129,36 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
     link.href = url;
     link.download = filename;
     link.click();
+  }
+
+  processChatList(chats: any){
+    let datetimeChecker = new Date();
+    let flag = '';
+    let uniqueUser = '';
+    for (let i = 0; i < chats.messages.length; i++) {
+      let date = this.formateTime(chats.messages[i].created_at);
+      if(datetimeChecker.toLocaleDateString() == date.toLocaleDateString()){
+        if(flag != date.toLocaleDateString()){
+          chats.messages[i].currentState = 'Today';
+          flag = date.toLocaleDateString();
+        }
+      }else{
+        if(flag != date.toLocaleDateString()){
+          chats.messages[i].state = date;
+          flag = date.toLocaleDateString();
+        }
+      }
+
+      if(chats.messages[i].sender_id != uniqueUser){
+        chats.messages[i].unique = true;
+        uniqueUser = chats.messages[i].sender_id;
+      }
+    }
+    console.log(chats);
+    return chats;
+  }
+
+  formateTime(date){
+    return new Date(date + ' UTC');
   }
 }

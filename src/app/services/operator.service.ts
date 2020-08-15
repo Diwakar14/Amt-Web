@@ -16,7 +16,7 @@ export class OperatorService {
   createOperator(operator: Operator){
     return this.http.post(environment.apiEndPoint + "users", operator);
   }
-  updateOperator(operator: Operator, id){
+  updateOperator(operator: any, id){
     return this.http.put(environment.apiEndPoint + "users/" + id, operator);
   }
 }

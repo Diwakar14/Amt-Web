@@ -1,6 +1,10 @@
 
-<div class="overlay" *ngIf="windowState=='opened'"></div>
-<div class="client shadow"  [@slideUp]="windowState == 'opened'" [hidden]="windowState == 'minimized'">
+<!-- <div class="overlay" *ngIf="windowState=='opened'"></div> -->
+<!-- [@maximize]="windowState == 'opened'?'maximized':''"  -->
+
+<div class="client shadow"  
+[@slideUp]="windowState == 'opened'?'opened':''"
+[@slideDown]="windowState == 'minimized'?'minimized':''">
     <div class="header d-flex">
         {{userState.user.name || '-'}}
         <div class="ml-auto">

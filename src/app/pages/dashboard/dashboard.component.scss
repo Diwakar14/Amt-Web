@@ -1,3 +1,5 @@
+@import '../../../variables';
+
 section{
     display: flex;
     width: 100%;
@@ -9,8 +11,68 @@ section{
     overflow-y: auto;
     height: 100vh;
 }
+.actual{
+    display: flex;
+    justify-content: center;
+}
 
+.online::after{
+    background: #fe6d8e !important;
+    animation: flash cubic-bezier(0.6, -0.28, 0.735, 0.045) .5s;
+    animation-iteration-count: 3;
+}
+.chatbox{
+    border-radius: 1rem 1rem 0 0;
+    padding: .5rem 1rem;
+    color: white;
+    display: flex;
+    width: 15rem;
+    margin-left: 1rem;
+    background: $dark-blue;
+    &:hover{
+        background-color: $totalTicketDark;
+        cursor: pointer;
+    }
+    .content{
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        .name{
+            font-size: 0.8rem;
+            margin-right: .5rem;
+        }
+        .service{
+            margin-left: .5rem;
+            font-size: 0.6rem;
+            color: #aaa;
+        }
+    }
+    .avatar{
+        border-radius: 5rem;
+        width: 30px;
+        height: 30px;
+    }
+    .avatar img{
+        border-radius: 5rem;
+    }
+}
+.ellipses{
+    max-width: 150px;
+}
 app-sidebar{
     width: 16%;
     transition: all cubic-bezier(0.54, 0.01, 0, 0.99) .3s;
+}
+@keyframes flash{
+    0%{
+        box-shadow: 0 0 0 #fe6d8f23;
+    }
+    50%{
+        box-shadow: 0 0 5px #fe6d8f81;
+    }
+    100%{
+        box-shadow: 0 0 10px #fe6d8f;
+    }
 }

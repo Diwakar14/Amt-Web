@@ -1,16 +1,4 @@
 <div class="minimizedChatBox">
-    <div class="chatbox" *ngFor="let chat of minimizedChats; index as i" (click)="openDialog(i)">
-        <div class="avatar online mr-3">
-            <img src="../../../assets/img/operator/dummy.png" width="100%" class=" " alt="...">
-        </div>
-        <div class="content" >
-            <span class="name ellipses">{{chat.clients.name || '-'}}</span>
-            <span class="ml-auto material-icons" style="font-size: inherit;" (click)="close(i)">clear</span>
-        </div>
-    </div>
-    <div class="actual">
-        <ng-template ngFor let-chat [ngForOf]="minimizedChats" let-i=index>
-            <app-client [index]="i" [windowState]="chat.windowState" [chatData]="chat.clients"></app-client>
-        </ng-template>
-    </div>
+    <ng-content select=".chatbox"></ng-content>
+    <ng-content select=".actual"></ng-content>
 </div>

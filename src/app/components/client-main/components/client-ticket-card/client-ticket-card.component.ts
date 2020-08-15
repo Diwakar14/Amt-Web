@@ -16,32 +16,26 @@ export class ClientTicketCardComponent implements OnInit {
   userId: any;
 
   @Input() clientId;
-  @Output() change = new EventEmitter();
+  @Input() userServiceData;
+ 
   constructor(private userService: UserserviceService,
     private uiService: UIService
     ) { }
 
   ngOnInit(): void {
-    // this.uiService.currentApprovalStageRefreshMessage.subscribe(() => {
-    //   this.getStats();
-    // })
-
     this.getStats();
   }
 
   getStats(){
-    this.userService.getUserService(this.clientId).subscribe((data: any) => {
-      if(data.success == 1){
-        this.closed = 0;
-        this.ongoing = 0;
-        this.total = 0;
-        data.tickets.map(item => {
-          if(item.status == 'Ongoing') this.ongoing++;
-          else if(item.status == 'Closed') this.closed++;
-          this.total++;
-        });
-        this.change.emit(data);
-      }
-    });
+    if(this.userServiceData.success == 1){
+      this.closed = 0;
+      this.ongoing = 0;
+      this.total = 0;
+      this.userServiceData.tickets.data.map(item => {
+        if(item.status == 'Ongoing') this.ongoing++;
+        else if(item.status == 'Closed') this.closed++;
+        this.total++;
+      });
+    }
   }
 }

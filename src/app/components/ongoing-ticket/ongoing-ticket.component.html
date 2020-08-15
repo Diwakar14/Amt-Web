@@ -3,93 +3,32 @@
         OnGoing Tickets
     </div>
     <div class="body">
-        <table class="table text-center">
+        <table class="table">
             <thead>
               <tr>
-                <th scope="col"></th>
-                <th scope="col">NAME</th>
-                <th scope="col">SERVICE AVAILED</th>
-                <th scope="col">STATUS</th>
+                <th scope="col" width="1%"></th>
+                <th scope="col"  width="15%">NAME</th>
+                <th scope="col"  width="20%">SERVICE AVAILED</th>
+                <th scope="col"  width="15%" class="text-center">STATUS</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr *ngFor="let ticket of ongoingService; index as i">
                 <th>
-                  <div class="avatar border">
-                    <img src="../../../assets/img/operator/dummy.png" alt="" width="100%">
-                  </div>
+                  {{i+1}}
                 </th>
-                <td>John Doe</td>
-                <td>GST Filing & Consulation | GST Return Filing</td>
+                <td>{{ticket.client.name}} </td>
                 <td>
-                  <div class="row">
-                    <div class="col-sm">
-                      Documents Uploaded
-                    </div>
-                    <div class="col-sm">
-                      <button class="btn btn-primary">UPDATE STATUS</button>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>
-                  <div class="avatar border">
-                    <img src="../../../assets/img/operator/dummy.png" alt="" width="100%">
-                  </div>
-                </th>
-                <td>Mary Williams</td>
-                <td>PAN/TAN Application</td>
-                <td>
-                  <div class="row">
-                    <div class="col-sm">
-                      Documents Uploaded
-                    </div>
-                    <div class="col-sm">
-                      <button class="btn btn-primary">UPDATE STATUS</button>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>
-                  <div class="avatar border">
-                    <img src="../../../assets/img/operator/dummy.png" alt="" width="100%">
-                  </div>
-                </th>
-                <td>William</td>
-                <td>ROC Services | Company Formation</td>
-                <td>
-                  <div class="row">
-                    <div class="col-sm">
-                      Documents Uploaded
-                    </div>
-                    <div class="col-sm">
-                      <button class="btn btn-primary">UPDATE STATUS</button>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>
-                  <div class="avatar border">
-                    <img src="../../../assets/img/operator/dummy.png" alt="" width="100%">
-                  </div>
-                </th>
-                <td>Inez Massy</td>
-                <td>Larry</td>
-                <td>
-                  <div class="row">
-                    <div class="col-sm">
-                      Documents Uploaded
-                    </div>
-                    <div class="col-sm">
-                      <button class="btn btn-primary">UPDATE STATUS</button>
-                    </div>
-                  </div>
+                  <span *ngIf="ticket.service">
+                    {{ticket.service.name}}
+                  </span>
+                <td class="text-center">
+                  {{ticket.status|uppercase}}
                 </td>
               </tr>
             </tbody>
           </table>
     </div>
 </div>
+
+

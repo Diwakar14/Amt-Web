@@ -9,6 +9,7 @@ export class ClientMainComponent implements OnInit {
 
   @Input() chatData;
   userServiceData;
+  reload
 
   constructor() { }
 
@@ -16,7 +17,7 @@ export class ClientMainComponent implements OnInit {
     
   }
 
-  someSentData(data){
+  getUserServiceData(data){
     this.userServiceData = data;
   }
 

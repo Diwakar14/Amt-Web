@@ -5,91 +5,55 @@
             <input type="text" name="search" autocomplete="off" placeholder="Search Clients" (keyup)="search($event)" class="form-control">
         </div>
     </div>
-    <div class="clientList-card" *ngFor="let client of clients | paginate: config">
-        <div class="row pb-2 border-bottom">
-            <div class="col-sm-3 col-md-3 col-lg-3">
-                <div class="content">
-                    <div class="avatar border">
-                        <img src="../../../assets/img/operator/dummy.png" width="100%"  alt="">
-                    </div>
-                    <div class="text ellipses">
-                        {{client.name || '-'}}
-                    </div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" width="10%">Name</th>
+            <th scope="col" width="10%">Email</th>
+            <th scope="col" width="10%" class="text-center">Phone</th>
+            <th scope="col" width="10%" class="text-center">Total</th>
+            <th scope="col" width="10%" class="text-center">Ongoing</th>
+            <th scope="col" width="10%" class="text-center">Closed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of clients | paginate: config" (click)="openChat(client)">
+            <td>
+                <div class="text ellipses bold-text">
+                {{client.name || '-'}}
                 </div>
-            </div>
-            <div class="col-sm-9 col-md-9 col-lg-9">
-                <div class="content">
-                    <div class="leftSide">
-                        <div class="wrap bar">
-                            <div class="icon" *ngIf="client.phone">
-                                <img src="../../../assets/img/icons/phone.png" width="100%" alt="">
-                            </div>
-                            <div class="text" *ngIf="client.phone">
-                                {{client.phone || '-'}}
-                            </div>
-                        </div>
-                        <div class="wrap" style="padding-left: 1rem;">
-                            <div class="icon " *ngIf="client.email">
-                                <img src="../../../assets/img/icons/mail.png" width="100%" alt="">
-                            </div>
-                            <div class="text" *ngIf="client.email">
-                                {{client.email || '-'}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rightSide">
-                        Online
-                    </div>
+            </td>
+            
+            <td>
+                <div class="text" *ngIf="client.email">
+                    {{client.email || '-'}}
                 </div>
-            </div>
-        </div>
-        <div class="row pt-2" id="lowerRow">
-            <div class="col-sm-3 col-md-3 col-lg-3">
-                <div class="content">
-                    <div class="Ticket ">
-                        <img src="../../../assets/img/operator/total-ticket.png" width="100%" alt="">
-                        <div>Total Ticket</div>
-                    </div>
-                    <div class="totalTicketColor count">
-                        15
-                    </div>
+            </td>
+            <td>
+                <div class="text-center" *ngIf="client.phone">
+                    {{client.phone || '-'}}
                 </div>
-            </div>
-            <div class="col-sm-3 col-md-3 col-lg-3">
-                <div class="content">
-                    <div class="Ticket ongoingTicketColor">
-                        <img src="../../../assets/img/operator/ongoing-ticket.png" width="100%" alt="">
-                        <div>Ongoing Ticket</div>
-                    </div>
-                    <div class="ongoingTicketColor count">
-                        15
-                    </div>
+            </td>
+            <td>
+                <div class="text-center bold-text">
+                    {{client.tickets_count}}
                 </div>
-            </div>
-            <div class="col-sm-3 col-md-3 col-lg-3">
-                <div class="content">
-                    <div class="Ticket closedTicketColor">
-                        <img src="../../../assets/img/client/closed-ticket.png" width="100%" alt="">
-                        <div>Closed Ticket</div>
-                    </div>
-                    <div class="closedTicketColor count">
-                        15
-                    </div>
+            </td>
+            <td>
+                <div class="text-center bold-text">
+                    {{client.open_tickets_count}}
                 </div>
-            </div>
-            <div class="col-sm-3 col-md-3 col-lg-3">
-                <div class="content border-0">
-                    <div class="Ticket pendingTicketColor">
-                        <img src="../../../assets/img/operator/pending-payment.png" width="100%" alt="">
-                        <div>Pending Payments</div>
-                    </div>
-                    <div class="pendingTicketColor count">
-                        15
-                    </div>
+            </td>
+            <td>
+                <div class="text-center bold-text">
+                    {{client.closed_tickets_count}}
                 </div>
-            </div>
-        </div>
-    </div>
+            </td>
+          </tr>
+         
+        </tbody>
+    </table>
+    
     <div class="loader d-block m-auto" *ngIf="loader">
         <img src="../../../assets/img/loader/loader.svg" width="30px" alt="" style="filter: invert(1);">
     </div>

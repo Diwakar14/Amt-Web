@@ -1,3 +1,4 @@
+import { LocaleServiceService } from './services/locale-service.service';
 import { PusherService } from './pusher.service';
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -11,6 +12,10 @@ import Pusher from 'pusher-js';
 })
 export class AppComponent {
   title = 'Ace My Tax';
-  constructor(){
+  constructor(private pusherService: PusherService, private local: LocaleServiceService){
+    console.log("Pusher init().");
+    this.pusherService.init();
+
+    this.local.setDefaultTimezone();
   }
 }

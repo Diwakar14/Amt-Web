@@ -1,9 +1,10 @@
 import { NgForm } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { PaymentsService } from 'src/app/services/payments.service';
 import { ActivatedRoute } from '@angular/router';
 import { UIService } from 'src/app/services/ui.service';
 declare var Notiflix:any;
+declare var Tagify:any;
 declare var $:any;
 
 @Component({
@@ -11,7 +12,7 @@ declare var $:any;
   templateUrl: './create-service.component.html',
   styleUrls: ['./create-service.component.scss']
 })
-export class CreateServiceComponent implements OnInit {
+export class CreateServiceComponent implements OnInit, AfterViewInit {
 
 
   serviceCategory = {
@@ -22,15 +23,19 @@ export class CreateServiceComponent implements OnInit {
     id: null,
     category: null,
     name: '',
+    documents:'',
+    eta:'',
     description: '',
     amount: null,
   }
 
+  tagify;
   serviceDetails;
   loader = false;
   loadingDetails = false;
   submit = false;
   del = false;
+  update_tagify: any;
 
   constructor(private paymentService: PaymentsService,
     
@@ -42,6 +47,10 @@ export class CreateServiceComponent implements OnInit {
       this.uiService.updateApprovalToolbarMessage(data.title);
     });
   }
+  ngAfterViewInit(): void {
+    this.tagify = new Tagify(document.querySelector('textarea[name=document]'));
+    this.update_tagify = new Tagify(document.querySelector('textarea[name=document_update]'));
+  }
 
   ngOnInit(): void {
     this.loader = true;
@@ -51,6 +60,7 @@ export class CreateServiceComponent implements OnInit {
     this.paymentService.getService().subscribe(
       (res: any) => {
         this.serviceList = res.services;
+        console.log(this.serviceList);
         this.loader = false;
       },
       err => {
@@ -58,6 +68,8 @@ export class CreateServiceComponent implements OnInit {
         console.log(err);
       }
     )
+    
+
   }
 
   createServiceModal(){
@@ -65,18 +77,24 @@ export class CreateServiceComponent implements OnInit {
     this.service.category = 1;
     this.service.description = '';
     this.service.id = '';
+    this.service.eta = '';
     this.service.name = '';
+
     $("#createSer").modal('show');
   }
 
   createService(f: NgForm){
     this.submit = true;
+    if(this.tagify.value.length > 0){
+      this.service.documents = [...this.tagify.value.map(item => item.value)].toString();
+    }
     this.paymentService.createService(this.service).subscribe(
       res => {
         Notiflix.Notify.Success('Service Created !');
         $("#createSer").modal('hide');
         this.ngOnInit();
         f.reset();
+        this.tagify.removeAllTags();
         this.submit = false;
       },
       err => {
@@ -100,21 +118,34 @@ export class CreateServiceComponent implements OnInit {
   }
   edit(service){
     $("#updateSer").modal('show');
-    this.service.id = service.id;
-    this.service.name = service.name;
-    this.service.description = service.description;
-    this.service.amount = service.amount;
-    this.service.category = service.service_category_id;
+    this.update_tagify.removeAllTags();
+    this.paymentService.getServiceDetail(service.id).subscribe((res: any) => {
+      if(res.success){
+        this.service.id = res.service.id;
+        this.service.name = res.service.name;
+        this.service.description = res.service.description;
+        this.service.amount = res.service.amount;
+        this.service.category = res.service.category_id;
+        this.service.eta = res.service.eta;
+        if(res.service.documents)
+          this.update_tagify.addTags(res.service.documents);
+      }
+    })
+    
   }
 
   updateService(f: NgForm){
     this.submit = true;
+    if(this.update_tagify.value.length > 0){
+      this.service.documents = [...this.update_tagify.value.map(item => item.value)].toString();
+    }
     this.paymentService.updateService(this.service.id, this.service).subscribe(
       res => {
         Notiflix.Notify.Success('Service Updated !');
         $("#updateSer").modal('hide');
         this.submit = false;
         f.reset();
+        this.update_tagify.removeAllTags();
         this.ngOnInit();
       },
       err => {

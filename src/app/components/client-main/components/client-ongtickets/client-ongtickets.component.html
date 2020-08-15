@@ -1,6 +1,6 @@
 <div class="ongoingticket">
     <div class="heading d-flex">
-        <div>On Going Tickets</div>
+        <div>Tickets</div>
         
         <button class="btn btn-primary ml-auto" (click)="showTicketDialog()">Create Ticket</button>
         <span class="material-icons ml-2 reload" (click)="reload()">
@@ -9,18 +9,16 @@
     </div>
     <div class="list-group">
       <ng-template ngFor let-ticket [ngForOf]="paymentsList.tickets">
-        <div class="list-group-item" *ngIf="ticket.status == 'Ongoing'">
-          <div class="row">
-              <div class="col-sm-4 col-md-4">
-                  <div class="title">{{ticket.service.name || '-'}}</div>
-                  <div class="subtitle">{{(ticket.updated_at|date) || '-'}}</div>
-              </div>
-              <div class="col-sm-4 col-md-4">
-                  <button class="btn btn-default d-block m-auto shadow-sm">Uploaded</button>
-              </div>
-              <div class="col-sm-4 col-md-4">
-                  <button class="btn btn-primary d-block ml-auto " (click)="showPaymentDialog(ticket)">Generate Payments</button>
-              </div>
+        <div class="list-group-item p-0" *ngIf="ticket.status == 'Ongoing'" (click)="showTicketInfo(ticket)">
+          <div class="ticket-date">
+            <div class="month">{{ticket.start_date.month || '-'}}</div>
+            <div class="day">{{ticket.start_date.day || '-'}}</div>
+            <div class="year">{{ticket.start_date.year || '-'}}</div>
+          </div>
+          <div class="ticket-list ml-3">
+            <div class="title" *ngIf="ticket.service">{{ticket.service.name || '-'}}</div>
+            <div class="subtitle">Status:  <span class="subtitleValue">{{ticket.status || '-'}}</span></div>
+            <div class="assignee">Assigned To: <span class="assignedValue">{{ticket.assignee.name || '-'}}</span></div>
           </div>
         </div>
       </ng-template>
@@ -82,55 +80,109 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" data-backdrop="false" id="createPayment_{{client.clientId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" data-backdrop="false" id="ticketDetails_{{client.clientId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog shadow-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Create Payment</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{createPayementObj.service_availed}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <div class="row">
-              <div class="col-sm-6 text-right">
-                Customer Name :
-              </div>
-              <div class="col-sm-6 ">
-                <strong>{{user.name || '-'}}</strong>
-              </div>
+        <div class="modal-body p-0">
+          <div class="tabs">
+            <label for="note_{{client.clientId}}">
+              <input type="radio" name="payment_{{client.clientId}}" id="note_{{client.clientId}}" value="note" [(ngModel)]="tab">
+              <div class="label note">
+                <span class="material-icons mr-1" style="font-size: inherit;">
+                  sticky_note_2
+                </span>
+                Note</div>
+            </label>
+            <label for="status_{{client.clientId}}">
+              <input type="radio" name="payment_{{client.clientId}}" id="status_{{client.clientId}}" value="status" [(ngModel)]="tab">
+              <div class="label status">
+                <span class="material-icons mr-1" style="font-size: inherit;">
+                  equalizer
+                </span>
+                Status</div>
+            </label>
+            <label for="payment_{{client.clientId}}">
+              <input type="radio" name="payment_{{client.clientId}}" id="payment_{{client.clientId}}" value="payment" [(ngModel)]="tab">
+              <div class="label payment">
+                <span class="material-icons mr-1" style="font-size: inherit;">
+                  payment
+                </span>
+                Payment</div>
+            </label>
           </div>
-          <br>
-          <div class="row">
-              <div class="col-sm-6 text-right" style="padding-top: 0.5rem;">Amount* :</div>
-              <div class="col-sm-6">
-                <input type="number" class="form-control" placeholder="eg. 2000" name="amount" [(ngModel)]="createPayementObj.amount">
+        </div>
+        <div class="tab-body">
+          <div class="note p-4 animate__animated" *ngIf="tab =='note'" [class.animate__fadeIn]="tab =='note'">
+            <textarea name="notename" cols="30" rows="2" placeholder="Enter your note" class="form-control" [(ngModel)]="notesModel.note"></textarea>
+            <button class="btn btn-primary ml-auto mt-2 d-block" [disabled]="disableNote" (click)="addNotes()">Add Note</button>
+            <div class="note-list">
+              <div class="list" *ngFor="let note of notes">
+                <div class="date">
+                  <span class="month">{{note.created_at|date:'MMM'}}</span>
+                  <span class="day">{{note.created_at|date:'d'}}</span>
+                  </div>
+                <div class="content d-block ml-2">
+                  <div class="title">{{note.note||'-'}}</div>
+                  <div class="sub-text border-0 p-0">Assigned to: {{note.author.name}}</div>
+                  <!-- <div class="sub-text border-0 p-0">
+                    <span class="material-icons" style="font-size: inherit;">query_builder</span>
+                    <span class="ml-2">{{note.created_at|date}} - {{note.updated_at|date}}</span>
+                  </div> -->
+                </div>
               </div>
+            </div>
           </div>
-          <br>
+          <div class="status p-4 animate__animated" *ngIf="tab =='status'" [class.animate__fadeIn]="tab =='status'">
+            <div class="d-flex">
+              <select name="status" class="form-control" [(ngModel)]="paymentStatus">
+                <option *ngFor="let status of statuses" value="{{status}}">{{status}}</option>
+              </select>
+              <button class="btn btn-primary ml-2" [disabled]="disableStatus" (click)="updateTicketStatus()">Update</button>
+            </div>
+            <div class="note-list">
+              <div class="list" *ngFor="let status of ticketStatuses">
 
-          <div class="row">
-              <div class="col-sm-6 text-right">Service Availed :</div>
-              <div class="col-sm-6">
-                <strong>{{createPayementObj.service_availed || '-'}}</strong>
+                <div class="date">
+                  <span class="month">{{status.created_at|date:'MMM'}}</span>
+                  <span class="day">{{status.created_at|date:'d'}}</span>
+                  </div>
+                <div class="content ml-2">
+                  <div class="title"><span class="text-light">Status:</span> {{status.status}}</div>
+                  <div class="sub-text">Author: <span class="bold-text">{{status.author.name}}</span> </div>
+                </div>
               </div>
+            </div>
           </div>
-          <br>
-
-          <div class="row">
-              <div class="col-sm-6 text-right">Due Date :</div>
-              <div class="col-sm-6">
-                <strong>{{(createPayementObj.due_date |date) || '-'}}</strong>
+          <div class="payment p-4 animate__animated" *ngIf="tab =='payment'" [class.animate__fadeIn]="tab =='payment'">
+            <div class="d-flex">
+              <input type="text" placeholder="Amount" class="form-control" 
+              name="amount_{{client.clientId}}" [(ngModel)]="createPayementObj.amount" style="width: 18rem;">
+              <button class="btn btn-primary ml-2" [disabled]="submitPayment" (click)="generatePayment()" >Generate Payment</button>
+            </div>
+            <div class="note-list">
+              <div class="list" *ngFor="let paymentStatus of paymentStatusList">
+                <div class="date">
+                  <span class="month">{{paymentStatus.updated_at|date:'MMM'}}</span>
+                  <span class="day">{{paymentStatus.updated_at|date:'d'}}</span>
+                </div>
+                <div class="content ml-2">
+                  <div class="title"><span class="text-light">Status:</span> {{paymentStatus.status == 0?'Pending':'Completed'}}</div>
+                  <div class="sub-text">Amount: <span class="bold-text">Rs.{{paymentStatus.amount||'-'}}</span></div>
+                </div>
               </div>
+            </div>
           </div>
         </div>
 
-        <div class="modal-footer">
-          <button type="button" (click)="generatePayment()" class="btn btn-primary" [disabled]="submitPayment">
-            Create Payments
-            <img src="../../../assets/img/loader/btnLoader.svg" *ngIf="submitPayment" width="30px" alt="loading">
-          </button>
-        </div>
+        <!-- <div class="modal-footer">
+          
+        </div> -->
       </div>
     </div>
   </div>

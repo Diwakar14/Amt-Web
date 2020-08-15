@@ -19,7 +19,7 @@
             </div>
             <div class="myinput-group">
                 <img src="../../../assets/img/icons/password.png" width="20px" alt="password">
-                <input type="password" class="textBox" name="password" [(ngModel)]="users.password" placeholder="ENTER YOUR PASSWORD" required>
+                <input type="password" class="textBox" name="password" [(ngModel)]="users.password" autocomplete="off" placeholder="ENTER YOUR PASSWORD" required>
             </div>
 
             <button type="submit" [disabled]="!f.valid || loading" class="btn btn-primary">

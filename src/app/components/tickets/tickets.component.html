@@ -1,4 +1,79 @@
 <div class="ticket">
-    <app-total-ticket></app-total-ticket>
-    <app-ticket-card></app-ticket-card>    
+    <div class="totalTickets">
+        <div class="header">
+            Total Tickets
+        </div>
+        <div class="ticketCard-wrapper">
+            <div class="ticketCard">
+                <circle-progress
+                [percent]="data.tickets_this_month"
+                [radius]="50"
+                space="-7"
+                [outerStrokeWidth]="10"
+                [innerStrokeWidth]="6"
+                [outerStrokeColor]="'rgb(28, 28, 85)'"
+                [innerStrokeColor]="'rgba(28, 28, 85, .5)'"
+                [animation]="true"
+                [animationDuration]="300"
+                ></circle-progress>
+                <div class="subtitle">
+                    TOTAL TICKETS
+                </div>
+                <div class="title">
+                    CURRENT MONTH
+                </div>
+            </div>
+            <div class="ticketCard">
+                <circle-progress
+                [percent]="data.tickets_last_month"
+                [radius]="50"
+                space="-7"
+                [outerStrokeWidth]="10"
+                [innerStrokeWidth]="6"
+                [outerStrokeColor]="'#78C000'"
+                [innerStrokeColor]="'#C7E596'"
+                [animation]="true"
+                [animationDuration]="300"
+                ></circle-progress>
+                <div class="subtitle">
+                    TOTAL TICKETS
+                </div>
+                <div class="title">
+                    LAST MONTH
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="ticketCard">
+        <div class="tcard" id="totalT">
+            <div class="logo">
+                <img src="../../../assets/img/icons/total-ticket.png" width="100%" alt="totoal"> 
+            </div>
+            <div class="tcard-content">
+                <h1>{{data.tickets_total||0}}</h1>
+                <p>TOTAL TICKETS</p>
+            </div>
+        </div>
+        <div class="tcard" id="ongoingT">
+            <div class="logo">
+                <img src="../../../assets/img/icons/ongoing-ticket.png" width="100%" alt="to"> 
+            </div>
+            <div class="tcard-content">
+                <h1>{{data.tickets_ongoing.length||0}}</h1>
+                <p>ONGOING TICKETS</p>
+            </div>
+        </div>
+        <div class="tcard" id="closedT">
+            <div class="logo">
+                <img src="../../../assets/img/icons/closed-ticket.png" width="100%" alt="clos">    
+            </div>
+            <div class="tcard-content">
+                <h1>{{data.tickets_closed||0}}</h1>
+                <p>CLOSED TICKETS</p>
+            </div>
+        </div>
+    </div>
+    <!-- <app-total-ticket></app-total-ticket>
+    <app-ticket-card></app-ticket-card>     -->
 </div>

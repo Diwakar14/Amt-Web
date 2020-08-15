@@ -2,79 +2,112 @@
     <div class="loader d-block m-auto" *ngIf="loader">
         <img src="../../../assets/img/loader/loader.svg" width="30px" alt="" style="filter: invert(1);">
       </div>
-    <div class="clientList-card" *ngFor="let operator of operators">
-        <div class="row pb-2 border-bottom">
-            <div class="col-sm-3 col-md-3 col-lg-3">
+      <div class="operatorCardWrapper">
+          <div class="operatorCard" *ngFor="let operator of operators">
+            <div class="primary border-bottom">
                 <div class="content">
                     <div class="avatar">
                         <img src="../../../assets/img/operator/dummy.png" width="100%"  alt="">
                     </div>
-                    <div class="text ellipses">
+                    <div class="text mt-2">
                         {{operator.name || '-'}}
+                        <span class="material-icons edit" (click)="showEdit(operator)">edit</span>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="content">
                     <div class="leftSide">
-                        <div class="wrap bar">
-                            <div class="icon" *ngIf="operator.phone">
+                        <div class="wrap bar pr-2">
+                            <div class="icon ">
                                 <img src="../../../assets/img/icons/phone.png" width="100%" alt="">
                             </div>
-                            <div class="text" *ngIf="operator.phone">
-                                {{operator.phone || '-'}}
+                            <div class="text ml-2">
+                                6206311964
                             </div>
                         </div>
-                        <div class="wrap" style="padding-left:1rem">
+                        <div class="wrap ml-2">
                             <div class="icon" *ngIf="operator.email">
                                 <img src="../../../assets/img/icons/mail.png" width="100%" alt="">
                             </div>
-                            <div class="text" *ngIf="operator.email">
+                            <div class="text ml-2" *ngIf="operator.email">
                                 {{operator.email}}
                             </div>
                         </div>
                     </div>
-                    <div class="rightSide">
-                        Online
+                </div>
+            </div>
+            <div class="secondary">
+                <div class="wrapper d-flex mt-2">
+                    <div class="content">
+                        <div class="Ticket ">
+                            <img src="../../../assets/img/operator/total-ticket.png" width="100%" alt="">
+                            <div class="totalTicketColor count">
+                                {{operator.staff_tickets_count}}
+                            </div>
+                        </div>
+                        <div>Total </div>
+                    </div>
+                    <div class="bar"></div>
+                    <div class="content">
+                        <div class="Ticket ongoingTicketColor">
+                            <img src="../../../assets/img/operator/ongoing-ticket.png" width="100%" alt="">
+                            <div class="ongoingTicketColor count">
+                                {{operator.staff_open_tickets_count}}
+                            </div>
+                        </div>
+                        <div>Ongoing </div>
+                        
+                    </div>
+                    <div class="bar"></div>
+                    <div class="content border-0">
+                        <div class="Ticket closedTicketColor">
+                            <img src="../../../assets/img/operator/closed-ticket.png" width="100%" alt="">
+                            
+                            <div class="closedTicketColor count">
+                                {{operator.staff_closed_tickets_count}}
+                            </div>
+                        </div>
+                        <div>Closed </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row pt-2" id="lowerRow">
-            <div class="col-sm-4 col-md-4 col-lg-4">
-                <div class="content">
-                    <div class="Ticket ">
-                        <img src="../../../assets/img/operator/total-ticket.png" width="100%" alt="">
-                        <div>Total Ticket</div>
-                    </div>
-                    <div class="totalTicketColor count">
-                        15
-                    </div>
+          </div>
+      </div>
+</div>
+  
+<!-- Modal -->
+<div class="modal fade" id="update_operator" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form #f="ngForm" (ngSubmit)="update_operator(f)">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Operator</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-                <div class="content">
-                    <div class="Ticket ongoingTicketColor">
-                        <img src="../../../assets/img/operator/ongoing-ticket.png" width="100%" alt="">
-                        <div>Ongoing Ticket</div>
-                    </div>
-                    <div class="ongoingTicketColor count">
-                        15
-                    </div>
+                <div class="modal-body">
+                   
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" [(ngModel)]="operatorModel.name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Email</label>
+                            <input type="text" name="email" [(ngModel)]="operatorModel.email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Phone</label>
+                            <input type="text" name="phone" [(ngModel)]="operatorModel.phone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Password</label>
+                            <input type="text" name="password" [(ngModel)]="operatorModel.password" class="form-control">
+                        </div>
                 </div>
-            </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-                <div class="content border-0">
-                    <div class="Ticket closedTicketColor">
-                        <img src="../../../assets/img/operator/closed-ticket.png" width="100%" alt="">
-                        <div>Closed Ticket</div>
-                    </div>
-                    <div class="closedTicketColor count">
-                        15
-                    </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" [disabled]="disabledOperator">Update Operator</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-
 </div>

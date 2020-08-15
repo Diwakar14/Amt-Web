@@ -3,34 +3,32 @@
         <button class="btn btn-outline-primary-new ml-auto d-block" data-toggle="modal" data-target="#createSerCat">Create New Category</button>
     </div>
     <div class="panel">
-        <table class="table table-borderless">
-            <thead>
-              <tr>
-                <th scope="col" class="text-center">#</th>
-                <th scope="col">Name</th>
-                <!-- <th scope="col">Description</th> -->
-                <th scope="col" class="text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let cat of allServiceCat; index as i">
-                <th scope="row" class="text-center">{{i+1}}</th>
-                <td>{{cat.name}}</td>
-                <!-- <td>{{cat.description}}</td> -->
-                <td class="text-right">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-outline-primary btn-sm" (click)="edit(cat)">
-                          <span class="material-icons">edit</span>
-                        </button>
-                        <button type="button" class="btn btn-outline-primary btn-sm" (click)="delete(cat.id, i)">
-                          <span class="material-icons" id="del_cat_{{i}}">delete</span>
-                          <img src="../../../assets/img/loader/loader.svg" width="20px" id="del_cat_load_{{i}}" style="display: none;">
-                        </button>
-                    </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="cat-cards">
+          <div class="cat-card" *ngFor="let cat of allServiceCat; index as i" @fadeAnimation>
+            <div class="header">
+              <div class="icon" *ngIf="cat.icon">
+                <img src="{{cat.icon}}" alt="icon" width="100%">
+              </div>
+              <div class="hr"></div>
+            </div>
+            <div class="body">
+              <div class="cat">{{cat.name}}</div>
+              <div class="cat_count"></div>
+            </div>
+            <div class="footer">
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-primary btn-sm" (click)="edit(cat)">
+                  <span class="material-icons">edit</span>
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" (click)="delete(cat.id, i)">
+                  <span class="material-icons" id="del_cat_{{i}}">delete</span>
+                  <img src="../../../assets/img/loader/loader.svg" width="20px" id="del_cat_load_{{i}}" style="display: none;">
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
           <p class="text-center text-muted p-2" *ngIf="allServiceCat.length == 0"> No Services Category</p>
 
           <div class="loader d-block m-auto p-2" *ngIf="loader">
@@ -61,14 +59,7 @@
                             name="serviceName"
                             required>
                         </div>
-                        <div class="form-group">
-                            <label for="">Descriptions</label>
-                            <textarea class="form-control" 
-                            name="serviceDescription" cols="30" rows="5" 
-                            [(ngModel)]="serviceCategory.description" 
-                            placeholder="Enter Description of the Category"
-                            required></textarea>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -102,19 +93,11 @@
                             name="serviceName"
                             required>
                         </div>
-                        <div class="form-group">
-                            <label for="">Descriptions</label>
-                            <textarea class="form-control" 
-                            name="descService" cols="30" rows="5" 
-                            [(ngModel)]="serviceCategory.description" 
-                            placeholder="Enter Description of the Category"
-                            
-                            required></textarea>
-                        </div>
+                        
                         <div class="form-group">
                           <label for="">Icon</label>
                           <div class="icons-uploader" id="image-preview">
-                            <input type="file" name="icons" id="icons">
+                            <input type="file" name="icons" id="icons" #icon>
                           </div>
                         </div>
                         

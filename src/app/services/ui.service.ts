@@ -31,12 +31,10 @@ export class UIService {
     "users": []
   }
 
-  chatboxStateArray: ChatboxStateArray = new ChatboxStateArray();
-  
-
   toolbarTitle = "Dashboard";
 
   refreshPayment = false;
+  index = 0;
 
 
   private approvalStageMessage = new BehaviorSubject(JSON.stringify(this.state));
@@ -47,16 +45,12 @@ export class UIService {
 
   private approvalStageRefreshMessage = new BehaviorSubject(JSON.stringify(this.refreshPayment));
   currentApprovalStageRefreshMessage = this.approvalStageRefreshMessage.asObservable();
-
-  private chatboxMessage = new BehaviorSubject(JSON.stringify(this.chatboxStateArray));
-  currentChatboxState = this.chatboxMessage.asObservable();
-
-  private updateChatboxStateObs = new BehaviorSubject(JSON.stringify({}));
-  currentChatboxStateObs = this.updateChatboxStateObs.asObservable();
+  
+  private index$ = new BehaviorSubject(JSON.stringify(this.index));
+  currentIndex$ = this.index$.asObservable();
 
   constructor() { 
-    this.chatboxStateArray.onlineChats.push(new ChatboxState());
-    this.chatboxStateArray.onlineChats = [];
+    
   }
 
   updateApprovalMessage(state) {
@@ -75,22 +69,13 @@ export class UIService {
     this.approvalStageRefreshMessage.next(JSON.stringify(this.refreshPayment));
   }
 
-  addNewChatboxState(state: ChatboxState){
-    this.chatboxStateArray.onlineChats.push(state);
-    this.chatboxMessage.next(JSON.stringify(this.chatboxStateArray))
+  updateIndex(state) {
+    console.log(state)
+    this.index = state;
+    this.index$.next(JSON.stringify(this.index));
   }
 
-  updateChatboxState(state, index){
-    this.updateChatboxStateObs.next(JSON.stringify({
-      state: state,
-      index: index
-    }));
 
-    if(state == 'closed'){
-      this.chatboxStateArray.onlineChats.splice(index, 1);
-      this.chatboxMessage.next(JSON.stringify(this.chatboxStateArray))
-    }
-  }
 
  
 }

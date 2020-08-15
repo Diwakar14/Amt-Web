@@ -2,12 +2,12 @@
 
 .ongoingticket{
     padding: 0.5rem 0;
+    font-family: 'Montserrat', sans-serif;
    
     .heading{
         padding: 0.5rem 1rem;
         flex-direction: row;
         align-items: center;
-        font-family: 'Montserrat', sans-serif;
         div{
             font-size: 0.8rem;
             font-weight: bold;
@@ -23,13 +23,14 @@
         padding:0.8rem !important;
         overflow-y: auto;
         max-height: 30vh;
+        min-height: 30vh;
         .list-group-item{
-            padding:0.7rem 1.5rem !important;
             margin-bottom: 1rem;
-            border-radius: 1rem;
+            border-radius: 0.5rem;
             border: unset !important;
             background: #8c9af213;
-            
+            display: flex;
+            cursor: pointer;
         }
     }
     .title{
@@ -37,11 +38,22 @@
         font-weight: bold;
         color: $dark-blue;
     }
+    .assignee{
+        font-size: 0.7rem;
+        color: $ongoingTicketFontColor;
+        .assignedValue{
+            font-size: 0.7rem;
+            color: #666666;
+        }
+    }
     .subtitle{
         font-size: 0.7rem;
         color: $ongoingTicketFontColor;
         font-weight: 500;
-        line-height: 1.5rem;
+        .subtitleValue{
+            font-size: 0.7rem;
+            color: #666666;
+        }
     }
 }
 .btn-primary{
@@ -58,7 +70,7 @@
     border-radius: 0.5rem;
 }
 .modal-body{
-    padding: 2rem 3rem !important;
+    padding: 2rem 3rem;
     max-height: 70vh !important;
     overflow: hidden;
     font-size: 0.8rem;
@@ -70,7 +82,117 @@
     border: 0px solid;
     border-radius: 0.5rem;
 }
+.ticket-list{
+    padding: 0.5rem 0;
+}
+.ticket-date{
+    background-color: $totalTicketDark;
+    padding: 0.5rem 1rem;
+    color: white;
+    text-align: center;
+    border-radius:  0.5rem 0 0 0.5rem;
+    .day{
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+    .month{
+        font-size: 0.7rem;
+        font-weight: 200;
 
+    }
+    .year{
+        font-size: 0.7rem;
+        font-weight: 200;
+
+    }
+}
+.tabs{
+    display: flex;
+    justify-content: space-evenly;
+    border-bottom: 1px solid $totalTicketFontColor;
+    label{
+        position: relative;
+        margin: 0;
+        input[type=radio]{
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+        input[type=radio]:checked ~ .label{
+           border-bottom: 2px solid $dark-blue;
+           font-weight: 600;
+        }
+
+    }
+
+    .label{
+        cursor: pointer;
+        padding: 0.7rem 2rem;
+        font-size: 0.9rem;
+    }
+}
+.note-list{
+    margin-top: 1rem;
+    max-height: 15rem;
+    overflow: auto;
+    .list{
+        position: relative;
+        font-family: 'Montserrat', sans-serif;
+        display: flex;
+        margin-bottom: 1.2rem;
+    }
+    .list .date{
+        padding: 0.5rem 0.2rem;
+        justify-content: center;
+        text-align: center;
+        background-color: #fff;
+        margin-bottom: 0.8rem;
+        .day{
+            font-size: 1rem;
+            font-weight: 400;
+            display: block;
+            line-height: 15px;
+        }
+        .month{
+            font-size: .65rem;
+            font-weight: 200;
+            display: block;
+        }
+    }
+    .list .date::after{
+        content: "";
+        position: absolute;
+        left: unset;
+        top: 2.8rem;
+        height: 100%;
+        width: 1px;
+        background-color: #666666;
+    }
+    .list .content{
+        // display: flex;
+        // justify-content: space-evenly;
+        // flex-direction: row;
+        // align-items: center;
+    }
+    .list .title{
+        margin-left: 1rem;
+        font-size: 0.8rem;
+        
+    }
+    .list .sub-text{
+        margin-left: 1rem;
+        font-size: 0.8rem;
+        font-weight: 200;
+        // padding-left: 1rem;
+        // border-left: 1px solid lightgrey;
+    }
+}
+.text-light{
+    font-weight: 200;
+    color: #808080 !important;
+    font-size: 0.85rem !important;
+}
 @media (min-width: 576px){
     .modal-dialog {
       max-width: 500px;

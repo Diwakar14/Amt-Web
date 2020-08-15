@@ -16,7 +16,8 @@ export class CreateNotifyComponent implements OnInit {
     title: '',
     message: '',
     type: 'Article',
-    url:''
+    url:'',
+    imageUrl:''
   }
   submit = false;
 
@@ -49,12 +50,16 @@ export class CreateNotifyComponent implements OnInit {
     let formdata = new FormData();
     let file = this.photo.nativeElement.files;
 
-    if(file){
+    if(file.length > 0){
       formdata.append("photo", file[0])
     }
 
     if(this.notification.url){
-      formdata.append("photo", this.notification.url);
+      formdata.append("url", this.notification.url);
+    }
+
+    if(this.notification.imageUrl){
+      formdata.append("photo", this.notification.imageUrl);
     }
 
     console.log(this.notification);
@@ -62,8 +67,6 @@ export class CreateNotifyComponent implements OnInit {
     formdata.append('title', this.notification.title);
     formdata.append('body', this.notification.message || '-');
     formdata.append('type', this.notification.type);
-
-    
 
     this.notificationSer.createNotifications(formdata).subscribe((res: any) => {
       if(res.success == 1){

@@ -34,6 +34,7 @@
                     <label for="">Url: </label>
                     <input type="text" name="url" [(ngModel)]="notification.url" class="form-control" placeholder="https://">
                 </div>
+                
                 <div class="form-group mt-4">
                     <button class="btn btn-primary" [disabled]="!f.valid || submit">
                         Submit
@@ -44,7 +45,6 @@
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="card-body" id="image-preview">
-                        <!-- <img src="../../../assets/img/dummy.jpg" alt="dummy" width="100%"> -->
                     </div>
                     <div class="tint">
                         <div class="content">
@@ -59,7 +59,10 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="form-group mt-2">
+                    <label for="">Image Url: </label>
+                    <input type="text" name="url" [(ngModel)]="notification.imageUrl" class="form-control" placeholder="https://">
+                </div>
             </div>
         </div>
     </form>

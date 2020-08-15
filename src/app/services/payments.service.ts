@@ -48,6 +48,12 @@ export class PaymentsService {
     return this.http.get(environment.apiEndPoint + 'payments/' + userId)
   }
 
+  getPaymentTicket(ticketId: number){
+    return this.http.get(environment.apiEndPoint + 'payments/ticket/' + ticketId)
+  }
+
+
+
   createPayment(payment){
     return this.http.post(environment.apiEndPoint + 'payments', payment);
   }

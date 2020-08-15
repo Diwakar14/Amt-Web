@@ -78,6 +78,8 @@ p{
 .chatList{
     padding: 0rem;
     margin-bottom: 1.5rem;
+    max-height: 350px;
+    overflow-y: auto;
 }
 .chatList-item{
     list-style: none;

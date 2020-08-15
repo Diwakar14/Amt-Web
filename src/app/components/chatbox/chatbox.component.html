@@ -1,22 +1,31 @@
 <div class="chatbox">
-    <!-- <div class="chatTime">Today, March 30, 2020</div> -->
     <div class="chatInput">
         <button class="attBtn" id="attachement">
             <img src="../../../../../assets/img/icons/attachment.png" width="100%" alt="att">
             <input type="file" name="attachment" #attachment (change)="uploadDoc()">
         </button>
-        <input type="text" name="text" (keyup.enter)="sendMessage()" [(ngModel)]="chat.text" id="messages" class="chatText" placeholder="Type your message...">
+        <input type="text" 
+            name="text" (keyup.enter)="sendMessage()" 
+            autocomplete="off" 
+            [(ngModel)]="chat.text" 
+            id="messages" class="chatText" placeholder="Type your message...">
         <button class="attBtn" (click)="sendMessage()">
             <img src="../../../../../assets/img/icons/send.png" width="100%" alt="att">
         </button>
     </div>
     <div class="chatList" id="chatboxlist" #chatboxlist>
         <ng-template ngFor let-chat [ngForOf]="allChats.messages" let-i=index>
+            <div class="date-header sticky-top" *ngIf="chat.state">
+                {{chat.state|date}}
+            </div>
+            <div class="date-header sticky-top" *ngIf="chat.currentState">
+                {{chat.currentState}}
+            </div>
             <div class="operator" *ngIf="chat.is_client!=false && chat.message_type=='Text'">
-                <div class="title">{{chat.sender_name||'-'}}</div>
-                <div class="text-bubble">
+                <div class="title" [hidden]="!chat.unique">{{chat.sender_name||'-'}}</div>
+                <div class="text-bubble" [class.uniqueOperator]="chat.unique">
                     {{chat.text || '-'}}
-                    <div class="footer">{{chat.updated_at|date:'shortTime'}}</div>
+                    <div class="footer">{{chat.created_at|utcToist|date:'shortTime'}}</div>
                 </div>
             </div>
             
@@ -36,7 +45,7 @@
                         <div class="title">{{chat.preview.name}}</div>
                     </div>
                     <div class="downloadBtn">
-                        <span class="material-icons" (click)="downloadDoc(chat)">
+                        <span class="material-icons colorWhite" (click)="downloadDoc(chat)">
                             arrow_circle_down
                         </span>
                         <a #download></a>
@@ -44,15 +53,18 @@
                 </div>
                 <div class="body">
                     <div class="text">{{chat.preview.size}} • {{chat.preview.format}} </div>
-                    <div class="time">{{chat.created_at|date:'shortTime'}} </div>
+                    <div class="time">{{chat.created_at|utcToist|date:'shortTime'}} </div>
                 </div>
             </div>
 
             <div class="you" *ngIf="chat.is_client!=true && chat.message_type=='Text'">
-                <div class="title">{{chat.sender_name}}</div>
-                <div class="text-bubble">
+                <div class="title" [hidden]="!chat.unique">{{chat.sender_name}}</div>
+                <div class="text-bubble" [class.uniqueUser]="chat.unique">
                     {{chat.text}}
-                    <div class="footer">{{chat.updated_at|date:'shortTime'}}</div>
+                    <div class="footer">
+                        <span>{{chat.created_at|utcToist|date:'shortTime'}}</span>
+                        <span class="material-icons ml-1" style="font-size: inherit;">done</span>
+                    </div>
                 </div>
             </div>
 
@@ -73,15 +85,15 @@
                     </div>
                    
                     <div class="downloadBtn">
-                        <a href="{{chat.url}}" download>
-                            <img src="../../../../../assets/img/icons/icons8-download-32.png" width="100%" alt="">
-                        </a>
+                        <span class="material-icons colorDark" (click)="downloadDoc(chat)">
+                            arrow_circle_down
+                        </span>
                     </div>
                 </div>
                 
-                <div class="body">
+                <div class="body DarkBgColor text-light">
                     <div class="text">{{chat.preview.size}} • {{chat.preview.format}} </div>
-                    <div class="time">{{chat.created_at|date:'shortTime'}} </div>
+                    <div class="time">{{chat.created_at|utcToist|date:'shortTime'}} </div>
                 </div>
             </div>
         </ng-template>

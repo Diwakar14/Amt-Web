@@ -30,7 +30,7 @@ export class AuthService {
   getStatus(){
     let token = this.cookie.get('access_token');
     let header = new HttpHeaders().set("Authorization","Bearer "+token);
-    return this.http.get("http://54.186.217.203:5009/validate", {headers:header});
+    return this.http.get(environment.apiEndPoint + "validate", {headers:header});
   }
 
   logout(){

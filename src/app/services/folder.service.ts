@@ -13,8 +13,12 @@ export class FolderService {
   getAllFolders(userId, folderId?: any){
     return this.http.get(environment.apiEndPoint + "document?user="+userId+"&group_by=folder&folder=" + folderId);
   }
-  createNewFolder(folder:Folder, userId){
-    return this.http.post(environment.apiEndPoint + "folders/" + userId, folder);
+  createNewFolder(folder:any){
+    return this.http.post(environment.apiEndPoint + "folders" , folder);
+  }
+
+  deleteFolder(documentId){
+    return this.http.delete(environment.apiEndPoint + "documents/" + documentId);
   }
 
   moveFileToFolder(payload){

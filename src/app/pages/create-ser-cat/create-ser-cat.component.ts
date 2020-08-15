@@ -1,6 +1,7 @@
+import { listAnimation, fadeAnimation } from './../../animation';
 import { NgForm } from '@angular/forms';
 import { PaymentsService } from './../../services/payments.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UIService } from 'src/app/services/ui.service';
 declare var $:any;
@@ -9,7 +10,8 @@ declare var Notiflix:any;
 @Component({
   selector: 'app-create-ser-cat',
   templateUrl: './create-ser-cat.component.html',
-  styleUrls: ['./create-ser-cat.component.scss']
+  styleUrls: ['./create-ser-cat.component.scss'],
+  animations:[ fadeAnimation ]
 })
 export class CreateSerCatComponent implements OnInit {
 
@@ -19,8 +21,9 @@ export class CreateSerCatComponent implements OnInit {
   serviceCategory = {
     id: 0,
     name: '',
-    description: ''
+    // description: ''
   }
+  @ViewChild('icon') icon:ElementRef;
 
   allServiceCat = [];
   constructor(private paymentService: PaymentsService,
@@ -52,22 +55,27 @@ export class CreateSerCatComponent implements OnInit {
     this.paymentService.getServiceCategory().subscribe(
       (res:any) => {
         this.allServiceCat = res.categories;
+        console.log(this.allServiceCat);
         this.loader = false;
       },
       err => {
         this.loader = false;
       }
     )
-
   }
 
   createCategory(f: NgForm){
     this.submit = true;
-    this.paymentService.createServiceCategory(this.serviceCategory).subscribe(
+    let formdata = new FormData();
+    formdata.append('name', this.serviceCategory.name);
+    formdata.append('icon', this.icon.nativeElement.files[0]);
+
+    this.paymentService.createServiceCategory(formdata).subscribe(
       res => {
         Notiflix.Notify.Success('Service Category Created !');
         f.reset();
         this.submit = false;
+        
         $("#createSerCat").modal('hide');
         this.ngOnInit();
       },
@@ -82,7 +90,6 @@ export class CreateSerCatComponent implements OnInit {
     $("#updateSerCat").modal('show');
     this.serviceCategory.id = cat.id;
     this.serviceCategory.name = cat.name;
-    this.serviceCategory.description = cat.description;
   }
 
   updateServiceCategory(f: NgForm){
@@ -114,6 +121,6 @@ export class CreateSerCatComponent implements OnInit {
   }
   delLoading(i){
     document.querySelector('#del_cat_' + i).setAttribute('style', 'display:none');
-    document.querySelector('#del_cat_load_' + i).setAttribute('style', 'display:initial;filter:invert(1)');
+    document.querySelector('#del_cat_load_' + i).setAttribute('style', 'display:initial;');
   }
 }
