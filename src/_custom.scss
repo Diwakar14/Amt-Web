@@ -158,13 +158,16 @@ table thead{
   font-family: 'Montserrat', sans-serif;
 }
 table tbody tr{
-  border-bottom: 1px solid #d3d3d3;
+  border-bottom: 1px solid #f7f7f7;
 }
 table tbody tr:last-child{
   border-bottom: none;
 }
 table tbody tr:hover{
-  background-color: #f7f7f7;
+  background-color: #f7f7f7 !important;
+}
+table tbody tr:nth-child(even){
+  background-color: #f7f7f742;
 }
 
 .modal-content{

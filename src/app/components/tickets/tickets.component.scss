@@ -30,6 +30,12 @@
         background: rgb(169, 125, 219);
         height: 100%;
         margin: 0 1rem;
+        &:first-child{
+            margin-left: 2rem;
+        }
+        &:last-child{
+            margin-right: 0rem;
+        }
     }
     
     .tcard .logo{

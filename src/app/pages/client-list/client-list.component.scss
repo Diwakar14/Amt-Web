@@ -17,6 +17,10 @@
 .table tr{
     cursor: pointer;
 }
+.table tr td{
+    padding: 1.2rem 1rem;
+    vertical-align: middle;
+}
 .clientList-card{
     background: white;
     border-radius: 2rem;
@@ -93,7 +97,7 @@
     }
 }
 .bold-text{
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .pagination {
@@ -121,4 +125,18 @@
 
 .pad10{
     padding-left: 1rem;
+}
+.totalTicketColor{
+    color: #464690 !important;
+    font-size: 1rem !important;
+}
+.ongoingTicketColor{
+    color: #38b1e4 !important;
+    font-size: 1rem !important;
+
+}
+.closedTicketColor{
+    color: #fe7191 !important;
+    font-size: 1rem !important;
+
 }

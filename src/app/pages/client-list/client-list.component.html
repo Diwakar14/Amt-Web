@@ -20,7 +20,7 @@
           <tr *ngFor="let client of clients | paginate: config" (click)="openChat(client)">
             <td>
                 <div class="text ellipses bold-text">
-                {{client.name || '-'}}
+                {{(client.name|uppercase) || '-'}}
                 </div>
             </td>
             
@@ -35,17 +35,17 @@
                 </div>
             </td>
             <td>
-                <div class="text-center bold-text">
+                <div class="text-center bold-text totalTicketColor">
                     {{client.tickets_count}}
                 </div>
             </td>
             <td>
-                <div class="text-center bold-text">
+                <div class="text-center bold-text ongoingTicketColor">
                     {{client.open_tickets_count}}
                 </div>
             </td>
             <td>
-                <div class="text-center bold-text">
+                <div class="text-center bold-text closedTicketColor">
                     {{client.closed_tickets_count}}
                 </div>
             </td>

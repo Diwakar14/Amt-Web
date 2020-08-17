@@ -193,6 +193,9 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
                     <div class="py-4 text-center" *ngIf="filesInFolder.documents.length==0">
                         <p class="text-muted text-center">No Files in this folder</p>
                     </div>
+                    <div class="loader d-block m-auto" *ngIf="loaderFiles">
+                        <img src="../../../assets/img/loader/loader.svg" width="30px" alt="" style="filter: invert(1);">
+                    </div>
                     <div class="grid-container">
                         <div class="card p-2"
                             [dndDraggable]="file.id"

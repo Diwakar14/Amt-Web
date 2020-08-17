@@ -14,6 +14,7 @@ section{
 .actual{
     display: flex;
     justify-content: center;
+    
 }
 
 .online::after{
@@ -64,6 +65,9 @@ section{
 app-sidebar{
     width: 16%;
     transition: all cubic-bezier(0.54, 0.01, 0, 0.99) .3s;
+}
+app-minimizedchatbox{
+    z-index: 5;
 }
 @keyframes flash{
     0%{

@@ -12,21 +12,25 @@ declare var $: any;
 })
 export class ToolbarComponent implements OnInit {
   loading: boolean = false;
-  constructor(private router: Router, 
-    private activatedRoute: ActivatedRoute,
-    private uiService: UIService,
-    private auth: AuthService,
-    private cookie: CookieService) { }
-
   title;
   collaspe;
   users;
   date;
+  username;
+  constructor(private router: Router, 
+    private activatedRoute: ActivatedRoute,
+    private uiService: UIService,
+    private auth: AuthService,
+    private cookie: CookieService) {
+      this.username = localStorage.getItem('_user_name')
+    }
+
+  
   ngOnInit(): void {
     const monthNames = ["January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
     ];
-    this.date = new Date().getDate() + ", " + monthNames[new Date().getMonth()] + " " + new Date().getFullYear();
+    this.date = new Date().getDate() + " " + monthNames[new Date().getMonth()] + ", " + new Date().getFullYear();
     
     
     this.uiService.currentApprovalStageMessage.subscribe(
@@ -48,6 +52,8 @@ export class ToolbarComponent implements OnInit {
       res => {
         this.cookie.delete('auth_token');
         this.cookie.deleteAll();
+        localStorage.removeItem('_user_id');
+        localStorage.removeItem('_user_name');
         $("#logout").modal('hide');
         this.loading = false;
         setTimeout(() => {

@@ -1,28 +1,28 @@
 <div class="onGoingTickets">
     <div class="header">
-        OnGoing Tickets
+        Ongoing Tickets
     </div>
     <div class="body">
         <table class="table">
             <thead>
               <tr>
                 <th scope="col" width="1%"></th>
-                <th scope="col"  width="15%">NAME</th>
+                <th scope="col"  width="20%">NAME</th>
                 <th scope="col"  width="20%">SERVICE AVAILED</th>
-                <th scope="col"  width="15%" class="text-center">STATUS</th>
+                <th scope="col"  width="20%" class="text-center">STATUS</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let ticket of ongoingService; index as i">
-                <th>
+                <td>
                   {{i+1}}
-                </th>
-                <td>{{ticket.client.name}} </td>
+                </td>
+                <td class="bold-text">{{ticket.client.name|uppercase}} </td>
                 <td>
                   <span *ngIf="ticket.service">
                     {{ticket.service.name}}
                   </span>
-                <td class="text-center">
+                <td class="text-center bold-text">
                   {{ticket.status|uppercase}}
                 </td>
               </tr>

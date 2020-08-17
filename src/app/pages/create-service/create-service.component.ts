@@ -60,7 +60,7 @@ export class CreateServiceComponent implements OnInit, AfterViewInit {
     this.paymentService.getService().subscribe(
       (res: any) => {
         this.serviceList = res.services;
-        console.log(this.serviceList);
+        // console.log(this.serviceList);
         this.loader = false;
       },
       err => {

@@ -9,7 +9,10 @@
     </ul>
     <ul class="rightSide">
         <li class="date">
-            Date: {{date}}
+            Date: <span class="bold-text">{{date}}</span> 
+        </li>
+        <li class="date">
+          <span class="bold-text">{{username||'-'}}</span>
         </li>
         <li class="news">
             <button (click)="logout()" class="btn"> 

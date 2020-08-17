@@ -19,7 +19,7 @@
               <tr *ngFor="let service of serviceList; index as i">
                 <th scope="row" class="text-center">{{i+1}}</th>
                 <td>
-                  <button class="btn btn-link text-left p-0" (click)="showDetails(service.id)">{{service.name}}</button>
+                  <button class="btn btn-link text-left bold-text p-0" (click)="showDetails(service.id)">{{service.name}}</button>
                 </td>
                 <!-- <td>{{service.documents}}</td>
                 <td>{{service.amount|currency:'₹'}}</td>

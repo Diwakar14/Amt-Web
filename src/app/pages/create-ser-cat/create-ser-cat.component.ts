@@ -55,7 +55,7 @@ export class CreateSerCatComponent implements OnInit {
     this.paymentService.getServiceCategory().subscribe(
       (res:any) => {
         this.allServiceCat = res.categories;
-        console.log(this.allServiceCat);
+        // console.log(this.allServiceCat);
         this.loader = false;
       },
       err => {

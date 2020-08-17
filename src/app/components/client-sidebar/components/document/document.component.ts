@@ -26,6 +26,7 @@ export class DocumentComponent implements OnInit {
 
   submitFolder = false;
   submitDoc = false;
+  loaderFiles = false;
 
   isProgress:boolean = false;
   progress = {
@@ -91,10 +92,14 @@ export class DocumentComponent implements OnInit {
   }
 
   viewFolder(folderId, i){
+    this.loaderFiles = true;
     $('#showFolder_' + this.clientData.clientId).modal('show');
     let files = this.foldersAndDocs.folders.find(f => f.id == folderId);
     this.folderService.getAllFolders(this.userId, folderId).subscribe((res: any) => {
-      this.filesInFolder = res.folders[i]
+      this.filesInFolder = res.folders[i];
+      this.loaderFiles = false;
+    }, err=>{
+      this.loaderFiles = false;
     })
     // this.filesInFolder = files;
     this.addActiveClass(folderId);

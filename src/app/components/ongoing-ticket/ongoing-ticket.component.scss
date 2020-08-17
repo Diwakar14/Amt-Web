@@ -12,8 +12,8 @@
 
 .table tbody tr{
     font-family: 'Open Sans', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 500;
     line-height: 2rem;    
 }
 .table tbody tr td{
@@ -22,7 +22,9 @@
 .table tbody tr td:last-child{
    
 }
-
+.bold-text{
+    font-weight: 600;
+}
 .onGoingTickets{
     border-radius: $border-radius;
     border: 0px solid #aaa;
@@ -30,8 +32,10 @@
 }
 
 .header{
-    background: $dark-blue;
-    color: white;
+    // background: $dark-blue;
+    background: transparent;
+    color: $dark-blue;
+    font-weight: 600;
     font-family: 'Open Sans', sans-serif;
     padding: .7rem 1rem;
     border-radius: $border-radius $border-radius 0 0;

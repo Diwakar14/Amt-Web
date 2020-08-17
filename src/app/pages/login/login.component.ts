@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.authService.login(users).subscribe(
       res => {
         this.cookie.set("auth_token", res.headers.get('Authorization'));
-        
+        localStorage.setItem('_user_id', res.body.user.id);
+        localStorage.setItem('_user_name', res.body.user.name);
         this.loading = false;
         Notiflix.Notify.Success('Login Success !');
         this.router.navigateByUrl('/dashboard');

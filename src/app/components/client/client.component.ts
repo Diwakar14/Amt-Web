@@ -8,39 +8,20 @@ import { Component, OnInit, Input, AfterContentInit, AfterViewInit, Output, Even
   styleUrls: ['./client.component.scss'],
   animations:[
     trigger('slideUp', [
-      // state('initial', style({opacity: 0, height:0})),
-      // state('opened', style({opacity:1, height:'*'})),
-
-      // transition('initial <=> final', animate('600ms cubic-bezier(.87,0,.01,1.01)')),
-      // transition('final => initial', animate('600ms cubic-bezier(.87,0,.01,1.01)')),
-      // state('void', )
-      //   transition('void => *', [
-      //       style({opacity: 0, width:'0%', height:'0%'}),
-      //       animate('400ms cubic-bezier(.87,0,.01,1.01)')
-      //   ]),
-      //   transition('* => void', [
-      //       style({opacity:1, width:'90%', height:'90%'}),
-      //       animate('400ms cubic-bezier(.87,0,.01,1.01)')
-      //   ])
-       
-      transition('* => void', [
+        transition('* => void', [
           style({opacity:1, width:'*', height:'*'}),
           animate('400ms cubic-bezier(.87,0,.01,1.01)')
-      ]),
-      transition('void => *', [
-        style({opacity: 0, width:0, height:0}),
-        animate('400ms cubic-bezier(.87,0,.01,1.01)')
-      ]),
+        ]),
+        transition('void => *', [
+          style({opacity: 0, width:0, height:0}),
+          animate('400ms cubic-bezier(.87,0,.01,1.01)')
+        ]),
       ]),
       trigger('slideDown', [
         state('minimized', style({opacity: 0, height:0})),
-        transition('* => minimized', animate('400ms cubic-bezier(.87,0,.01,1.01)')),
+        state('opened', style({opacity: 1, height:'*'})),
+        transition('* <=> minimized', animate('400ms cubic-bezier(.87,0,.01,1.01)')),
       ]),
-      // trigger('maximize', [
-      //   state('maximized', style({opacity: 1, width:'100%'})),
-      //   transition('* => maximized', animate('400ms cubic-bezier(.87,0,.01,1.01)')),
-      // ]),
-
     ]
   })
 export class ClientComponent implements OnInit, AfterViewInit {
