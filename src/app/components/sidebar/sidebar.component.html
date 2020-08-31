@@ -32,7 +32,7 @@
     <div class="chat">
         <div class="chatheader">
            <div>Clients
-            <span class="material-icons reload ml-1" style="font-size: inherit;" (click)="reload()">autorenew</span>
+            <!-- <span class="material-icons reload ml-1" style="font-size: inherit;" (click)="reload()">autorenew</span> -->
            </div> 
            
            <div class="d-block ml-auto">{{filteredClients.length}}</div>
@@ -48,10 +48,16 @@
                 <div class="media">
                     <div class="avatar mr-3" [class.online]="user.online">
                         <img src="../../../assets/img/operator/dummy.png" width="100%" class=" " alt="...">
+                        <div class="unread_message animate__animated animate__flash animate__infinite infinite" [hidden]="!user.chat.isUnreadClientMessage">
+                            <span class="material-icons">
+                                chat
+                            </span>
+                        </div>
                     </div>
                     <div class="media-body">
                       <p>{{user.name || '-'}}</p>
                     </div>
+                   
                 </div>
             </li>
         </ul>

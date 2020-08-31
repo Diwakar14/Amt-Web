@@ -8,9 +8,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ClientSidebarComponent implements OnInit {
 
   @Input() chatData;
-  constructor() { }
+  @Input() userServiceData;
+  constructor() {
+    console.log(this.userServiceData)
+  }
 
   ngOnInit(): void {
+
   }
 
 }

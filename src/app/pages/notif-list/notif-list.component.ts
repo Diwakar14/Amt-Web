@@ -21,12 +21,10 @@ export class NotifListComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-
     this.activatedRoute.data.subscribe((data:any) => {
       this.uiService.updateApprovalToolbarMessage(data.title);
     });
     this.getNotif('Article');
-    
   }
 
   getNotif(type){

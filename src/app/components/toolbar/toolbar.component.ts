@@ -50,14 +50,19 @@ export class ToolbarComponent implements OnInit {
     this.loading = true;
     this.auth.logout().subscribe(
       res => {
-        this.cookie.delete('auth_token');
-        this.cookie.deleteAll();
+        
         localStorage.removeItem('_user_id');
         localStorage.removeItem('_user_name');
+        localStorage.clear();
+
+        this.cookie.delete('auth_token', '/', null, null, "Lax");
+        this.cookie.deleteAll('/');
+
         $("#logout").modal('hide');
         this.loading = false;
         setTimeout(() => {
-          this.router.navigateByUrl('/login');
+          // this.router.navigateByUrl('/login');
+          location.href = '/login';
         },1000);
       },
       err =>{

@@ -19,12 +19,15 @@
                 (dndDrop)="onDrop($event, folders.id)"
                 [dndDragoverClass]= "draggable.class"
                 dndPlaceholderRef
-                (click)="viewFolder(folders.id, i)"
+                
             >
                 <div class="col-sm-2 col-md-2">
+                    <div class="deleteFolder" *ngIf="folders.canDelete" (click)="deleteFolder(folders.id, i)">
+                        <span class="material-icons del" style="font-size: inherit;">clear</span>
+                    </div>
                     <img src="../../../../../../../assets/img/icons/folder-purple.png" width="12px" alt="folder">
                 </div>
-                <div class="col-sm col-md">
+                <div class="col-sm col-md" (click)="viewFolder(folders.id, i)">
                    <span>{{folders.folder}}</span>
                    <span style="float: right;">{{folders.documents.length}}</span>
                 </div>
@@ -263,6 +266,8 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
       </div>
     </div>
   </div>
+
+  
 
 
 

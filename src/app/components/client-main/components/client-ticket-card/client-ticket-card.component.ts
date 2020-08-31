@@ -1,6 +1,3 @@
-import { switchMap } from 'rxjs/operators';
-import { UIService } from 'src/app/services/ui.service';
-import { UserserviceService } from 'src/app/services/userservice.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -18,11 +15,12 @@ export class ClientTicketCardComponent implements OnInit {
   @Input() clientId;
   @Input() userServiceData;
  
-  constructor(private userService: UserserviceService,
-    private uiService: UIService
-    ) { }
+  constructor() { }
 
   ngOnInit(): void {
+    setInterval(() => {
+      this.getStats();
+    },5000);
     this.getStats();
   }
 
@@ -33,7 +31,7 @@ export class ClientTicketCardComponent implements OnInit {
       this.total = 0;
       this.userServiceData.tickets.data.map(item => {
         if(item.status == 'Ongoing') this.ongoing++;
-        else if(item.status == 'Closed') this.closed++;
+        else if(item.status == 'Completed') this.closed++;
         this.total++;
       });
     }

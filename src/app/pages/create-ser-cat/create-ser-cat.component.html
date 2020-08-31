@@ -4,7 +4,7 @@
     </div>
     <!-- [@fadeAnimation]="allServiceCat.length" -->
     <div class="panel">
-        <div class="cat-cards" >
+        <div class="cat-cards" [@fadeAnimation]="allServiceCat.length">
           <div class="cat-card" *ngFor="let cat of allServiceCat; index as i" >
             <div class="header">
               <div class="icon" *ngIf="cat.icon">

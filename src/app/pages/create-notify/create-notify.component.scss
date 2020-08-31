@@ -19,6 +19,10 @@
         .card-body{
             padding: 0;
             height: 320px;
+            img{
+                height: 320px;
+                object-fit: cover;
+            }
         }
         .tint{
             position: absolute;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-client-main',
@@ -9,7 +9,11 @@ export class ClientMainComponent implements OnInit {
 
   @Input() chatData;
   userServiceData;
+  @Output() change = new EventEmitter();
+
   reload
+
+  mainTab = 'tickets'
 
   constructor() { }
 
@@ -19,6 +23,7 @@ export class ClientMainComponent implements OnInit {
 
   getUserServiceData(data){
     this.userServiceData = data;
+    this.change.emit(this.userServiceData);
   }
 
 }

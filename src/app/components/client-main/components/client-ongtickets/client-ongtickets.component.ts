@@ -6,7 +6,7 @@ import { UIService } from './../../../../services/ui.service';
 import { PaymentsService } from './../../../../services/payments.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserserviceService } from 'src/app/services/userservice.service';
-import { take, switchMap } from 'rxjs/operators';
+import { take, switchMap, delay } from 'rxjs/operators';
 declare var $:any;
 declare var Notiflix:any;
 
@@ -74,7 +74,10 @@ export class ClientOngticketsComponent implements OnInit {
   ngOnInit(): void {
     this.loader = true;
     this.user.name = this.client.name;
-    this.userService.getUserService(this.client.clientId).subscribe((res: any) => {
+
+    this.userService.getUserService(this.client.clientId)
+    .pipe(delay(600))
+    .subscribe((res: any) => {
       if(res.success == 1){
         this.paymentsList.tickets = res.tickets.data;
       }
@@ -95,7 +98,6 @@ export class ClientOngticketsComponent implements OnInit {
     this.noteService.getNotes(this.createPayementObj.user_service_id).subscribe((res: any) => {
       if(res.success){
         this.notes = res.notes;
-        console.log(this.notes)
       }
     });
   }
@@ -106,7 +108,7 @@ export class ClientOngticketsComponent implements OnInit {
     this.noteService.addNotes(this.notesModel).subscribe((res: any) => {
       if(res.success){
         // console.log(res);
-        this.notes.push(res.note);
+        this.notes.unshift(res.note);
         this.notesModel.note = '';
         this.disableNote = false;
 
@@ -133,7 +135,6 @@ export class ClientOngticketsComponent implements OnInit {
     this.paymentService.getPaymentTicket(this.createPayementObj.user_service_id).subscribe((res: any) => {
       if(res.success){
         this.paymentStatusList = res.payments;
-        // console.log(this.paymentStatusList);
       }
     })
   }
@@ -141,7 +142,6 @@ export class ClientOngticketsComponent implements OnInit {
     this.userService.getUserServiceStatus(this.createPayementObj.user_service_id).subscribe((res: any) => {
       if(res.success){
         this.ticketStatuses = res.statuses;
-        console.log(this.ticketStatuses);
       }
     })
   }
@@ -153,7 +153,7 @@ export class ClientOngticketsComponent implements OnInit {
     }
     this.userService.updateUserService(this.createPayementObj.user_service_id, status).subscribe((res: any) => {
       if(res.success){
-        this.ticketStatuses.push(res.status);
+        this.ticketStatuses.unshift(res.status);
         this.disableStatus = false;
       }
     }, err => {
@@ -215,7 +215,7 @@ export class ClientOngticketsComponent implements OnInit {
         .subscribe(
           (res: any) => {
             Notiflix.Notify.Success(res.message);
-            this.paymentStatusList.push(res.payment);
+            this.paymentStatusList.unshift(res.payment);
             $("#createPayment_" + this.client.clientId).modal('hide');
             this.submitPayment = false;
             this.createPayementObj.amount = "";

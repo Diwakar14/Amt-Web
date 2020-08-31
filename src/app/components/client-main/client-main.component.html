@@ -1,7 +1,23 @@
 <div class="clientMain">
-    <app-client-ticket-card [clientId]="chatData.clientId" *ngIf="userServiceData" [userServiceData]="userServiceData" ></app-client-ticket-card>
-    <app-client-ongtickets [client]="chatData"  
-    (change)="getUserServiceData($event)">        
-    </app-client-ongtickets>
-    <app-client-p-payment [clientId]="chatData.clientId"></app-client-p-payment>
+    <!-- <app-client-ticket-card [clientId]="chatData.clientId" *ngIf="userServiceData" [userServiceData]="userServiceData" ></app-client-ticket-card> -->
+    <div class="tabs_main">
+        <label for="tickets_{{chatData.clientId}}">
+            <input type="radio" name="mainPayment_{{chatData.clientId}}" id="tickets_{{chatData.clientId}}" value="tickets" [(ngModel)]="mainTab">
+            <div class="label note">
+            <span class="material-icons mr-1" style="font-size: inherit;">
+                local_offer
+            </span>
+            Tickets</div>
+        </label>
+        <label for="mainPayment_{{chatData.clientId}}">
+            <input type="radio" name="mainPayment_{{chatData.clientId}}" id="mainPayment_{{chatData.clientId}}" value="mainPayments" [(ngModel)]="mainTab">
+            <div class="label payment">
+            <span class="material-icons mr-1" style="font-size: inherit;">
+                payment
+            </span>
+            Payments</div>
+        </label>
+    </div>
+    <app-client-ongtickets [client]="chatData" (change)="getUserServiceData($event)" [hidden]="mainTab != 'tickets'" ></app-client-ongtickets>
+    <app-client-p-payment [clientId]="chatData.clientId" *ngIf="mainTab == 'mainPayments'" ></app-client-p-payment>
 </div>

@@ -1,0 +1,29 @@
+@import '../../../variables';
+
+
+.tabs_main{
+    display: flex;
+    justify-content: space-evenly;
+    border-bottom: 1px solid $totalTicketFontColor;
+    label{
+        position: relative;
+        margin: 0;
+        input[type=radio]{
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+        input[type=radio]:checked ~ .label{
+           border-bottom: 2px solid $dark-blue;
+           font-weight: 600;
+        }
+
+    }
+
+    .label{
+        cursor: pointer;
+        padding: 0.7rem 2rem;
+        font-size: 0.9rem;
+    }
+}

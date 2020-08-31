@@ -1,7 +1,7 @@
 @import '../../../../../variables';
 .payments{
     overflow-y: auto;
-    max-height: 35vh;
+    max-height: 75vh;
 }
 .completedPayment,.pendingPayment{
     margin: .5rem 1rem;
@@ -17,7 +17,7 @@
     .content{
         display: flex;
         justify-content: space-between;
-        padding: 0.5rem;
+        // padding: 0.5rem;
         flex-wrap: wrap;
         .paymentCard{
             width: 47%;

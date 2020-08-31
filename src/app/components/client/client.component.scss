@@ -12,11 +12,12 @@
 .client{
     right: 0;
     position: absolute;
-    bottom: 0;
+    bottom: 3rem;
     width: 100%;
-    border-radius: 1rem 1rem 0 0;
+    border-radius: 1rem 0rem 0 1rem;
     background: white;
     z-index: 1024;
+    height: 90vh;
     overflow: hidden;
     .tint{
         height: 100%;
@@ -41,7 +42,7 @@
     color: white;
     font-family: 'Open Sans', sans-serif;
     padding: .7rem 1.5rem;
-    border-radius: $border-radius $border-radius 0 0;
+    border-radius: 1rem 0 0 0;
 }
 .close{
     color: white;

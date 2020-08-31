@@ -1,3 +1,4 @@
+import { fadeAnimation } from './../../animation';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { PaymentsService } from 'src/app/services/payments.service';
@@ -10,7 +11,8 @@ declare var $:any;
 @Component({
   selector: 'app-create-service',
   templateUrl: './create-service.component.html',
-  styleUrls: ['./create-service.component.scss']
+  styleUrls: ['./create-service.component.scss'],
+  animations: [ fadeAnimation]
 })
 export class CreateServiceComponent implements OnInit, AfterViewInit {
 
@@ -23,7 +25,7 @@ export class CreateServiceComponent implements OnInit, AfterViewInit {
     id: null,
     category: null,
     name: '',
-    documents:'',
+    documents: [],
     eta:'',
     description: '',
     amount: null,
@@ -60,7 +62,6 @@ export class CreateServiceComponent implements OnInit, AfterViewInit {
     this.paymentService.getService().subscribe(
       (res: any) => {
         this.serviceList = res.services;
-        // console.log(this.serviceList);
         this.loader = false;
       },
       err => {
@@ -86,7 +87,7 @@ export class CreateServiceComponent implements OnInit, AfterViewInit {
   createService(f: NgForm){
     this.submit = true;
     if(this.tagify.value.length > 0){
-      this.service.documents = [...this.tagify.value.map(item => item.value)].toString();
+      this.service.documents = [...this.tagify.value.map(item => item.value)];
     }
     this.paymentService.createService(this.service).subscribe(
       res => {
@@ -137,7 +138,7 @@ export class CreateServiceComponent implements OnInit, AfterViewInit {
   updateService(f: NgForm){
     this.submit = true;
     if(this.update_tagify.value.length > 0){
-      this.service.documents = [...this.update_tagify.value.map(item => item.value)].toString();
+      this.service.documents = [...this.update_tagify.value.map(item => item.value)];
     }
     this.paymentService.updateService(this.service.id, this.service).subscribe(
       res => {

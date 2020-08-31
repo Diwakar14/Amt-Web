@@ -19,4 +19,7 @@ export class OperatorService {
   updateOperator(operator: any, id){
     return this.http.put(environment.apiEndPoint + "users/" + id, operator);
   }
+  changePassword(password){
+    return this.http.put(environment.apiEndPoint + 'auth/password', password);
+  }
 }

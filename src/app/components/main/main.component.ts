@@ -22,7 +22,6 @@ export class MainComponent implements OnInit {
 
     this.dashboardService.getDashboardData().subscribe((res: any) => {
       this.dashboard = res.dashboard;
-      console.log(this.dashboard);
     }, err => {
       console.log(err);
     })

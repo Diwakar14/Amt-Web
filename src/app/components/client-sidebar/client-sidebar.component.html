@@ -1,3 +1,4 @@
-<app-profile [profileData]="chatData"></app-profile>
-<hr>
+<app-client-ticket-card [clientId]="chatData.clientId" *ngIf="userServiceData" [userServiceData]="userServiceData" ></app-client-ticket-card>
+<!-- <app-profile [profileData]="chatData"></app-profile>-->
+<hr *ngIf="userServiceData"> 
 <app-document [clientData]="chatData"></app-document>

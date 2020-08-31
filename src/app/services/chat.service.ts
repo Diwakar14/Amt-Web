@@ -9,7 +9,8 @@ export class ChatService {
   constructor(private http: HttpClient) { }
 
   getChats(chatId){
-    return this.http.get(environment.apiEndPoint + "message?chat=" + chatId);
+    return this.http.get(environment.apiEndPoint + "message?chat=" + chatId + "&unread_message=true");
+    
   }
 
   sendChat(chat){

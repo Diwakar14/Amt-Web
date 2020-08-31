@@ -1,15 +1,31 @@
 <div class="ongoingticket">
     <div class="heading d-flex">
         <div>Tickets</div>
-        
         <button class="btn btn-primary ml-auto" (click)="showTicketDialog()">Create Ticket</button>
         <span class="material-icons ml-2 reload" (click)="reload()">
           autorenew
         </span>
     </div>
     <div class="list-group">
+      <div class="topicName">Ongoing</div>
       <ng-template ngFor let-ticket [ngForOf]="paymentsList.tickets">
-        <div class="list-group-item p-0" *ngIf="ticket.status == 'Ongoing'" (click)="showTicketInfo(ticket)">
+        <div class="list-group-item p-0" *ngIf="ticket.status == 'Ongoing' || ticket.status == 'Pending' || ticket.status == 'In Review' || ticket.status == 'Created'" (click)="showTicketInfo(ticket)">
+          <div class="ticket-date">
+            <div class="month">{{ticket.start_date.month || '-'}}</div>
+            <div class="day">{{ticket.start_date.day || '-'}}</div>
+            <div class="year">{{ticket.start_date.year || '-'}}</div>
+          </div>
+          <div class="ticket-list ml-3">
+            <div class="title" *ngIf="ticket.service">{{ticket.service.name || '-'}}</div>
+            <div class="subtitle">Status:  <span class="subtitleValue">{{ticket.status || '-'}}</span></div>
+            <div class="assignee">Assigned To: <span class="assignedValue">{{ticket.assignee.name || '-'}}</span></div>
+          </div>
+        </div>
+      </ng-template>
+
+      <div class="topicName">Completed</div>
+      <ng-template ngFor let-ticket [ngForOf]="paymentsList.tickets">
+        <div class="list-group-item p-0" *ngIf="ticket.status == 'Cancelled' || ticket.status == 'Completed'" (click)="showTicketInfo(ticket)">
           <div class="ticket-date">
             <div class="month">{{ticket.start_date.month || '-'}}</div>
             <div class="day">{{ticket.start_date.day || '-'}}</div>
@@ -36,7 +52,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="" #f="ngForm" (ngSubmit)="createTicket(f)">
+        <form #f="ngForm" (ngSubmit)="createTicket(f)">
           <div class="modal-body">
             <div class="form-group">
               <label for="services">Select the Service:</label>
@@ -85,7 +101,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">{{createPayementObj.service_availed}}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="reload()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>

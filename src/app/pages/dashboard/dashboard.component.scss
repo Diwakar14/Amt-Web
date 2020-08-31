@@ -29,10 +29,12 @@ section{
     display: flex;
     width: 15rem;
     margin-left: 1rem;
+    transition: all ease .2s;
     background: $dark-blue;
     &:hover{
         background-color: $totalTicketDark;
         cursor: pointer;
+        color: white;
     }
     .content{
         cursor: pointer;
@@ -69,14 +71,12 @@ app-sidebar{
 app-minimizedchatbox{
     z-index: 5;
 }
-@keyframes flash{
-    0%{
-        box-shadow: 0 0 0 #fe6d8f23;
-    }
-    50%{
-        box-shadow: 0 0 5px #fe6d8f81;
-    }
-    100%{
-        box-shadow: 0 0 10px #fe6d8f;
-    }
+
+.active-chat{
+    background: #fff;
+    color: $dark-blue;
+    border-radius: 0 0 1rem 1rem;
+    transition: all ease .2s;
+    box-shadow: 0 0 10px #dedeff;
 }
+

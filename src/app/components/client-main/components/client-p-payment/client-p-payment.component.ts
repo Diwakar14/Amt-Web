@@ -8,8 +8,6 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./client-p-payment.component.scss']
 })
 export class ClientPPaymentComponent implements OnInit {
-
-
   pendingPayments = [];
   userId;
   @Input() clientId;
@@ -19,7 +17,6 @@ export class ClientPPaymentComponent implements OnInit {
   ngOnInit(): void {
     this.getPaymentList(this.clientId);
   }
-
 
   getPaymentList(userid){
     this.paymentService.getPaymentList(userid).subscribe(

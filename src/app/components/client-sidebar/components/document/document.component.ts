@@ -6,7 +6,7 @@ import { Folder } from '../../../../models/folderModel';
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { DndDropEvent } from 'ngx-drag-drop';
 import { HttpEventType, HttpParams } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, delay } from 'rxjs/operators';
 import { UIService } from 'src/app/services/ui.service';
 declare var Notiflix:any;
 declare var $:any;
@@ -60,7 +60,10 @@ export class DocumentComponent implements OnInit {
   }
 
   getFolders(userId){
-    this.folderService.getAllFolders(userId).subscribe((item:any) =>{
+    this.folderService.getAllFolders(userId)
+    .pipe(delay(600))
+    .subscribe((item:any) =>{
+      // console.log(item);
       this.foldersAndDocs.folders = item.folders;
       this.folderId = item.folders[0].id;
       this.foldersAndDocs.orphan_docs = item.orphan_docs;
@@ -151,12 +154,18 @@ export class DocumentComponent implements OnInit {
       }))
     ).subscribe((event: any) => {  
         if (typeof (event) === 'object') {  
-          // console.log(event.body);  
           f.reset();
           this.isProgress = false;
         }  
       }
     )
+  }
+
+  deleteFolder(folderId, index){
+    this.folderService.deleteFolder(folderId).subscribe((res: any) => {
+      Notiflix.Notify.Success('Folder Deleted !');
+
+    })
   }
 
   deleteDocument(document){

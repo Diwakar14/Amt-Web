@@ -32,13 +32,15 @@ export class ClientComponent implements OnInit, AfterViewInit {
   @Input() chatData;
   @Input() index;
   @Output() change = new EventEmitter();
-
+  userServiceData;
   loading = true;
   userState = {
     user: {
       name:'',
       windowState:'',
-      userId:''
+      userId:'',
+      phone:'',
+      email:''
     }
   };
 
@@ -46,11 +48,13 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {   
     this.userState.user.name = this.chatData.name;
+    this.userState.user.phone = this.chatData.phone;
+    this.userState.user.email = this.chatData.email;
     this.userState.user.userId = this.chatData.clientId;
   }
 
   ngAfterViewInit(){
-   console.log(this.windowState)
+  //  console.log(this.windowState);
   }
 
   close(){
@@ -62,5 +66,9 @@ export class ClientComponent implements OnInit, AfterViewInit {
   minimize(){
     let state = 'minimized';
     this.change.emit({state:state, index: this.index});
+  }
+
+  getTicketData(data){
+    this.userServiceData = data;
   }
 }

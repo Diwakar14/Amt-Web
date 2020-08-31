@@ -16,7 +16,7 @@
             <th scope="col" width="10%" class="text-center">Closed</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody [@fadeAnimation]="clients.length">
           <tr *ngFor="let client of clients | paginate: config" (click)="openChat(client)">
             <td>
                 <div class="text ellipses bold-text">

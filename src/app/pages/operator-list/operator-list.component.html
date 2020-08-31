@@ -11,8 +11,8 @@
                     </div>
                     <div class="text mt-2">
                         {{operator.name || '-'}}
-                        <span class="material-icons edit" (click)="showEdit(operator)">edit</span>
                     </div>
+                    <span class="material-icons edit" (click)="showEdit(operator)">edit</span>
                 </div>
                 <div class="content">
                     <div class="leftSide">
@@ -86,23 +86,46 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                   
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" [(ngModel)]="operatorModel.name" class="form-control">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" [(ngModel)]="operatorModel.name" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Phone</label>
+                                    <input type="text" name="phone" [(ngModel)]="operatorModel.phone" class="form-control">
+                                </div>
+                                
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="name">Email</label>
-                            <input type="text" name="email" [(ngModel)]="operatorModel.email" class="form-control">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Email</label>
+                                    <input type="text" name="email" [(ngModel)]="operatorModel.email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Password</label>
+                                    <input type="text" name="password" [(ngModel)]="operatorModel.password" class="form-control">
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="name">Phone</label>
-                            <input type="text" name="phone" [(ngModel)]="operatorModel.phone" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Password</label>
-                            <input type="text" name="password" [(ngModel)]="operatorModel.password" class="form-control">
-                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">Role</label>
+                                    <select name="role" [(ngModel)]="operatorModel.role" class="form-control">
+                                        <option value="Admin">Admin</option>
+                                        <option value="Operator">Operator</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>                        
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" [disabled]="disabledOperator">Update Operator</button>

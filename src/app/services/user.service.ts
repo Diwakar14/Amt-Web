@@ -18,6 +18,7 @@ export class UserService {
   createClient(client){
     return this.http.post(environment.apiEndPoint + 'clients', client);
   }
+  
 
   getPage(page){
     return this.http.get(environment.apiEndPoint + 'clients?page=' + page);

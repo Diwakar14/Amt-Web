@@ -1,15 +1,17 @@
 @import '../../../../../variables';
-
+.topicName{
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+    color: #808080;
+}
 .ongoingticket{
-    padding: 0.5rem 0;
     font-family: 'Montserrat', sans-serif;
-   
     .heading{
         padding: 0.5rem 1rem;
         flex-direction: row;
         align-items: center;
         div{
-            font-size: 0.8rem;
+            font-size: 1rem;
             font-weight: bold;
             color: #666666;
         }
@@ -22,7 +24,7 @@
     .list-group{
         padding:0.8rem !important;
         overflow-y: auto;
-        max-height: 30vh;
+        max-height: 66vh;
         min-height: 30vh;
         .list-group-item{
             margin-bottom: 1rem;
@@ -31,6 +33,14 @@
             background: #8c9af213;
             display: flex;
             cursor: pointer;
+            transition: all ease .2s;
+            &:hover{
+                transition: all ease .2s;
+                box-shadow: 0 3px 5px #eeeeff;
+            }
+            &:active{
+                box-shadow: none;
+            }
         }
     }
     .title{
@@ -170,10 +180,7 @@
         background-color: #666666;
     }
     .list .content{
-        // display: flex;
-        // justify-content: space-evenly;
-        // flex-direction: row;
-        // align-items: center;
+        
     }
     .list .title{
         margin-left: 1rem;
@@ -184,8 +191,7 @@
         margin-left: 1rem;
         font-size: 0.8rem;
         font-weight: 200;
-        // padding-left: 1rem;
-        // border-left: 1px solid lightgrey;
+        
     }
 }
 .text-light{
@@ -193,9 +199,12 @@
     color: #808080 !important;
     font-size: 0.85rem !important;
 }
-@media (min-width: 576px){
+@media (min-width:1500px){
     .modal-dialog {
       max-width: 500px;
       margin: 9rem auto;
+    }
+    .list-group{
+        max-height: 75vh !important;
     }
   }

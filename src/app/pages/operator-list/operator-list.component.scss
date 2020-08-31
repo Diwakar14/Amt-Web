@@ -9,6 +9,10 @@
 .edit{
     cursor: pointer;
     font-size: inherit;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
 }
 .operatorCardWrapper{
     display: grid;
@@ -22,13 +26,16 @@
     border-radius: 8px;
     padding: 0.8rem;
     box-shadow: 3px 5px 10px #dee2e6;
+    &:hover .edit{
+        display: initial;
+    }
 }
 .wrapper{
     justify-content: space-evenly;
 }
 .content{
     font-family: "Lato", sans-serif;
-
+    position: relative;
     .text{
         line-height: 2rem;
         font-size: 1.1rem;

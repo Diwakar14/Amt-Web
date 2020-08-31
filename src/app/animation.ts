@@ -14,24 +14,13 @@ export const listAnimation = trigger('listAnimation', [
 ]);
 
 export const fadeAnimation = trigger('fadeAnimation', [
-    transition('* => *', 
-      [
-        query('.cat-card', stagger(200, 
-          [
-            style({ opacity: 0 }),
-            animate('600ms ease-in', style({ opacity: 1 }))
-          ]
-        ), { optional: true })
-      ]
-    ),
-    transition(':leave',
-    [
-      query('.cat-card', stagger(200, 
-        [
-          style({ opacity: 1 }),
-          animate('600ms ease-in', style({ opacity: 0 }))
-        ]
-      ), { optional: true })
-    ]
-    )
-  ]);
+  transition('* => *', [
+    query(':enter', [
+      style({opacity: 0}),
+      stagger('100ms ease-in', [animate('200ms ease', style({opacity: 1}))])
+    ], { optional: true})
+  ]),
+  transition(':leave',
+    [style({ opacity: 1 }), animate('300ms', style({ opacity: 1 }))]
+  )
+])

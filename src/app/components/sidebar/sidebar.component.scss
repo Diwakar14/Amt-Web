@@ -15,7 +15,6 @@
     height: 100%;
     overflow: hidden;
     color: white;
-    overflow-y: auto;
     max-height: 100vh;
 }
 p{
@@ -58,7 +57,6 @@ p{
 .chat .form-control{
     background-color: rgba(255, 255, 255, 0.219);
     color: #f7f7f7;
-    padding: 0.1rem 0.5rem !important;
     border-color: rgba(255, 255, 255, 0.219);
     border-radius: 6px;
     font-size: 12px;
@@ -73,13 +71,12 @@ p{
 .chat .form-control:focus{
     color: #fff;
     border-color: #fff;
-    
 }
 .chatList{
     padding: 0rem;
-    margin-bottom: 1.5rem;
-    max-height: 350px;
+    max-height: 26vh;
     overflow-y: auto;
+    min-width: 13.5rem;
 }
 .chatList-item{
     list-style: none;
@@ -125,8 +122,27 @@ p{
 
 .avatar{
     border-radius: 5rem;
+    position: relative;
+}
+.avatar .unread_message{
+    position: absolute;
+    bottom: -11px;
+    left: -4px;
+    .material-icons{
+        font-size: large;
+        color: #fe6d8f;
+    }
 }
 .avatar img{
     border-radius: 5rem;
 }
 
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+@media (min-width:1500px){
+    .chatList{
+        max-height: 600px;
+    }
+}

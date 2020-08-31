@@ -10,8 +10,8 @@
     }
 }
 .document{
-    padding: 1rem 0.5rem 0 1rem;
-    
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
 }
 .heading{
     flex-direction: row;
@@ -26,7 +26,7 @@
 .list-group{
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 20rem;
+    max-height: 21rem;
 }
 #fileList{
     overflow-y: auto;
@@ -68,6 +68,22 @@
     cursor: pointer;
     color: #02024c;    
     font-weight: 600;
+    position: relative;
+}
+.list-group-item .row:hover .deleteFolder{
+    display: block;
+}
+.deleteFolder{
+    display: none;
+    position: absolute;
+    left: 0;
+    .del{
+        background-color: #c1272d;
+        color: #fff;
+        border-radius: 2rem;
+        padding: 2px;
+        font-size: 0.9rem;
+    }
 }
 .heading{
     font-family: 'Lato',sans-serif;

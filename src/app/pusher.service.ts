@@ -11,6 +11,7 @@ export class PusherService {
   pusher: any;
   channel: any;
   chatBoxChannel: any;
+  presenceChannel: any;
   constructor(private cookie: CookieService) {
   }
 
@@ -33,7 +34,21 @@ export class PusherService {
       console.log('connection error', error)
     });
   }
-  subscribeForChatBox(subscriptionId){
-    this.chatBoxChannel = this.pusher.subscribe(subscriptionId)
+
+  subscribeToPresenceChannel(channelId){
+    this.presenceChannel = this.pusher.subscribe(channelId);
+    return this.presenceChannel;
+  }
+  subscribeForChatBox(chat_room){
+    this.chatBoxChannel = this.pusher.subscribe(chat_room)
+  }
+
+  unsubscribeChatRoom(chat_room){
+    this.pusher.unsubscribe(chat_room);
+    console.log('chat room close', chat_room)
+  }
+  unsubscribePresenceChannel(channelId){
+    this.pusher.unsubscribe(channelId);
+    console.log('Presence Channel Closed', channelId);
   }
 }

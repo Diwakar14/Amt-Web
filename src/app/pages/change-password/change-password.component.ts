@@ -1,3 +1,4 @@
+import { NgForm } from '@angular/forms';
 import { OperatorService } from './../../services/operator.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -12,9 +13,10 @@ export class ChangePasswordComponent implements OnInit {
 
   password = {
     old_password:'',
-    password:'',
+    new_password:'',
     confirm_password:''
   }
+  disable = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private uiService: UIService,
@@ -28,13 +30,23 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  resetPassword(form){
-    if(this.password.password == this.password.confirm_password){
-      this.operatorSer.updateOperator(this.password, localStorage.getItem('_user_id')).subscribe((res: any) => {
+  resetPassword(form:NgForm){
+    this.disable = true;
+    let password = {
+      new_password: this.password.new_password,
+      old_password: this.password.old_password
+    }
+    if(this.password.new_password == this.password.confirm_password){
+      this.operatorSer.changePassword(password).subscribe((res: any) => {
         Notiflix.Notify.Success('Password Updated !');
+        this.disable = false;
+        form.reset(this.password);
+      }, err => {
+        Notiflix.Notify.Failure(err.error.message);
+        this.disable = false;
       });
     }else{
-      Notiflix.Notify.Success('Password and Confirm Password does not match.');
+      Notiflix.Notify.Failure('Password and Confirm Password does not match.');
     }
   }
 

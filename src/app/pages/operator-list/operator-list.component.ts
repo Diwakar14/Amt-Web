@@ -20,7 +20,8 @@ export class OperatorListComponent implements OnInit {
     name:'',
     email:'',
     password:'',
-    phone:''
+    phone:'',
+    role:''
   };
   disabledOperator = false;
   constructor( private activatedRoute: ActivatedRoute,
@@ -49,6 +50,7 @@ export class OperatorListComponent implements OnInit {
   showEdit(operator){
     $('#update_operator').modal('show')
     this.operatorModel = operator;
+    this.operatorModel.role = operator.roles[0].role;
     console.log(this.operatorModel);
   }
 

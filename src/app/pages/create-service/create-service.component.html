@@ -15,7 +15,7 @@
                 <th scope="col" width="5%" class="text-right">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody [@fadeAnimation]="serviceList.length">
               <tr *ngFor="let service of serviceList; index as i">
                 <th scope="row" class="text-center">{{i+1}}</th>
                 <td>
@@ -98,7 +98,7 @@
                         <div class="col-sm-12 col-md-6">
                           <div class="form-group">
                             <label for="">Name</label>
-                            <input type="text" name="updateService" id="" 
+                            <input type="text" name="updateService" 
                             class="form-control" 
                             [(ngModel)]="service.name" 
                             placeholder="Enter Service Name"
@@ -130,7 +130,7 @@
                           <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                               <label for="">Amount</label>
-                              <input type="text" name="updateSamount" id="" 
+                              <input type="text" name="updateSamount" 
                               class="form-control" 
                               [(ngModel)]="service.amount" 
                               placeholder="Enter Service Amount"
@@ -148,7 +148,7 @@
                         <div class="form-group">
                             <label for="">Descriptions</label>
                             <textarea class="form-control" 
-                            name="updateSdesc" id="" cols="30" rows="3" 
+                            name="updateSdesc" cols="30" rows="3" 
                             [(ngModel)]="service.description" 
                             placeholder="Enter Description of the Service"
                             required></textarea>
@@ -235,7 +235,7 @@
                         <div class="form-group">
                           <label for="">Descriptions</label>
                           <textarea class="form-control" 
-                          name="desc" id="" cols="30" rows="2" 
+                          name="desc" cols="30" rows="2" 
                           [(ngModel)]="service.description" 
                           placeholder="Enter Description of the Service"
                           required></textarea>

@@ -6,7 +6,7 @@
 [@slideUp]="windowState == 'opened'?'opened':''"
 [@slideDown]="windowState == 'minimized'?'minimized':''">
     <div class="header d-flex">
-        {{userState.user.name || '-'}}
+        {{userState.user.name || '-'}} • {{userState.user.email || '-'}} • {{userState.user.phone || '-'}}
         <div class="ml-auto">
             <button class="close ml-2" (click)="close()">
                 <span class="material-icons">
@@ -22,8 +22,8 @@
         
     </div>
     <div class="wrapper">
-        <app-client-sidebar [chatData]="chatData"></app-client-sidebar>
-        <app-client-main [chatData]="chatData"></app-client-main>
+        <app-client-sidebar [chatData]="chatData" [userServiceData]="userServiceData"></app-client-sidebar>
+        <app-client-main [chatData]="chatData" (change)="getTicketData($event)"></app-client-main>
         <app-chatbox [chatData]="chatData"></app-chatbox>
     </div>
 </div>

@@ -22,6 +22,7 @@ export class CreateNotifyComponent implements OnInit {
   submit = false;
 
   @ViewChild('photo') photo: ElementRef<HTMLInputElement>;
+  originalImage: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -44,7 +45,16 @@ export class CreateNotifyComponent implements OnInit {
       no_label: false                 // Default: false
     });
   }
-
+  showPreview(file){
+    var reader = new FileReader();
+    reader.readAsDataURL(file.files[0]); 
+    reader.onload = (_event) => { 
+      this.originalImage = reader.result.toString(); 
+    }
+  }
+  showPreviewForImageurl(){
+    this.originalImage = this.notification.imageUrl;
+  }
   createNotif(f: NgForm){
     this.submit = true;
     let formdata = new FormData();

@@ -1,3 +1,4 @@
+import { fadeAnimation } from './../../animation';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +9,8 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
-  styleUrls: ['./client-list.component.scss']
+  styleUrls: ['./client-list.component.scss'],
+  animations: [ fadeAnimation ]
 })
 export class ClientListComponent implements OnInit {
 
@@ -33,6 +35,7 @@ export class ClientListComponent implements OnInit {
     });
     this.uiService.currentIndex$.subscribe((res: any) => {
       this.index = JSON.parse(res);
+      this.usersList.splice(this.index, this.usersList.length - this.index);
     });
   }
 
@@ -55,7 +58,7 @@ export class ClientListComponent implements OnInit {
     if(userIndex == -1){
       chatboxState.windowState = 'opened';
       chatboxState.clients = clientDetails;
-      this.usersList.push(clientDetails);
+      this.usersList[this.index] = clientDetails;
       this.chatbox.emit({clients: chatboxState, index: this.index});
       this.index++;
       
