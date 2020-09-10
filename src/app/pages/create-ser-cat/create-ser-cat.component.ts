@@ -1,9 +1,13 @@
-import { listAnimation, fadeAnimation } from './../../animation';
+import { CookieService } from 'ngx-cookie-service';
+import { fadeAnimation } from './../../animation';
 import { NgForm } from '@angular/forms';
 import { PaymentsService } from './../../services/payments.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UIService } from 'src/app/services/ui.service';
+
+import * as jwt_decode from 'jwt-decode';
+
 declare var $:any;
 declare var Notiflix:any;
 
@@ -17,28 +21,30 @@ export class CreateSerCatComponent implements OnInit {
 
   loader = false;
   submit = false;
+  deleteDisabled = false;
 
   serviceCategory = {
     id: 0,
     name: '',
-    // description: ''
   }
   @ViewChild('icon') icon:ElementRef;
 
   allServiceCat = [];
-  constructor(private paymentService: PaymentsService,
-    
+  role: any;
+  index: any;
+  constructor(
+    private paymentService: PaymentsService,
     private activatedRoute: ActivatedRoute,
+    private cookie: CookieService,
     private uiService: UIService
-  
     ) { 
     this.activatedRoute.data.subscribe((data:any) => {
       this.uiService.updateApprovalToolbarMessage(data.title);
     });
+    
   }
 
   ngOnInit(): void {
-
     $.uploadPreview({
       input_field: "#icons",   // Default: .image-upload
       preview_box: "#image-preview",  // Default: .image-preview
@@ -47,21 +53,17 @@ export class CreateSerCatComponent implements OnInit {
       label_selected: "Change File",  // Default: Change File
       no_label: false                 // Default: false
     });
-    $(document).ready(function() {
-      $('.service-list').select2();
-    });
-
     this.loader = true;
     this.paymentService.getServiceCategory().subscribe(
       (res:any) => {
         this.allServiceCat = res.categories;
-        // console.log(this.allServiceCat);
         this.loader = false;
       },
       err => {
         this.loader = false;
       }
     )
+    this.role = jwt_decode(this.cookie.get('auth_token')).allowed[0];
   }
 
   createCategory(f: NgForm){
@@ -71,13 +73,13 @@ export class CreateSerCatComponent implements OnInit {
     formdata.append('icon', this.icon.nativeElement.files[0]);
 
     this.paymentService.createServiceCategory(formdata).subscribe(
-      res => {
+      (res: any) => {
         Notiflix.Notify.Success('Service Category Created !');
         f.reset();
         this.submit = false;
         
         $("#createSerCat").modal('hide');
-        this.ngOnInit();
+        this.allServiceCat.unshift(res.category);
       },
       err => {
         Notiflix.Notify.Failure('Error in creating Service Category !');
@@ -107,18 +109,32 @@ export class CreateSerCatComponent implements OnInit {
       }
     )
   }
-  delete(id, i){
-    this.delLoading(i);
-    this.paymentService.deleteServiceCategory(id).subscribe(
+
+  confirmDelete(id, i){
+    $("#confirmDeleteCategory").modal('show');
+    this.serviceCategory.id = id;
+    this.index = i;
+  }
+
+  delete(){
+    this.deleteDisabled = true;
+    this.paymentService.deleteServiceCategory(this.serviceCategory.id).subscribe(
       res => {
         Notiflix.Notify.Success('Service Category Deleted !');
-        this.ngOnInit();
+        $("#confirmDeleteCategory").modal('hide');
+        this.serviceCategory.id = 0;
+        this.allServiceCat.splice(this.index, 1);
+        this.deleteDisabled = false;
+
       },
       err => {
         Notiflix.Notify.Failure('Error in deleting Service Category !');
+        this.deleteDisabled = false;
       }
     )
   }
+  
+
   delLoading(i){
     document.querySelector('#del_cat_' + i).setAttribute('style', 'display:none');
     document.querySelector('#del_cat_load_' + i).setAttribute('style', 'display:initial;');

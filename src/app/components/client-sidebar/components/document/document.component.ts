@@ -1,3 +1,4 @@
+import { LocalFolder } from './../../../../models/folderModel';
 import { environment } from './../../../../../environments/environment';
 import { DocumentService } from '../../../../services/document.service';
 import { FolderService } from '../../../../services/folder.service';
@@ -8,20 +9,24 @@ import { DndDropEvent } from 'ngx-drag-drop';
 import { HttpEventType, HttpParams } from '@angular/common/http';
 import { map, catchError, delay } from 'rxjs/operators';
 import { UIService } from 'src/app/services/ui.service';
+
+import * as jwt_decode from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
 declare var Notiflix:any;
 declare var $:any;
+
+
+
 @Component({
   selector: 'app-document',
   templateUrl: './document.component.html',
   styleUrls: ['./document.component.scss']
 })
 export class DocumentComponent implements OnInit {
+  
 
   folderM:Folder = new Folder();
-  foldersAndDocs = {
-    folders:[],
-    orphan_docs:[]
-  };
+  foldersAndDocs: LocalFolder = new LocalFolder();
   folderId;
 
   submitFolder = false;
@@ -40,13 +45,21 @@ export class DocumentComponent implements OnInit {
   };
   userId: any;
   documentFileList = [];
+  multipleDocuments = [];
+  folderToMoveIn: any;
+  deleteDisable: boolean = false;
+  role: any;
   @Input() clientData;
   @ViewChild('documentFile', {static: false}) documentFile:ElementRef;
   @ViewChild('downloadFile', {static: false}) download:ElementRef<HTMLAnchorElement>;
+  disabledFileMove: boolean;
+  disableFolderDelete: boolean;
+  
   
 
   constructor(private folderService: FolderService, 
     private uiService: UIService,
+    private cookie: CookieService,
     private documentService: DocumentService) {
     Notiflix.Notify.Init({
       cssAnimationStyle: 'from-top',
@@ -57,16 +70,16 @@ export class DocumentComponent implements OnInit {
   ngOnInit(): void {
     this.userId = this.clientData.clientId;
     this.getFolders(this.userId);
+    this.role = jwt_decode(this.cookie.get('auth_token')).allowed[0];
   }
 
   getFolders(userId){
     this.folderService.getAllFolders(userId)
-    .pipe(delay(600))
     .subscribe((item:any) =>{
-      // console.log(item);
+      console.log(item);
       this.foldersAndDocs.folders = item.folders;
       this.folderId = item.folders[0].id;
-      this.foldersAndDocs.orphan_docs = item.orphan_docs;
+      this.folderToMoveIn = this.folderId;
     });
   }
   showCreateFolderDialog(){
@@ -87,34 +100,48 @@ export class DocumentComponent implements OnInit {
       }
     );
   }
-  showFilesFolder(folderId, i){
+  showFilesFolder(folderId){
     let files = this.foldersAndDocs.folders.find(f => f.id == folderId);
+    console.log(files);
     this.filesInFolder = files;
     this.folderId = folderId;
     this.addActiveClass(folderId);
+    this.multipleDocuments = [];
   }
 
   viewFolder(folderId, i){
     this.loaderFiles = true;
     $('#showFolder_' + this.clientData.clientId).modal('show');
-    let files = this.foldersAndDocs.folders.find(f => f.id == folderId);
     this.folderService.getAllFolders(this.userId, folderId).subscribe((res: any) => {
       this.filesInFolder = res.folders[i];
+      this.folderId = res.folders[i].id;
       this.loaderFiles = false;
     }, err=>{
       this.loaderFiles = false;
     })
-    // this.filesInFolder = files;
     this.addActiveClass(folderId);
   }
 
   showfiles(){
+    this.documentFileList = [];
     let file = this.documentFile.nativeElement.files;
     this.documentFileList = file;
   }
 
+  selectDocToDel(file, index){
+    let findDoc = this.multipleDocuments.findIndex(item => item == file.id);
+    if(findDoc >= 0){
+      this.multipleDocuments.splice(findDoc, 1);
+      document.querySelector("#file_"+ index).classList.remove('cardbg');
+    }else{
+      this.multipleDocuments.push(file.id);
+      document.querySelector("#file_"+ index).classList.add('cardbg');
+    }
+  }
+  
   uploadDocumentDialog(){
     $('#uploadDocuments_' + this.clientData.clientId).modal('show');
+    this.documentFile.nativeElement.files = null;
   }
 
   uploadDocuments(f:NgForm){
@@ -127,9 +154,8 @@ export class DocumentComponent implements OnInit {
     }
     formdata.append('folder', this.folderId);
     formdata.append('user', this.userId);
-    // formdata.append('chat_id', '1234');
     this.documentService.uploadDocument(formdata, this.userId).pipe(
-      map(event => {
+      map((event: any) => {
         switch(event.type){
           case HttpEventType.UploadProgress:
             let progress = Math.round(event.loaded * 100 / event.total);
@@ -137,13 +163,16 @@ export class DocumentComponent implements OnInit {
             this.progress.complete = true;
             break;
           case HttpEventType.Response:
+            for (let i = 0; i < this.documentFileList.length; i++) {
+              let index = this.foldersAndDocs.folders.findIndex(ele => ele.id == this.folderId);
+              this.foldersAndDocs.folders[index].documents.push(event.body.documents[i]);
+              this.filesInFolder.documents.push(event.body.documents[i]);
+            }
             this.documentFileList = [];
-            f.reset()
-            this.ngOnInit();
             this.progress.complete = false;
             this.submitDoc = false;
+            Notiflix.Notify.Success('File Uploaded.');
             $("#uploadDocuments_" + this.clientData.clientId).modal('hide');
-            Notiflix.Notify.Success('File Uploaded !');
             return event;
         }
       }),
@@ -154,34 +183,68 @@ export class DocumentComponent implements OnInit {
       }))
     ).subscribe((event: any) => {  
         if (typeof (event) === 'object') {  
-          f.reset();
           this.isProgress = false;
         }  
       }
     )
   }
 
-  deleteFolder(folderId, index){
-    this.folderService.deleteFolder(folderId).subscribe((res: any) => {
-      Notiflix.Notify.Success('Folder Deleted !');
+  confirmDelete(folderId){
+    $("#confirmDeleteFolder_" + this.clientData.clientId).modal('show');
+    this.folderId = folderId;
+  }
 
+  deleteFolder(){
+    this.disableFolderDelete = true;
+    this.folderService.deleteFolder(this.folderId).subscribe((res: any) => {
+      Notiflix.Notify.Success('Folder Deleted.');
+      this.disableFolderDelete = false;
+      let deletedID = this.foldersAndDocs.folders.findIndex(item => item.id == this.folderId);
+      this.foldersAndDocs.folders.splice(deletedID, 1);
+      $("#confirmDeleteFolder_" + this.clientData.clientId).modal('hide');
+    }, err => {
+      Notiflix.Notify.Failure('Folder Delete Failed.');
+      this.disableFolderDelete = false;
     })
   }
 
-  deleteDocument(document){
-    let httpParams = new HttpParams().set('documents', '[' + document.id + ']');
-    this.documentService.deleteDocument(httpParams).subscribe(
+  deleteDocuments(document?: any, i?: any){
+    
+    let data:any = {};
+    if(document && document.id){
+      data.documents = [document.id]
+    }else{
+      this.deleteDisable = true;
+      data.documents = this.multipleDocuments
+    }
+    
+    this.documentService.deleteDocument(data).subscribe(
       res => {
-        Notiflix.Notify.Success('File Deleted !');
-        this.getFolders(this.userId);
+        Notiflix.Notify.Success('File Deleted.');
+        this.deleteDisable = false;
+        if(document.id){
+          let folIndex = this.foldersAndDocs.folders.findIndex(item => item.id == this.folderId);
+          this.foldersAndDocs.folders[folIndex].documents.splice(i, 1);
 
-        setTimeout(() => {
-           this.showFilesFolder(document.folder_id, 1);
-        }, 1000);
-       
+          // this.filesInFolder.documents.splice(i, 1);
+          console.log('Delete Single', this.multipleDocuments);
+        }else{
+          this.multipleDocuments.map(item => {
+            let index = this.filesInFolder.documents.findIndex(doc => doc.id == item);
+            this.filesInFolder.documents.splice(index, 1);
+  
+            let folIndex = this.foldersAndDocs.folders.findIndex(item => item.id == this.folderId);
+            this.foldersAndDocs.folders[folIndex].documents.splice(index, 1);
+          });
+          console.log("Deleteing multiple", this.multipleDocuments);
+        }
+        
+        this.multipleDocuments = [];
+        this.reset();
       },
       err => {
         Notiflix.Notify.Failure(err.error.message);
+        this.deleteDisable = false;
       }
     )
   }
@@ -201,26 +264,52 @@ export class DocumentComponent implements OnInit {
     }
     this.folderService.moveFileToFolder(payload).subscribe(
       res => {
-        Notiflix.Notify.Success('File Moved !!!');
-        this.ngOnInit();
-        this.getFolders(this.userId);
+        Notiflix.Notify.Success('File Moved.');
+        let index = this.filesInFolder.documents.findIndex(doc => doc.id == event.data);
+        let document = this.filesInFolder.documents.find(doc => doc.id == event.data);
+        this.filesInFolder.documents.splice(index, 1);
 
-        setTimeout(() => {
-           this.showFilesFolder(this.folderId, 1);
-        }, 1000);
+        let targetFolderIndex = this.foldersAndDocs.folders.findIndex(item => item.id == folderId);
+        this.foldersAndDocs.folders[targetFolderIndex].documents.push(document);
+
       },
       err => {
-        console.log(err);
+        Notiflix.Notify.Failure(err.error.message);
       }
     )
   }
+  moveMultiple(){
+    this.disabledFileMove = true;
+    let payload = {
+      documents: this.multipleDocuments,
+      folder: this.folderToMoveIn
+    }
+    this.folderService.moveFileToFolder(payload).subscribe(
+      res => {
+        Notiflix.Notify.Success('File Moved.');
+        this.disabledFileMove = false;
 
+        this.multipleDocuments.map(item => {
+          let index = this.filesInFolder.documents.findIndex(doc => doc.id == item);
+          let document = this.filesInFolder.documents.find(doc => doc.id == item);
+          this.filesInFolder.documents.splice(index, 1);
+
+          let targetFolderIndex = this.foldersAndDocs.folders.findIndex(item => item.id == this.folderToMoveIn);
+          this.foldersAndDocs.folders[targetFolderIndex].documents.push(document);
+        });
+        this.multipleDocuments = [];
+        this.reset();
+      },
+      err => {
+        Notiflix.Notify.Failure(err.error.message);
+        this.disabledFileMove = false;
+      }
+    )
+  }
   downloadDoc(file){
-    console.log(file);
-    const link = this.download.nativeElement;
-    link.href = environment.apiEndPoint + "document/" + file.id;
-    link.download = file.name;
-    link.click();
+    this.documentService.downloadDoc(file.id).subscribe((res: any) => {
+      this.downLoadFile(res, file.type, file.name);
+    });
   }
   private downLoadFile(data: any, type: string, filename: string) {
     let blob = new Blob([data], { type: type});
@@ -242,5 +331,11 @@ export class DocumentComponent implements OnInit {
     let folderActive = document.querySelector('#fol_'+folderId);
     folderActive.className += ' FolderActive';
   }
-  
+  reset(){
+    let listItem = document.querySelectorAll('.card');
+    let checkbox = document.querySelectorAll('input[name=multipleSelectCardCheckbox]');
+
+    listItem.forEach(item => item.classList.remove('cardbg'));
+    checkbox.forEach((item: any) => item.checked = false);
+  }
 }

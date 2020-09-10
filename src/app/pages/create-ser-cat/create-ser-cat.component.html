@@ -1,8 +1,7 @@
 <div class="createSerCat">
     <div class="heading">
-        <button class="btn btn-outline-primary-new ml-auto d-block" data-toggle="modal" data-target="#createSerCat">Create New Category</button>
+        <button class="btn btn-outline-primary-new ml-auto d-block" data-toggle="modal" data-target="#createSerCat" *ngIf="role == 'Admin'">Create New Category</button>
     </div>
-    <!-- [@fadeAnimation]="allServiceCat.length" -->
     <div class="panel">
         <div class="cat-cards" [@fadeAnimation]="allServiceCat.length">
           <div class="cat-card" *ngFor="let cat of allServiceCat; index as i" >
@@ -17,11 +16,11 @@
               <div class="cat_count"></div>
             </div>
             <div class="footer">
-              <div class="btn-group" role="group" aria-label="Basic example">
+              <div class="btn-group" role="group" aria-label="Action" *ngIf="role == 'Admin'">
                 <button type="button" class="btn btn-primary btn-sm" (click)="edit(cat)">
                   <span class="material-icons">edit</span>
                 </button>
-                <button type="button" class="btn btn-primary btn-sm" (click)="delete(cat.id, i)">
+                <button type="button" class="btn btn-primary btn-sm" (click)="confirmDelete(cat.id, i)">
                   <span class="material-icons" id="del_cat_{{i}}">delete</span>
                   <img src="../../../assets/img/loader/loader.svg" width="20px" id="del_cat_load_{{i}}" style="display: none;">
                 </button>
@@ -29,91 +28,109 @@
             </div>
           </div>
         </div>
-
           <p class="text-center text-muted p-2" *ngIf="allServiceCat.length == 0"> No Services Category</p>
-
           <div class="loader d-block m-auto p-2" *ngIf="loader">
             <img src="../../../assets/img/loader/loader.svg" width="30px" alt="">
           </div>
-
     </div>
-
-  <div class="modal fade" id="updateSerCat" tabindex="-1" role="dialog" aria-labelledby="createSerCatLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createSerCatLabel">Update Service Category</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="" #f="ngForm" (ngSubmit)="updateServiceCategory(f)">
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <div class="form-group">
-                            <label for="">Name</label>
-                            <input type="text" name="serviceCat" 
-                            class="form-control" 
-                            [(ngModel)]="serviceCategory.name" 
-                            placeholder="Enter Service Category"
-                            name="serviceName"
-                            required>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Update</button>
-            </div>
-
-        </form>
+</div>
+<div class="modal fade" id="updateSerCat" tabindex="-1" role="dialog" aria-labelledby="createSerCatLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createSerCatLabel">Update Service Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <form action="" #f="ngForm" (ngSubmit)="updateServiceCategory(f)">
+          <div class="modal-body">
+              <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-12">
+                      <div class="form-group">
+                          <label for="">Name</label>
+                          <input type="text" name="serviceCat" 
+                          class="form-control" 
+                          [(ngModel)]="serviceCategory.name" 
+                          placeholder="Enter Service Category"
+                          name="serviceName"
+                          required>
+                      </div>
+                      
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Update</button>
+          </div>
+
+      </form>
     </div>
   </div>
-  <div class="modal fade" id="createSerCat" tabindex="-1" role="dialog" aria-labelledby="createSerCatLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createSerCatLabel">Create Service Category</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+</div>
+<div class="modal fade" id="createSerCat" tabindex="-1" role="dialog" aria-labelledby="createSerCatLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createSerCatLabel">Create Service Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="" #f="ngForm" (ngSubmit)="createCategory(f)">
+          <div class="modal-body">
+              <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-12">
+                      <div class="form-group">
+                          <label for="">Name</label>
+                          <input type="text" name="serviceCat" 
+                          class="form-control" 
+                          [(ngModel)]="serviceCategory.name" 
+                          placeholder="Enter Service Category"
+                          name="serviceName"
+                          required>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="">Icon</label>
+                        <div class="icons-uploader" id="image-preview">
+                          <span class="material-icons">publish</span>
+                          <input type="file" name="icons" id="icons" #icon>
+                        </div>
+                      </div>
+                      
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="!f.valid || submit">
+            Create
+            <img src="../../../assets/img/loader/btnLoader.svg" *ngIf="submit" width="30px" alt="loading">
           </button>
-        </div>
-        <form action="" #f="ngForm" (ngSubmit)="createCategory(f)">
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <div class="form-group">
-                            <label for="">Name</label>
-                            <input type="text" name="serviceCat" 
-                            class="form-control" 
-                            [(ngModel)]="serviceCategory.name" 
-                            placeholder="Enter Service Category"
-                            name="serviceName"
-                            required>
-                        </div>
-                        
-                        <div class="form-group">
-                          <label for="">Icon</label>
-                          <div class="icons-uploader" id="image-preview">
-                            <span class="material-icons">publish</span>
-                            <input type="file" name="icons" id="icons" #icon>
-                          </div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="!f.valid || submit">
-              Create
-              <img src="../../../assets/img/loader/btnLoader.svg" *ngIf="submit" width="30px" alt="loading">
-            </button>
-            </div>
+          </div>
 
-        </form>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="confirmDeleteCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm Delete Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this category?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary-outline" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" [disabled]="deleteDisabled" (click)="delete()">
+          Yes
+          <img src="../../../assets/img/loader/loader.svg" width="20px" [hidden]="!deleteDisabled">
+        </button>
       </div>
     </div>
   </div>

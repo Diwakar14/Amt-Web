@@ -1,7 +1,5 @@
 import { UIService } from './../../services/ui.service';
-import { UserserviceService } from './../../services/userservice.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { $ } from 'protractor';
 
 @Component({
   selector: 'app-ongoing-ticket',
@@ -11,14 +9,14 @@ import { $ } from 'protractor';
 export class OngoingTicketComponent implements OnInit {
 
   @Input() data;
-  constructor(private userSerice: UserserviceService, private uiService: UIService) { }
-  
-  
   ongoingService = [];
 
+  constructor() { }
+  
   ngOnInit(): void {
     if(this.data)
       this.ongoingService = this.data.tickets_ongoing;
+
   }
 
 

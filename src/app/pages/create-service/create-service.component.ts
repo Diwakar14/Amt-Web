@@ -4,6 +4,9 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { PaymentsService } from 'src/app/services/payments.service';
 import { ActivatedRoute } from '@angular/router';
 import { UIService } from 'src/app/services/ui.service';
+import * as jwt_decode from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
+
 declare var Notiflix:any;
 declare var Tagify:any;
 declare var $:any;
@@ -38,12 +41,14 @@ export class CreateServiceComponent implements OnInit, AfterViewInit {
   submit = false;
   del = false;
   update_tagify: any;
+  role: any;
+  index: any;
 
-  constructor(private paymentService: PaymentsService,
-    
+  constructor(
+    private paymentService: PaymentsService,
+    private cookie: CookieService,
     private activatedRoute: ActivatedRoute,
     private uiService: UIService
-  
     ) { 
     this.activatedRoute.data.subscribe((data:any) => {
       this.uiService.updateApprovalToolbarMessage(data.title);
@@ -69,7 +74,7 @@ export class CreateServiceComponent implements OnInit, AfterViewInit {
         console.log(err);
       }
     )
-    
+    this.role = jwt_decode(this.cookie.get('auth_token')).allowed[0];
 
   }
 
@@ -90,10 +95,11 @@ export class CreateServiceComponent implements OnInit, AfterViewInit {
       this.service.documents = [...this.tagify.value.map(item => item.value)];
     }
     this.paymentService.createService(this.service).subscribe(
-      res => {
+      (res: any) => {
         Notiflix.Notify.Success('Service Created !');
         $("#createSer").modal('hide');
         this.ngOnInit();
+        // this.serviceList.unshift(res.service);
         f.reset();
         this.tagify.removeAllTags();
         this.submit = false;
@@ -155,14 +161,21 @@ export class CreateServiceComponent implements OnInit, AfterViewInit {
       }
     )
   }
-  delete(id, i){
+  confirmDelete(id, i){
+    $("#confirmDeleteService").modal('show');
+    this.service.id = id;
+    this.index = i;
+  }
+
+  delete(){
     this.del = true;
-    this.delLoading(i);
-    this.paymentService.deleteService(id).subscribe(
+    this.paymentService.deleteService(this.service.id).subscribe(
       res => {
         Notiflix.Notify.Success('Service Deleted Successfully !');
+        $("#confirmDeleteService").modal('hide');
         this.del = false;
-        this.ngOnInit();
+        this.service.id = null;
+        this.serviceList.splice(this.index, 1);
       },
       err => {
         Notiflix.Notify.Failure('Error in Deleteing Service !');

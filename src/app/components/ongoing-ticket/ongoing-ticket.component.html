@@ -10,6 +10,7 @@
                 <th scope="col"  width="20%">NAME</th>
                 <th scope="col"  width="20%">SERVICE AVAILED</th>
                 <th scope="col"  width="20%" class="text-center">STATUS</th>
+                <th scope="col"  width="20%" class="text-center">OPENED SINCE</th>
               </tr>
             </thead>
             <tbody>
@@ -24,6 +25,9 @@
                   </span>
                 <td class="text-center bold-text">
                   {{ticket.status|uppercase}}
+                </td>
+                <td class="text-center">
+                  {{ticket.start_date.day + " " + ticket.start_date.month + ", " + ticket.start_date.year}}
                 </td>
               </tr>
             </tbody>

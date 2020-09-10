@@ -19,8 +19,9 @@ export class DocumentService {
     return this.http.get(environment.apiEndPoint + "document/" + documentId, {responseType:'arraybuffer'});
   }
 
-  deleteDocument(folderOptions){
-    let options = { params: folderOptions }
+  deleteDocument(folderIds){
+    let header = new HttpHeaders().set('Content-Type', 'application/json');
+    let options = { headers: header, body: folderIds}; // unusual code. try not to send body delete method. 
     return this.http.delete(environment.apiEndPoint + "document", options);
   }
 }

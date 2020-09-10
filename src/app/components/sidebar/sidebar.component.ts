@@ -6,6 +6,8 @@ import { UIService, IClients, ChatboxState } from './../../services/ui.service';
 import { Component, OnInit, AfterViewInit, Output, EventEmitter, Input, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { Observable, Subscription, fromEvent } from 'rxjs';
+import * as jwt_decode from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
 declare var $: any;
 @Component({
   selector: 'app-sidebar',
@@ -39,10 +41,12 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() change = new EventEmitter();
   @Input() action;
   @ViewChild('search_client') searchField:ElementRef<HTMLInputElement>;
+  role: any;
   
   constructor(private uiService: UIService, 
     private title:Title,
     private pusherService: PusherService,
+    private cookie: CookieService,
     private userService: UserService) {
       this.uiService.currentIndex$.subscribe((res: any) => {
         this.index = JSON.parse(res);
@@ -71,9 +75,11 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.loader = false;
         }
       );
+      
   }
   
   ngOnInit(): void {
+    this.role = jwt_decode(this.cookie.get('auth_token')).allowed[0];
     this.loader = true;
     this.userService.AllClients('').subscribe(
       (res:any) => {

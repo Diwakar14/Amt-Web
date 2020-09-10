@@ -1,6 +1,6 @@
 <div class="createSer">
     <div class="heading">
-        <button class="btn btn-outline-primary-new d-block ml-auto btn-sm" (click)="createServiceModal()">Create New Service</button>
+        <button class="btn btn-outline-primary-new d-block ml-auto btn-sm" *ngIf="role == 'Admin'" (click)="createServiceModal()">Create New Service</button>
     </div>
     <div class="panel">
         <table class="table table-borderless">
@@ -12,7 +12,7 @@
                 <!-- <th scope="col" width="5%">Amount</th> -->
                 <!-- <th scope="col" width="5%">Eta</th> -->
                 <th scope="col" width="5%">Category</th>
-                <th scope="col" width="5%" class="text-right">Actions</th>
+                <th scope="col" width="5%" class="text-right" *ngIf="role == 'Admin'">Actions</th>
               </tr>
             </thead>
             <tbody [@fadeAnimation]="serviceList.length">
@@ -25,15 +25,14 @@
                 <td>{{service.amount|currency:'₹'}}</td>
                 <td>{{service.eta}}</td> -->
                 <td>{{service.category.name || '-'}}</td> 
-                <td class="text-right">
-                    <div class="btn-group" role="group" aria-label="Basic example">
+                <td class="text-right" *ngIf="role == 'Admin'">
+                    <div class="btn-group" role="group" aria-label="Basic example" >
                         <button type="button" class="btn btn-outline-primary btn-sm" (click)="edit(service)">
                           <span class="material-icons">edit</span>
                         </button>
-                        <button type="button" class="btn btn-outline-primary btn-sm" (click)="delete(service.id, i)">
+                        <button type="button" class="btn btn-outline-primary btn-sm" (click)="confirmDelete(service.id, i)">
                           <span class="material-icons" id="del_{{i}}">delete</span>
                           <img src="../../../assets/img/loader/loader.svg" width="20px" id="del_load_{{i}}" style="display:none;filter: invert(1);">
-                          
                         </button>
                     </div>
                 </td>
@@ -167,89 +166,112 @@
       </div>
     </div>
   </div>
-  <div class="modal fade" id="createSer" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="createSerLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createSerLabel">Create Service</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="" #f="ngForm" (ngSubmit)="createService(f)">
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <div class="row">
-                          <div class="col-sm-12 col-md-6">
-                            <div class="form-group">
-                              <label for="">Category</label>
-                              <select name="category" [(ngModel)]="service.category" class="form-control" required>
-                                  <option *ngFor="let cat of serviceCategory.categories" value="{{cat.id}}" >{{cat.name}}</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-sm-12 col-md-6">
-                            <div class="form-group">
-                              <label for="">Name</label>
-                              <input type="text" name="service" 
-                              class="form-control" 
-                              [(ngModel)]="service.name" 
-                              placeholder="Enter Service Name"
-                              required>
-                            </div>
+<div class="modal fade" id="createSer" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="createSerLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createSerLabel">Create Service</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="" #f="ngForm" (ngSubmit)="createService(f)">
+          <div class="modal-body">
+              <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-12">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                          <div class="form-group">
+                            <label for="">Category</label>
+                            <select name="category" [(ngModel)]="service.category" class="form-control" required>
+                                <option *ngFor="let cat of serviceCategory.categories" value="{{cat.id}}" >{{cat.name}}</option>
+                            </select>
                           </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <div class="row">
-                          <div class="col-sm-12 col-md-6">
-                            <div class="form-group">
-                              <label for="">ETA</label>
-                              <input type="text" name="eta" 
-                              class="form-control" 
-                              [(ngModel)]="service.eta" 
-                              >
-                            </div> 
-                          </div>
-                          <div class="col-sm-12 col-md-6">
-                            <div class="form-group">
-                              <label for="">Amount</label>
-                              <input type="text" name="amout" 
-                              class="form-control" 
-                              [(ngModel)]="service.amount" 
-                              placeholder="Enter Service Amount"
-                              required>
-                            </div> 
-                          </div>
-                        </div>
-                           
-                        <div class="form-group">
-                            <label for="">Documents</label>
-                            <textarea type="text" name="document" rows="2"
+                        <div class="col-sm-12 col-md-6">
+                          <div class="form-group">
+                            <label for="">Name</label>
+                            <input type="text" name="service" 
                             class="form-control" 
-                            placeholder="Document Name"
-                            ></textarea>
-                        </div>    
-                           
-                        <div class="form-group">
-                          <label for="">Descriptions</label>
-                          <textarea class="form-control" 
-                          name="desc" cols="30" rows="2" 
-                          [(ngModel)]="service.description" 
-                          placeholder="Enter Description of the Service"
-                          required></textarea>
-                        </div>  
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="!f.valid || submit">
-              Create
-              <img src="../../../assets/img/loader/loader.svg" *ngIf="submit" width="30px" alt="">
-            </button>
-            </div>
-        </form>
+                            [(ngModel)]="service.name" 
+                            placeholder="Enter Service Name"
+                            required>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-12">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                          <div class="form-group">
+                            <label for="">ETA</label>
+                            <input type="text" name="eta" 
+                            class="form-control" 
+                            [(ngModel)]="service.eta" 
+                            >
+                          </div> 
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                          <div class="form-group">
+                            <label for="">Amount</label>
+                            <input type="text" name="amout" 
+                            class="form-control" 
+                            [(ngModel)]="service.amount" 
+                            placeholder="Enter Service Amount"
+                            required>
+                          </div> 
+                        </div>
+                      </div>
+                          
+                      <div class="form-group">
+                          <label for="">Documents</label>
+                          <textarea type="text" name="document" rows="2"
+                          class="form-control" 
+                          placeholder="Document Name"
+                          ></textarea>
+                      </div>    
+                          
+                      <div class="form-group">
+                        <label for="">Descriptions</label>
+                        <textarea class="form-control" 
+                        name="desc" cols="30" rows="2" 
+                        [(ngModel)]="service.description" 
+                        placeholder="Enter Description of the Service"
+                        required></textarea>
+                      </div>  
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="!f.valid || submit">
+            Create
+            <img src="../../../assets/img/loader/loader.svg" *ngIf="submit" width="30px" alt="">
+          </button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="confirmDeleteService" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm Delete Service</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this service?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary-outline" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" [disabled]="del" (click)="delete()">
+          Yes
+          <img src="../../../assets/img/loader/loader.svg" width="20px" [hidden]="!del">
+        </button>
       </div>
     </div>
   </div>
+</div>

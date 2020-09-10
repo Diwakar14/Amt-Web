@@ -94,6 +94,23 @@ export class ClientOngticketsComponent implements OnInit {
     );    
   }
 
+  showTicketInfo(payment){
+    $("#ticketDetails_" + this.client.clientId).modal('show');
+    
+    this.paymentStatusList = [];
+    this.ticketStatuses = [];
+    this.notes = [];
+
+    this.notesModel.note = '';
+    this.createPayementObj.service_availed = payment.service.name;
+    this.createPayementObj.user_id = this.client.clientId;
+    this.paymentStatus = payment.status;
+    this.createPayementObj.user_service_id = payment.id;
+    this.getNotes();
+    this.getTicketStatus();
+    this.getPaymentForTicket();
+  }
+
   getNotes(){
     this.noteService.getNotes(this.createPayementObj.user_service_id).subscribe((res: any) => {
       if(res.success){
@@ -119,17 +136,7 @@ export class ClientOngticketsComponent implements OnInit {
     });
   }
 
-  showTicketInfo(payment){
-    $("#ticketDetails_" + this.client.clientId).modal('show');
-    this.notesModel.note = '';
-    this.createPayementObj.service_availed = payment.service.name;
-    this.createPayementObj.user_id = this.client.clientId;
-    this.paymentStatus = payment.status;
-    this.createPayementObj.user_service_id = payment.id;
-    this.getNotes();
-    this.getTicketStatus();
-    this.getPaymentForTicket();
-  }
+  
 
   getPaymentForTicket(){
     this.paymentService.getPaymentTicket(this.createPayementObj.user_service_id).subscribe((res: any) => {
@@ -231,5 +238,7 @@ export class ClientOngticketsComponent implements OnInit {
   }
   reload(){
     this.ngOnInit();
+    this.notesModel.note = "";
+    this.createPayementObj.amount = ""
   }
 }

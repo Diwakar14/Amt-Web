@@ -29,17 +29,17 @@ const routes: Routes = [
     data: {title:'Dashboard'},
     children: [
       {
-        path: '',
+        path: 'home',
         component: MainComponent,
         data: {title:'Dashboard'},
       },
       {
-        path: 'operator-add',
+        path: 'operator/add',
         component: AddOperatorComponent,
         data: {title:'Add Operator'},
       },
       {
-        path: 'operator',
+        path: 'operators',
         component: OperatorListComponent,
         data: {title:'All Operator'},
       },
@@ -49,17 +49,17 @@ const routes: Routes = [
         data: {title:'Notifications'},
       },
       {
-        path: 'createNotify',
+        path: 'notifications/add',
         component: CreateNotifyComponent,
         data: {title:'Notifications'},
       },
       {
-        path: 'createService',
+        path: 'services',
         component: CreateServiceComponent,
         data: {title:'Service'},
       },
       {
-        path: 'createSerCat',
+        path: 'categories',
         component: CreateSerCatComponent,
         data: {title:'Service Category'},
       },
@@ -67,20 +67,19 @@ const routes: Routes = [
         path: 'createBroadcast',
         component: CreateBroadcastComponent,
         data: {title:'Broadcast'},
-
       },
       {
-        path: 'addClient',
+        path: 'client/add',
         component: AddClientComponent,
         data: {title:'Add Client'},
       },
       {
-        path: 'clientList',
+        path: 'clients',
         component: ClientListComponent,
-        data: {title:'Client List'},
+        data: {title:'All Client'},
       },
       {
-        path: 'changePassword',
+        path: 'password',
         component: ChangePasswordComponent,
         data: {title:'Change Password'},
       }

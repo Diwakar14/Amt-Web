@@ -4,19 +4,19 @@
     </div>
     <app-menu>
         <app-submenu [title]="'Home'" [logo]="'../../../assets/img/icons/home-white.png'">
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard">Dashboard</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/home">Dashboard</li>
         </app-submenu>
         <app-submenu [title]="'Client'" [logo]="'../../../assets/img/icons/client-white.png'">
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/addClient">Add Client</li>
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/clientList">All Clients</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/client/add">Add Client</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/clients">All Clients</li>
         </app-submenu>
-        <app-submenu [title]="'Operator'" [logo]="'../../../assets/img/icons/operator-white.png'">
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/operator-add">Add Operator</li>
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/operator">All Operators</li>
+        <app-submenu [title]="'Operator'" [logo]="'../../../assets/img/icons/operator-white.png'" *ngIf="role == 'Admin'">
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/operator/add">Add Operator</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/operators">All Operators</li>
         </app-submenu>
         <app-submenu [title]="'Products'" routerLinkActive="activeSidebar" [logo]="'../../../assets/img/icons/product-white.png'">
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/createSerCat">Category</li>
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/createService">Services</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/categories">Category</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/services">Services</li>
             <!-- <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/createBroadcast">Broadcasts</li> -->
             <!-- <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/notifications">Notifications</li> -->
         </app-submenu>
@@ -24,22 +24,25 @@
             <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/notifications">All Notifications</li>
         </app-submenu>
         <app-submenu [title]="'Settings'" [logo]="'../../../assets/img/icons/settings-white.png'">
-            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/changePassword">Change Password</li>
+            <li class="subitem" routerLinkActive="activeSidebar" routerLink="/dashboard/password">Change Password</li>
         </app-submenu>
     </app-menu>
     <hr>
 
     <div class="chat">
-        <div class="chatheader">
-           <div>Clients
-            <!-- <span class="material-icons reload ml-1" style="font-size: inherit;" (click)="reload()">autorenew</span> -->
-           </div> 
-           
-           <div class="d-block ml-auto">{{filteredClients.length}}</div>
+        <div class="sticky-top">
+            <div class="chatheader">
+                <div>Clients
+                 <!-- <span class="material-icons reload ml-1" style="font-size: inherit;" (click)="reload()">autorenew</span> -->
+                </div> 
+                
+                <div class="d-block ml-auto">{{filteredClients.length}}</div>
+             </div>
+             <div class="search mx-2 mb-2">
+                 <input type="search" class="form-control" placeholder="Search Clients" #search_client name="search" autocomplete="off">
+             </div>
         </div>
-        <div class="search mx-2 mb-2">
-            <input type="search" class="form-control" placeholder="Search Clients" #search_client name="search" autocomplete="off">
-        </div>
+        
         <div class="loader d-block m-auto" *ngIf="loader">
             <img src="../../../assets/img/loader/loader.svg" width="30px" alt="">
         </div>

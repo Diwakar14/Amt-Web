@@ -6,7 +6,7 @@
         </span>
         <!-- <button class="btn btn-primary btn-sm ml-auto" data-toggle="modal" data-target="#uploadDocuments">Upload</button> -->
     </div>
-    <button class="btn btn-danger-theme btn-block" (click)="showCreateFolderDialog()">
+    <button class="btn btn-danger-theme btn-block" (click)="showCreateFolderDialog()" *ngIf="role == 'Admin'">
         <span class="icon mr-2">
             <img src="../../../../../../../assets/img/icons/folder-white.png" width="12px" alt="folder">
         </span>
@@ -18,11 +18,9 @@
                 dndDropzone
                 (dndDrop)="onDrop($event, folders.id)"
                 [dndDragoverClass]= "draggable.class"
-                dndPlaceholderRef
-                
-            >
+                dndPlaceholderRef>
                 <div class="col-sm-2 col-md-2">
-                    <div class="deleteFolder" *ngIf="folders.canDelete" (click)="deleteFolder(folders.id, i)">
+                    <div class="deleteFolder" *ngIf="folders.canDelete && folders.documents.length == 0" (click)="confirmDelete(folders.id)">
                         <span class="material-icons del" style="font-size: inherit;">clear</span>
                     </div>
                     <img src="../../../../../../../assets/img/icons/folder-purple.png" width="12px" alt="folder">
@@ -33,20 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="list-group-item" *ngFor="let docs of foldersAndDocs.orphan_docs">
-                <div class="row" 
-                    [dndDraggable]="docs.id"
-                    [dndEffectAllowed]="draggable.effectAllowed"
-                    [dndDraggingClass]="draggable.class"
-                >
-                    <div class="col-sm-2 col-md-2">
-                        <img src="../../../../../../../assets/img/file icons/icons8-binary-file-96.png" width="12px" alt="folder">
-                    </div>
-                    <div class="col-sm-8 col-md-8">
-                        {{docs.name}}
-                    </div>
-                </div>
-        </div>
+        
     </ul>
 </div>
 <!-- Button trigger modal -->
@@ -117,15 +102,15 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
                             <p class="text-muted text-center">Select Document to Upload</p>
                         </div>
                         <ul class="list-group mt-4" id="fileToUpload">
-                            <li class="list-group-item d-flex justify-content-between" *ngFor="let file of documentFileList; index as i">
+                            <li class="list-group-item d-flex justify-content-between" 
+                            *ngFor="let file of documentFileList; index as i">
                                <strong>{{file.name}}</strong>
-                               <div class="">{{(file.size/1024)/1024|number}} MB 
+                               <div class="">{{(file.size/1024)/1024|number:'1.1-2'}} MB 
                                    <!-- <span class="material-icons" (click)="delDoc(i)">clear</span> -->
                                </div>
-                               
                             </li>
                         </ul>
-                        <div class="uploadProgress" *ngIf="documentFileList.length != 0">
+                        <div class="uploadProgress" *ngIf="documentFileList.length">
                             <div class="totalFile">{{documentFileList.length}} File(s) selected</div>
                             <div class="prog" *ngIf="progress.complete">{{progress.width}}</div>
                             <div class="complete" *ngIf="progress.complete">File Upload Completed.</div>
@@ -161,32 +146,21 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
             <div class="row">
                 <div class="col-sm-3">
                     <ul class="list-group" id="fileList">
-                        <div class="list-group-item" *ngFor="let folders of foldersAndDocs.folders; index as i" id="fol_{{folders.id}}" (click)="showFilesFolder(folders.id, i)">
+                        <div class="list-group-item" *ngFor="let folders of foldersAndDocs.folders; index as i" id="fol_{{folders.id}}" (click)="showFilesFolder(folders.id)">
                             <div class="row"
                                 dndDropzone
                                 [dndDragoverClass]= "draggable.class"
                                 (dndDrop)="onDrop($event, folders.id)"
                                 dndPlaceholderRef
                             >
-                                <div class="col-sm-2 col-md-2">
+                                <div class="col-sm-2 col-md-2 text-center">
                                     <img src="../../../../../../../assets/img/icons/folder-purple.png" width="12px" alt="folder">
                                 </div>
                                 <div class="col-sm col-md">
-                                    {{folders.folder || '-'}}
+                                    <span>{{folders.folder || '-'}}</span>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item" *ngFor="let docs of foldersAndDocs.orphan_docs">
-                            <div class="row" 
-                                [dndDraggable]="docs.id"
-                                [dndEffectAllowed]="draggable.effectAllowed"
-                                [dndDraggingClass]="draggable.class"
-                            >
-                                <div class="col-sm-2 col-md-2">
-                                    <img src="../../../../../../../assets/img/file icons/icons8-binary-file-96.png" width="12px" alt="folder">
-                                </div>
-                                <div class="col-sm-8 col-md-8">
-                                    {{docs.name || '-'}}
+                                <div class="col-sm-2 col-md-2 text-center">
+                                    <span>{{folders.documents.length||0}} </span>
                                 </div>
                             </div>
                         </div>
@@ -204,8 +178,12 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
                             [dndDraggable]="file.id"
                             [dndEffectAllowed]="draggable.effectAllowed"
                             [dndDraggingClass]="draggable.class"
-                            *ngFor="let file of filesInFolder.documents"
+                            *ngFor="let file of filesInFolder.documents;index as i"
+                            id="file_{{i}}"
                         >
+                        <div class="deleteMany">
+                            <input type="checkbox" name="multipleSelectCardCheckbox" id="{{file.id}}" (click)="selectDocToDel(file, i)">
+                        </div>
                         <div class="fileLogo" *ngIf="file.format=='zip'">
                             <img src="../../../../../../../assets/img/file icons/icons8-7zip-100.png" width="100%" alt="">
                         </div>
@@ -239,6 +217,9 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
                             <div class="card-title text-center">
                                 {{file.name || '-'}}
                             </div>
+                            <div class="fontsize07 text-center text-muted">
+                                {{file.size || '-'}} • {{file.last_updated || '-'}}
+                            </div>
                             <div class="text-center mt-2">
                                 <div class="btn-group" role="group">
                                     <a class="btn btn-outline-primary btn-sm" *ngIf="file.format=='png' || file.format=='jpg' || file.format=='pdf'" target="_blank" href="{{file.path}}" download="{{file.path}}">
@@ -247,7 +228,7 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
                                     <button class="btn btn-outline-primary btn-sm" (click)="downloadDoc(file)">
                                         <span class="material-icons">get_app</span>
                                     </button>
-                                    <button class="btn btn-outline-primary btn-sm" (click)="deleteDocument(file)" >
+                                    <button class="btn btn-outline-primary btn-sm" (click)="deleteDocuments(file, i)" >
                                         <span class="material-icons">delete</span>
                                     </button>
                                 </div>
@@ -260,14 +241,42 @@ tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="tru
             </div> 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary btn-sm" (click)="uploadDocumentDialog()">UPLOAD</button>
-          <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+            <div class="form-group d-flex mr-auto mb-0" *ngIf="multipleDocuments.length>0">
+                <select name="folderToMoveIn" class="form-control" [(ngModel)]="folderToMoveIn">
+                    <option *ngFor="let fol of foldersAndDocs.folders" name="folderOptions" value="{{fol.id}}" >{{fol.folder}}</option>
+                </select>
+                <button  type="button" class="btn btn-primary btn-sm ml-2" [disabled]="disabledFileMove" 
+                (click)="moveMultiple()">MOVE SELECTED ({{multipleDocuments.length||''}})</button>    
+            </div>
+            <button type="button" class="btn btn-danger btn-sm" (click)="deleteDocuments()" [disabled]="deleteDisable"
+            *ngIf="multipleDocuments.length>0">DELETE SELECTED ({{multipleDocuments.length||''}})</button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="uploadDocumentDialog()">UPLOAD NEW</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
-
   
+<!-- Modal -->
+<div class="modal fade" data-backdrop="false" id="confirmDeleteFolder_{{clientData.clientId}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog shadow-lg">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body m-3">
+        Are you sure you want to delete this folder?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary-outline" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" [disabled]="disableFolderDelete" (click)="deleteFolder()">DELETE</button>
+    </div>
+    </div>
+</div>
+</div>
 
 
 

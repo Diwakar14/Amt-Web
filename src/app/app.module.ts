@@ -45,7 +45,6 @@ import { CreateServiceComponent } from './pages/create-service/create-service.co
 import { MenuComponent } from './components/menu/menu.component';
 import { SubmenuComponent } from './components/submenu/submenu.component';
 import { NotifListComponent } from './pages/notif-list/notif-list.component';
-import { MomentModule } from 'ngx-moment';
 
 // for Router import:
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';

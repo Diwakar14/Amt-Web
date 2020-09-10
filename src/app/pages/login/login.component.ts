@@ -36,12 +36,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
     let users:Users = f.value;
     this.authService.login(users).subscribe(
       res => {
-        this.cookie.set("auth_token", res.headers.get('Authorization'));
+        let expire = res.headers.get('expires');  
+        var now = new Date();
+        var time = now.getTime();
+        var expireTime = time + (parseInt(expire)*10);
+        now.setTime(expireTime);
+
+        this.cookie.set("auth_token", res.headers.get('Authorization'), now);
         localStorage.setItem('_user_id', res.body.user.id);
         localStorage.setItem('_user_name', res.body.user.name);
+
         this.loading = false;
         Notiflix.Notify.Success('Login Success !');
-        this.router.navigateByUrl('/dashboard');
+        this.router.navigateByUrl('/dashboard/home');
       },
       err => {
         Notiflix.Notify.Failure('Login Failed !');

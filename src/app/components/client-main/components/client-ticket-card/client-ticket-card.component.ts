@@ -30,8 +30,13 @@ export class ClientTicketCardComponent implements OnInit {
       this.ongoing = 0;
       this.total = 0;
       this.userServiceData.tickets.data.map(item => {
-        if(item.status == 'Ongoing') this.ongoing++;
-        else if(item.status == 'Completed') this.closed++;
+        if(item.status == 'Ongoing' || 
+          item.status == 'In Review' || 
+          item.status == 'Pending' || 
+          item.status == 'Created') 
+        this.ongoing++;
+        
+        else if(item.status == 'Completed' || item.status == 'Cancelled') this.closed++;
         this.total++;
       });
     }

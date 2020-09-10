@@ -18,7 +18,7 @@ export class FolderService {
   }
 
   deleteFolder(documentId){
-    return this.http.delete(environment.apiEndPoint + "documents/" + documentId);
+    return this.http.delete(environment.apiEndPoint + "folders/" + documentId);
   }
 
   moveFileToFolder(payload){
