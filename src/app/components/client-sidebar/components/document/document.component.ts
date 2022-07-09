@@ -76,7 +76,7 @@ export class DocumentComponent implements OnInit {
   getFolders(userId){
     this.folderService.getAllFolders(userId)
     .subscribe((item:any) =>{
-      console.log(item);
+      // console.log(item);
       this.foldersAndDocs.folders = item.folders;
       this.folderId = item.folders[0].id;
       this.folderToMoveIn = this.folderId;
@@ -227,7 +227,7 @@ export class DocumentComponent implements OnInit {
           this.foldersAndDocs.folders[folIndex].documents.splice(i, 1);
 
           // this.filesInFolder.documents.splice(i, 1);
-          console.log('Delete Single', this.multipleDocuments);
+          // console.log('Delete Single', this.multipleDocuments);
         }else{
           this.multipleDocuments.map(item => {
             let index = this.filesInFolder.documents.findIndex(doc => doc.id == item);
@@ -236,7 +236,7 @@ export class DocumentComponent implements OnInit {
             let folIndex = this.foldersAndDocs.folders.findIndex(item => item.id == this.folderId);
             this.foldersAndDocs.folders[folIndex].documents.splice(index, 1);
           });
-          console.log("Deleteing multiple", this.multipleDocuments);
+          // console.log("Deleteing multiple", this.multipleDocuments);
         }
         
         this.multipleDocuments = [];

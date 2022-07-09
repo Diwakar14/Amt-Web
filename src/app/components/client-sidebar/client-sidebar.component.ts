@@ -10,7 +10,8 @@ export class ClientSidebarComponent implements OnInit {
   @Input() chatData;
   @Input() userServiceData;
   constructor() {
-    console.log(this.userServiceData)
+    this.userServiceData = {};
+    // console.log(this.userServiceData)
   }
 
   ngOnInit(): void {

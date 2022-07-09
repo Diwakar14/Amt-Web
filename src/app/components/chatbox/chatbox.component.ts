@@ -73,19 +73,19 @@ export class ChatboxComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.pusherService.chatBoxChannel.bind("client-typing", data =>{
-      console.log("Typing start - ", data);
+      // console.log("Typing start - ", data);
     });
     this.pusherService.chatBoxChannel.bind("client-typing-stop", data =>{
-      console.log("Typing end - ", data);
+      // console.log("Typing end - ", data);
     });
     this.pusherService.chatBoxChannel.bind("pusher:member_added", data =>{
-      console.log("Chat box Online -", data);
+      // console.log("Chat box Online -", data);
       if((this.userId == data.id) && data.info.roles[0].role == 'Client'){
         this.chat.client_online = true;
       }
     });
     this.pusherService.chatBoxChannel.bind("pusher:subscription_succeeded", data =>{
-      console.log("chatbox S -", data);
+      // console.log("chatbox S -", data);
       for (const property in data.members) {
         let onlineMem = data.members[property];
         if((this.userId == onlineMem.id) && onlineMem.roles[0].role == 'Client'){
@@ -95,7 +95,7 @@ export class ChatboxComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     
     this.pusherService.chatBoxChannel.bind("pusher:member_removed", data =>{
-      console.log("chatbox -Offline -", data);
+      // console.log("chatbox -Offline -", data);
       if((this.userId == data.id) && data.info.roles[0].role == 'Client'){
         this.chat.client_online = false;
       }
@@ -141,7 +141,7 @@ export class ChatboxComponent implements OnInit, AfterViewInit, OnDestroy {
   sendMessage(){
     this.chat.chat = this.chatData.chat;
     this.chat.client = this.userId;
-    console.log(this.chat);
+    // console.log(this.chat);
     if(this.chat.text){
       this.chatService.sendChat(this.chat).pipe(
         take(1),
@@ -200,7 +200,7 @@ export class ChatboxComponent implements OnInit, AfterViewInit, OnDestroy {
         uniqueUser = chats.messages[i].sender_id;
       }
     }
-    console.log(chats);
+    // console.log(chats);
     return chats;
   }
 

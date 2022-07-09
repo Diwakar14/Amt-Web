@@ -34,12 +34,12 @@
           </div>
     </div>
 </div>
-<div class="modal fade" id="updateSerCat" tabindex="-1" role="dialog" aria-labelledby="createSerCatLabel" aria-hidden="true">
+<div class="modal fade" id="updateSerCat" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="createSerCatLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="createSerCatLabel">Update Service Category</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal"  (click)="close()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -68,12 +68,12 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="createSerCat" tabindex="-1" role="dialog" aria-labelledby="createSerCatLabel" aria-hidden="true">
+<div class="modal fade" id="createSerCat" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="createSerCatLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="createSerCatLabel">Create Service Category</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" (click)="close()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>

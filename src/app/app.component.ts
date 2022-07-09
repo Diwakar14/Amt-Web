@@ -1,9 +1,5 @@
 import { LocaleServiceService } from './services/locale-service.service';
-import { PusherService } from './pusher.service';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-// const Pusher = require('pusher');
-import Pusher from 'pusher-js';
+import { Component, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',

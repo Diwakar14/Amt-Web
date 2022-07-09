@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiEndPoint: 'http://54.186.217.203:5009/',
+  // apiEndPoint: 'http://54.186.217.203:5009/',
+  apiEndPoint: 'http://api.acemytax.in/',
   pusher: {
     key : "12907a3c72a8674833f1",
     cluster : "ap2"

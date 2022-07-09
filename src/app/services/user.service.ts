@@ -12,14 +12,19 @@ export class UserService {
   getOnlineUsers(){
     return this.http.get(environment.apiEndPoint + 'clients/online');
   }
+
   AllClients(q?: any){
     return this.http.get(environment.apiEndPoint + 'clients?q=' + q);
   }
+  
   createClient(client){
     return this.http.post(environment.apiEndPoint + 'clients', client);
   }
   
-
+  getChats(){
+    return this.http.get(environment.apiEndPoint + 'clients/chat');
+  }
+  
   getPage(page){
     return this.http.get(environment.apiEndPoint + 'clients?page=' + page);
   }

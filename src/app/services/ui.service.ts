@@ -70,7 +70,7 @@ export class UIService {
   }
 
   updateIndex(state) {
-    console.log(state)
+    // console.log(state)
     this.index = state;
     this.index$.next(JSON.stringify(this.index));
   }

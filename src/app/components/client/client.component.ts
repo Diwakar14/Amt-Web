@@ -51,6 +51,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
     this.userState.user.phone = this.chatData.phone;
     this.userState.user.email = this.chatData.email;
     this.userState.user.userId = this.chatData.clientId;
+    this.userServiceData = {};
   }
 
   ngAfterViewInit(){

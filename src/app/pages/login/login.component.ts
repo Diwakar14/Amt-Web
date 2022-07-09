@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     
   ngAfterViewInit(): void {
     if(this.cookie.check('auth_token')){
-      // this.router.navigateByUrl('/dashboard');
+      this.router.navigateByUrl('/dashboard/home');
     }
   }
 

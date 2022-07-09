@@ -3,8 +3,8 @@ import { NgForm } from '@angular/forms';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UIService } from 'src/app/services/ui.service';
-declare var Notiflix:any;
-declare var $:any;
+declare var Notiflix: any;
+declare var $: any;
 @Component({
   selector: 'app-create-notify',
   templateUrl: './create-notify.component.html',
@@ -16,8 +16,8 @@ export class CreateNotifyComponent implements OnInit {
     title: '',
     message: '',
     type: 'Article',
-    url:'',
-    imageUrl:''
+    url: '',
+    imageUrl: ''
   }
   submit = false;
 
@@ -29,8 +29,8 @@ export class CreateNotifyComponent implements OnInit {
     private uiService: UIService,
     private router: Router,
     private notificationSer: NotificationService
-  ) { 
-    this.activatedRoute.data.subscribe((data:any) => {
+  ) {
+    this.activatedRoute.data.subscribe((data: any) => {
       this.uiService.updateApprovalToolbarMessage(data.title);
     });
   }
@@ -45,47 +45,45 @@ export class CreateNotifyComponent implements OnInit {
       no_label: false                 // Default: false
     });
   }
-  showPreview(file){
+  showPreview(file) {
     var reader = new FileReader();
-    reader.readAsDataURL(file.files[0]); 
-    reader.onload = (_event) => { 
-      this.originalImage = reader.result.toString(); 
+    reader.readAsDataURL(file.files[0]);
+    reader.onload = (_event) => {
+      this.originalImage = reader.result.toString();
     }
   }
-  showPreviewForImageurl(){
+  showPreviewForImageurl() {
     this.originalImage = this.notification.imageUrl;
   }
-  createNotif(f: NgForm){
+  createNotif(f: NgForm) {
     this.submit = true;
     let formdata = new FormData();
     let file = this.photo.nativeElement.files;
 
-    if(file.length > 0){
+    if (file.length > 0) {
       formdata.append("photo", file[0])
     }
 
-    if(this.notification.url){
+    if (this.notification.url) {
       formdata.append("url", this.notification.url);
     }
 
-    if(this.notification.imageUrl){
+    if (this.notification.imageUrl) {
       formdata.append("photo", this.notification.imageUrl);
     }
 
-    console.log(this.notification);
-
     formdata.append('title', this.notification.title);
-    formdata.append('body', this.notification.message || '-');
+    formdata.append('body', this.notification.message || '');
     formdata.append('type', this.notification.type);
 
     this.notificationSer.createNotifications(formdata).subscribe((res: any) => {
-      if(res.success == 1){
+      if (res.success == 1) {
         Notiflix.Notify.Success(res.message);
         this.submit = false;
         f.reset(this.notification);
         this.router.navigateByUrl('/dashboard/notifications');
       }
-    }, err =>{
+    }, err => {
       Notiflix.Notify.Failure(err.error.message);
       this.submit = false;
     });

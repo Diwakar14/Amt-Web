@@ -16,7 +16,7 @@ export class PusherService {
   }
 
   init(){
-    console.log("Before starting pusher")
+    // console.log("Before starting pusher")
     this.pusher = new Pusher(environment.pusher.key, {
       cluster: environment.pusher.cluster,
       authEndpoint: environment.apiEndPoint + 'auth/pusher',
@@ -26,13 +26,13 @@ export class PusherService {
         },
       }
     });
-    console.log("Pusher object created.", this.pusher);
-    this.pusher.connection.bind('state_change', function(states) {
-      console.log("Channels current state is " + states.current);
-    });
-    this.pusher.connection.bind('error', function(error) {
-      console.log('connection error', error)
-    });
+    // console.log("Pusher object created.", this.pusher);
+    // this.pusher.connection.bind('state_change', function(states) {
+    //   console.log("Channels current state is " + states.current);
+    // });
+    // this.pusher.connection.bind('error', function(error) {
+    //   console.log('connection error', error)
+    // });
   }
 
   subscribeToPresenceChannel(channelId){
@@ -45,10 +45,10 @@ export class PusherService {
 
   unsubscribeChatRoom(chat_room){
     this.pusher.unsubscribe(chat_room);
-    console.log('chat room close', chat_room)
+    // console.log('chat room close', chat_room)
   }
   unsubscribePresenceChannel(channelId){
     this.pusher.unsubscribe(channelId);
-    console.log('Presence Channel Closed', channelId);
+    // console.log('Presence Channel Closed', channelId);
   }
 }

@@ -134,6 +134,10 @@ export class CreateSerCatComponent implements OnInit {
     )
   }
   
+  close(){
+    this.serviceCategory.name = '';
+    $('#image-preview').attr("style", " ");
+  }
 
   delLoading(i){
     document.querySelector('#del_cat_' + i).setAttribute('style', 'display:none');

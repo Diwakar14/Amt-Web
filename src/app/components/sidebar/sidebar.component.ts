@@ -81,10 +81,13 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.role = jwt_decode(this.cookie.get('auth_token')).allowed[0];
     this.loader = true;
-    this.userService.AllClients('').subscribe(
+    this.userService.getChats().subscribe(
       (res:any) => {
         if(res.success == 1){
-          this.filteredClients = res.clients.data;
+          for (const property in res.clients) {
+            let onlineMem = res.clients[property];
+            this.filteredClients.push(onlineMem);
+          }
           this.loader = false;
         }
       },
@@ -94,13 +97,13 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
 
-    console.log("Pusher init().");
+    // console.log("Pusher init().");
     this.pusherService.init();
 
     this.connectToPusherAndGetClients(); // Initial Pusher Connection...
 
     this.channel.bind("pusher:subscription_error", data =>{
-      console.log("Error 1 - ",data);
+      // console.log("Error 1 - ",data);
       this.connectToPusherAndGetClients(); // Connect again on any error...
     });
     
@@ -129,7 +132,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.channel.bind("unread_message", data =>{
       let temp;
-      console.log('Unread message', data);
+      // console.log('Unread message', data);
       let clientActiveIndex = this.filteredClients.findIndex(item => item.id == JSON.parse(data.message).sender_id);
       this.filteredClients[clientActiveIndex].chat.isUnreadClientMessage = true;
       temp = this.filteredClients[clientActiveIndex];
@@ -141,7 +144,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.title.setTitle('Ace My Tax • New Message');
     });
     this.channel.bind("message_read", data =>{
-      console.log('message read complete - ', data);
+      // console.log('message read complete - ', data);
       let clientActiveIndex = this.filteredClients.findIndex(item => item.id == data.message.id);
       this.filteredClients[clientActiveIndex].chat.isUnreadClientMessage = false;
       this.title.setTitle('Ace My Tax');
@@ -164,7 +167,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       chatboxState.windowState = 'opened';
       chatboxState.clients = clientDetails;
       this.usersList[this.index] = clientDetails;
-      console.log(this.index);
+      // console.log(this.index);
       this.change.emit({clients: chatboxState, index: this.index});
       this.index++;
     }else{
@@ -183,7 +186,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.channel = this.pusherService.subscribeToPresenceChannel('presence-acemytax');  
 
     this.channel.bind("pusher:subscription_succeeded", data =>{
-      console.log("Subscribed - ", data);
+      // console.log("Subscribed - ", data);
       for (const property in data.members) {
         let onlineMem = data.members[property];
         this.filteredClients.map(item => {

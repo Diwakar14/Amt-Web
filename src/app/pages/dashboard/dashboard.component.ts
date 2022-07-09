@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit {
     if(findOpenedBox == -1){
       this.minimizedChats[this.chatStateData.index] = this.chatStateData.clients;
       this.newMessageAlert(eventData.clients.clients.chat);
-      console.log(this.minimizedChats);
+      // console.log(this.minimizedChats);
       
       setTimeout(() => this.addActiveClass(this.chatStateData.index));
       
@@ -107,7 +107,7 @@ export class DashboardComponent implements OnInit {
     if(data.state == 'closed'){
       this.minimizedChats.splice(data.index, 1);
       this.state.updateIndex(this.minimizedChats.length);
-      console.log(this.minimizedChats);
+      // console.log(this.minimizedChats);
 
     }else if(data.state == 'minimized'){
       this.minimizedChats[data.index].windowState = 'minimized';
@@ -131,7 +131,7 @@ export class DashboardComponent implements OnInit {
   close(index){
     this.minimizedChats.splice(index, 1);
     this.state.updateIndex(this.minimizedChats.length);
-    console.log(this.minimizedChats);
+    // console.log(this.minimizedChats);
   }
 
   onActivate(componentReference) {

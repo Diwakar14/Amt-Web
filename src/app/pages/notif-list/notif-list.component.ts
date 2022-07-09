@@ -18,19 +18,19 @@ export class NotifListComponent implements OnInit {
   constructor(private notificationSer: NotificationService,
     private activatedRoute: ActivatedRoute,
     private uiService: UIService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe((data:any) => {
+    this.activatedRoute.data.subscribe((data: any) => {
       this.uiService.updateApprovalToolbarMessage(data.title);
     });
     this.getNotif('Article');
   }
 
-  getNotif(type){
+  getNotif(type) {
     this.loading = true;
     this.notificationSer.getNotifications(type).subscribe((res: any) => {
-      if(res.success == 1){
+      if (res.success == 1) {
         this.loading = false;
         this.notifList = res.notifications;
       }
@@ -40,24 +40,24 @@ export class NotifListComponent implements OnInit {
     });
   }
 
-  deleteNotification(id, i){
+  deleteNotification(id, i) {
     this.delLoading(i);
     this.notificationSer.deleteNotifications(id).subscribe((res: any) => {
-      if(res.success == 1){
+      if (res.success == 1) {
         Notiflix.Notify.Success(res.message);
-        this.ngOnInit();
+        this.notifList.splice(i, 1);
       }
     }, err => {
       Notiflix.Notify.Failure(err.error.message);
     });
   }
 
-  delLoading(i){
+  delLoading(i) {
     document.querySelector('#del_notif_' + i).setAttribute('style', 'display:none');
     document.querySelector('#del_notif_load_' + i).setAttribute('style', 'display:initial;filter:invert(1)');
   }
 
-  changeType(type){
+  changeType(type) {
     this.getNotif(type);
   }
 
